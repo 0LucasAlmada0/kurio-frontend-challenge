@@ -1,4 +1,4 @@
-# Arquitetura · Etapa 1
+# Arquitetura · Etapas 1 e 1.5
 
 ## Estrutura
 
@@ -47,7 +47,23 @@ Fronteira futura privada: `privateKeys.user(userId)` separada das chaves públic
 
 Tokens centrais: fundo `#160e0b`, painel `#2a1912`, primário `#d68d49`, texto `#f2ece3`, secundário `#c1a783`; raios e unidade de espaçamento também são variáveis. Valores inferidos das capturas, substituíveis depois. `font/family` não foi tratado como nome real: `--font-kurio` usa fallback monoespaçado.
 
-Header, hero reduzido, sidebar e grid no desktop; grid em duas colunas e navegação inferior própria no mobile. Não são reproduções completas das nove telas. Busca/ordenação funcionam; não há abas, favoritos, carrinho ou botões de compra fictícios. Imagens mantêm proporções quadradas e arquivos originais. Sem screenshots completos no bundle. Estados usam labels, foco visível, skip link, announcements e skeletons com dimensões reservadas; reduced motion remove animações. Baselines iniciais cobrem catálogo e detalhe nos três viewports.
+Na Etapa 1.5, o header desktop recebe Início/Mercado e espaços inativos para Criadores/Aprenda, carrinho e autenticação. O ícone de busca abre a busca existente via hash `#search`, preservando parâmetros. No mobile a busca é sempre visível. Hero desktop sem painel, imagem única ampliada; hero mobile com duas imagens sobrepostas, formas decorativas e indicadores sem interação. Sidebar com grupos de filtros desativados, três colunas no desktop, duas no tablet/mobile e deslocamento alternado de 30px no mobile. As abas futuras ficam desativadas; busca, ordenação e paginação mantêm a lógica existente.
+
+O detalhe ganha galeria com uma imagem real e espaços indisponíveis para outras vistas, informações da API, edições/quantidade/compra/favoritos desativados e área inferior de informações. No mobile o painel sobrepõe a imagem e agrupa quantidade/preço/ações na parte inferior, substituindo a navegação global nessa rota. Itens relacionados reutilizam `catalogOptions` filtrando a coleção e excluindo o NFT atual, sem fixtures na interface. As mesmas invalidações públicas atualizam também essa consulta.
+
+Componentes novos: `Icon` (SVGs locais, sem dependência), `FilterGroup`/`FilterOption` (aceitam estado e handlers para integração futura), `NftGallery` e `RelatedNfts`. Não houve mudança em contratos, endpoints, fixtures, preços, query keys, persistência ou Socket.IO. Imagens mantêm proporções quadradas e arquivos originais. Os testes existentes foram adaptados à busca pelo ícone e ao escopo do preço no detalhe; continuam verificando o transporte e passam a verificar ações desativadas e overflow no detalhe. Baselines cobrem início e detalhe em 390/768/1440px.
+
+### Comparação visual e diferenças remanescentes
+
+- Desktop/Início foi comparado à parte visível de `desktop/login-modal.png`: header, hero aberto, sidebar e três colunas. O frame isolado está ausente; a região encoberta pelo modal não permite aferição completa.
+- Mobile/Início segue `mobile/inicio.png`: margens próximas de 22px a 390px, busca de 42px, hero de aproximadamente 180px, cards em duas colunas escalonadas e navegação de cinco posições com scanner central elevado. Ordenação/paginação e disponibilidade permanecem visíveis por serem recursos reais da Etapa 1.
+- Desktop/Detalhe segue `desktop/detalhe-nft.png`: miniaturas laterais, imagem principal, informações e ações à direita, detalhes e coleção abaixo. A 768px as miniaturas passam para baixo da imagem para manter legibilidade.
+- Mobile/Detalhe segue `mobile/detalhe-nft.png`: controles superiores, imagem grande, painel arredondado sobreposto e bloco inferior de preço/ações. Conteúdo real adicional, itens relacionados e controles de demonstração aumentam a altura total. O bloco de ações acompanha o fluxo e não cobre dados.
+- A fonte real permanece desconhecida. O fallback foi ajustado para Consolas/Liberation Mono, de aparência menos serifada. Cores existentes foram preservadas e os gradientes/realces também passaram a tokens substituíveis.
+- A ordenação por nome agrupa edições do mesmo personagem; títulos, preços, disponibilidade e contagens diferem das capturas porque a API continua sendo a fonte de verdade. Não se copiou a ordem ilustrativa do Figma para a UI.
+- Há somente quatro imagens originais, uma vista por personagem. Não foram inventadas vistas extras, avaliações, contagens de filtros, contrato de blockchain ou atributos ausentes da API. Os respectivos espaços são desativados ou usam informação disponível. O footer permanece reduzido ao escopo existente; sem seções editoriais ou formulários sem implementação.
+
+As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, nomes `catalog-{mobile,tablet,desktop}-win32.png` e `detail-{mobile,tablet,desktop}-win32.png`. Nenhum commit foi criado nesta etapa.
 
 ## Limitações e pendências
 

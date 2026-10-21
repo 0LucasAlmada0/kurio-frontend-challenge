@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import type { Nft } from '@/api/contracts'
+import { Icon } from './icon'
 
 export function NFTCard({ nft, index }: { nft: Nft; index: number }) {
   return (
@@ -8,9 +9,11 @@ export function NFTCard({ nft, index }: { nft: Nft; index: number }) {
         <div className="nft-art">
           <img src={nft.image} alt={nft.name} width="400" height="400" loading={index < 4 ? 'eager' : 'lazy'} />
           {nft.rarity === 'lendário' && <span className="rarity">LENDÁRIO</span>}
+          <span className="card-view" aria-hidden="true"><Icon name="search" /></span>
         </div>
         <h3>{nft.name}</h3>
       </Link>
+      <button className="card-favorite" disabled aria-label={`Favoritar ${nft.name} · em breve`} title="Favoritos · em breve"><Icon name="heart" /></button>
       <div className="card-meta"><p className="price" data-testid="price">{nft.priceEth} ETH</p><span>{nft.available ? `${nft.available} disponíveis` : 'Esgotado'}</span></div>
     </article>
   )
