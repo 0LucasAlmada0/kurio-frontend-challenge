@@ -4,6 +4,66 @@ Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
 
+## Publicação de demonstração na Vercel · Etapa 5A
+
+Status: configuração preparada; publicação pública ainda não realizada. Não há remote Git, projeto Vercel vinculado ou URL pública identificados neste workspace. Build/preview local não comprovam publicação. Esta etapa não altera funcionalidades nem baselines visuais.
+
+`vercel.json` fixa preset `vite`, instalação `npm ci`, build `npm run build:demo` e saída `dist`. O fallback SPA preserva `/api`, `/assets`, `/socket.io` e `/mockServiceWorker.js`; demais rotas recebem `index.html`, incluindo login, carrinho, pagamento e pedidos. Arquivos existentes têm prioridade. O worker conserva `Cache-Control: no-cache` e não pode receber o HTML da SPA. Referências oficiais: [Vite/SPAs na Vercel](https://vercel.com/docs/frameworks/frontend/vite#using-vite-to-make-spas) e [configuração estática](https://vercel.com/docs/project-configuration/vercel-json).
+
+Vite já gera caminhos absolutos na raiz, sem subdiretório/base customizada, sourcemaps públicos ou dependências privadas. `.env.demo` habilita MSW no build otimizado; o bootstrap aguarda `worker.start` antes de montar React e conectar Socket.IO. O artefato contém somente HTML, JS/CSS, worker, quatro imagens locais e `_redirects`; referências de design, testes, documentação, arquivos `.env` e relatórios não são servidos em `dist`. Os 658 registros com `resolved` do lockfile apontam para o registro público npm. `.gitignore` preserva apenas `.env.example`/`.env.demo` entre os arquivos de ambiente e ignora `.vercel/`, logs e artefatos locais.
+
+| Variável no build | Valor para esta demonstração |
+| --- | --- |
+| `VITE_ENABLE_MOCKS` | `true`, já fornecido por `.env.demo`; remova qualquer override `false` no painel |
+| `VITE_API_BASE_URL` | `/api`, padrão; não é necessário cadastrar no painel |
+| `VITE_SOCKET_URL` | Ausente; cliente e mock usam a origem atual, com `wss` em HTTPS |
+
+Variáveis `VITE_*` são públicas e incorporadas no build; alterações exigem novo deploy. Nenhum segredo, token de Vercel ou credencial privada é necessário. Não configure `localhost` nem um serviço externo de socket na demonstração. Socket.IO continua real no cliente, com protocolo interceptado pelo MSW; esta aplicação estática não cria um servidor WebSocket na Vercel. Sessão, carrinho e pedidos persistem somente no navegador/origem atual; outro domínio, dispositivo ou janela privada começa com dados próprios.
+
+### Conectar o repositório e publicar
+
+1. Revise as alterações locais, crie o commit manualmente quando desejar e publique o repositório no GitHub/GitLab/Bitbucket. A branch local atual é `master`; use a branch que contiver esta entrega. Não envie `node_modules`, `dist`, `.env` privados, `.vercel`, logs ou relatórios temporários. Nenhum commit/push foi executado pelo agente.
+2. Na Vercel, abra **Add New → Project → Import Git Repository**, conecte a conta do provedor Git e selecione esse repositório. A conexão e a autorização da conta precisam ser feitas por você.
+3. Use **Root Directory** `./` quando o repositório contiver `package.json`/`vercel.json` na raiz, como neste workspace; se publicar dentro de um monorepo, selecione a pasta `kurio`. Confira **Framework Preset** Vite, **Build Command** `npm run build:demo`, **Output Directory** `dist` e **Install Command** `npm ci`, já definidos no arquivo versionado. Use Node **24.x**, compatível com o ambiente validado ([versões suportadas](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)).
+4. Em **Environment Variables**, mantenha os valores da tabela tanto para **Preview** quanto para **Production**; não copie variáveis locais de outro projeto. `VITE_ENABLE_MOCKS=true` pode ser cadastrado explicitamente ou vir de `.env.demo`; REST/socket podem ficar ausentes.
+5. Clique **Deploy**, confira no log o comando de demonstração e o resultado do build, e copie a URL HTTPS emitida pela Vercel. Configure a branch publicada como **Production Branch**. Para avaliação externa, a URL escolhida deve abrir sem login da Vercel; revise **Deployment Protection** caso apareça uma barreira de acesso.
+6. Valide a URL com o roteiro e os comandos abaixo. Se publicou um Preview, use **Promote to Production** somente após essa validação e repita as verificações no domínio final. Ao modificar variáveis ou código, gere outro deploy. Preserve a URL acessível durante a avaliação.
+
+### Verificar a URL final
+
+Em navegador sem dados anteriores, abra diretamente `/nfts/emerald-ape-042` e atualize. Confirme imagens/preço e indicador **Ao vivo**. Abra `/mockServiceWorker.js`: deve responder JavaScript, nunca HTML; em DevTools → Application → Service Workers, confira escopo `/`. Os headers da Vercel, HTTPS e proteção de acesso precisam ser conferidos no ambiente público; `vite preview` não emula a configuração da CDN.
+
+Entre com `ana@kurio.test` / `KurioDemo!123`, recarregue e confira a sessão. Adicione NFT, abra diretamente `/carrinho`, atualize e siga para `/pagamento`; selecione MetaMask, conecte a carteira simulada, revise e confirme. O recibo só deve aparecer com `confirmed`; copie `/pedidos/:id` e abra/atualize na mesma origem. Teste também `/login`, `/cadastro`, `/favoritos`, `/pagamento` sem login e uma rota inexistente. Em **Cenários de demonstração**, altere o NFT para conferir `nft.updated`; use `pending` e desconexão/refresh para retomar o pedido, e `timeout` para recuperar a mesma compra sem duplicar. **Restaurar cenário** volta às fixtures.
+
+Os mesmos testes podem executar contra uma URL externa: `E2E_BASE_URL` dispensa o servidor local. Eles usam contextos isolados e resetam somente a simulação do navegador, sem depender de API real. No PowerShell, substitua a URL abaixo pela URL emitida no deploy:
+
+```powershell
+$env:E2E_BASE_URL='https://SEU-PROJETO.vercel.app'
+$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/publicacao'
+npx.cmd playwright test deploy.spec.ts --output=test-results/publicacao
+$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/publicacao-fluxos'
+npx.cmd playwright test --grep 'sessão persiste no refresh|persistência do visitante|catálogo →|timeout após criação|pending sobrevive|order.updated privado|Socket.IO: evento real' --output=test-results/publicacao-fluxos
+Remove-Item Env:E2E_BASE_URL
+```
+
+O segundo comando também compara pagamento/recibo com as baselines existentes; não use `--update-snapshots` para esconder divergências. Cada execução preserva seu relatório HTML. Validação pública só pode ser declarada após esses resultados e a inspeção de HTTPS/headers. Sem URL disponível, essa parte permanece pendente.
+
+### Validação local executada em 22/10/2026
+
+| Comando / verificação | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado |
+| `npm.cmd run lint` | Aprovado |
+| `npm.cmd run build:demo` | Aprovado; Vite 7.3.7, worker e mocks incluídos |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa5a-smoke'; npx.cmd playwright test deploy.spec.ts --project=desktop --output=test-results/etapa5a-smoke` | 2 aprovados em 5,0s |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa5a'; npx.cmd playwright test --grep 'deploy:\|catálogo: REST\|Socket.IO: evento real\|busca e paginação\|sessão persiste no refresh\|troca de usuário e autorização\|otimismo e rollback\|persistência do visitante\|merge no login\|aplicar e remover cupom\|precisão de 18 casas\|Socket.IO altera preço\|catálogo →\|timeout após criação\|pending sobrevive\|order.updated privado\|recusa libera reserva' --output=test-results/etapa5a` | **54 aprovados em 2,3min**, 18 por viewport, sem atualizar baselines |
+| Inspeção de `dist`, lockfile e regras de ignore | Sem arquivos de ambiente, temporários, referências de design ou dependências privadas no artefato; sem origem localhost/exemplo incorporada |
+| `git diff --check` | Aprovado |
+
+Relatório: [playwright-report/etapa5a/index.html](playwright-report/etapa5a/index.html). Os 54 testes incluem 48 execuções anteriores e seis novas, em 390/768/1440px. Cobrem catálogo/detalhe, URL/histórico, login/refresh/logout, isolamento, favoritos otimistas/rollback, carrinho persistente/merge/cupom/precisão, checkout confirmado/recusado, timeout idempotente, retomada pending e Socket.IO público/privado com reconexão e descarte de duplicatas. As 12 comparações de início, detalhe, pagamento e recibo passaram com as baselines existentes; as capturas de pagamento/recibo também estão anexadas ao relatório. Não há testes ignorados ou flaky.
+
+Permanece o aviso anterior de chunk principal de 518,71 kB (166,71 kB gzip), sem impedir o build. Nenhuma URL foi publicada ou testada: o usuário confirmou que ela ainda não existe. Conectar o Git, publicar na Vercel e validar a URL/headers reais são os passos pendentes. Sem commits automáticos, perfil, filtros ou outras funcionalidades novas.
+
 ## Checkout, carteiras e pedidos · Etapa 4
 
 Em `/carrinho`, **Continuar ao checkout** abre `/pagamento`, com autenticação e retorno ao fluxo. Revise os dados do colecionador, selecione carteira/rede e provedor, conecte a carteira simulada e marque a revisão dos itens/valores/taxas. O servidor revalida a cotação na criação. Se houver mudança ou vencimento, a compra não é criada e exige nova revisão. ENS, indicação e observação são opcionais; nenhum endereço ENS é resolvido em rede real.
@@ -131,7 +191,7 @@ Para desktop no PowerShell: `$env:LH_PROFILE='desktop'` antes de `npm run audit`
 
 ## Publicação futura e limites
 
-Vercel tem fallback em `vercel.json`; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados. Nenhum deploy foi realizado nesta etapa.
+Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. Nenhum deploy público foi realizado.
 
 Tokens são aproximações das capturas. A família real ainda não foi identificada: `--font-kurio` usa Consolas/Liberation Mono/Courier New/monospace. O conector Figma negou leitura por falta de acesso de edição na Etapa 1; as capturas locais foram usadas conforme o kit. Não há alegação de fidelidade final.
 

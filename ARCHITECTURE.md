@@ -27,6 +27,12 @@ O README oficial exige React/TypeScript, Router, Query, Axios/REST, Socket.IO, T
 
 Decisões do agente: rotas declaradas em código, sem gerador; Tailwind v4; primitives shadcn/ui locais com Slot/CVA; catálogo paginado em 8 itens com 12 fixtures derivadas das quatro imagens; persistência local versionada; eventos com snapshot completo; invalidação de listas após evento em vez de tentar recalcular ordenação/paginação no cliente. Nenhum serviço privado, backend separado, nova imagem ou fonte externa foi usado.
 
+## Publicação · Etapa 5A
+
+Hospedagem estática na raiz da origem, com `vercel.json` fixando `npm ci`, `npm run build:demo`, preset Vite e `dist`. Rewrites preservam arquivos existentes e excluem API/assets/socket/worker do fallback SPA. O header do worker exige revalidação; seu escopo é a raiz. Não houve alteração do bootstrap: MSW continua iniciando antes de React e Socket.IO. Sem `VITE_SOCKET_URL`, ambos os lados da simulação usam a origem publicada e o protocolo seguro em HTTPS; não há processo WebSocket hospedado na Vercel. Variáveis Vite são públicas e exigem rebuild.
+
+Playwright aceita `E2E_BASE_URL` para usar a URL publicada sem iniciar um servidor local; `E2E_PREVIEW=true` mantém a opção de testar o artefato via Vite. `deploy.spec.ts` verifica fallback por HTTP fora do service worker, MIME/arquivos públicos e inicialização em acesso direto, sem storage anterior, seguida de evento Socket.IO e refresh. O preview não valida regras/headers executados na CDN; essa confirmação depende de URL pública. Não há URL ou projeto vinculado neste workspace; importação do Git e publicação permanecem ações manuais, descritas no README. Não foram modificadas funcionalidades, dependências ou baselines.
+
 ## Checkout e consistência · Etapa 4
 
 `commerce-db.ts` migra as chaves anteriores de catálogo/carrinhos sem apagar contas/favoritos. Um documento `kurio:mock-commerce:v1` contém NFTs, carrinhos, carteiras, conexões por sessão, pedidos, fingerprints de idempotência e versão de invalidação de cotação. Escritas de comércio passam por `commerceTransaction`: Web Locks serializa inclusive documentos da mesma origem; fallback é uma fila da página. Leitura/validação final e escrita ficam no mesmo lock, inclusive durante SHA-256 assíncrono. Cada commit financeiro grava reserva+pedido, ou estado terminal+estoque/carrinho, em um único `localStorage.setItem`. Não existe intervalo com estoque reservado sem pedido persistido.
