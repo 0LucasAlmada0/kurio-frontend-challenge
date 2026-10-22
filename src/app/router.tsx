@@ -1,5 +1,5 @@
-import { createRootRoute, createRoute, createRouter, Link, redirect } from '@tanstack/react-router'
-import type { CatalogSearch } from '@/api/contracts'
+import { createRootRoute, createRoute, createRouter, Link, redirect, stripSearchParams } from '@tanstack/react-router'
+import { catalogDefaults, normalizeCatalogSearch } from '@/features/catalog/search'
 import { CatalogPage } from '@/features/catalog/page'
 import { NftDetailPage } from '@/features/catalog/detail-page'
 import { Shell } from './shell'
@@ -12,6 +12,7 @@ import { CheckoutPage } from '@/features/checkout/page'
 import { OrderPage } from '@/features/checkout/order-page'
 import { ProfilePage } from '@/features/profile/page'
 import { WalletsPage } from '@/features/profile/wallets-page'
+import { parseAppSearch, stringifyAppSearch } from './search'
 
 const rootRoute = createRootRoute({
   component: Shell,
@@ -21,11 +22,8 @@ const rootRoute = createRootRoute({
 const catalogRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  validateSearch: (search: Record<string, unknown>): CatalogSearch => ({
-    q: typeof search.q === 'string' ? search.q.slice(0, 120) : '',
-    page: Number.isSafeInteger(Number(search.page)) && Number(search.page) > 0 ? Number(search.page) : 1,
-    sort: search.sort === 'price-asc' || search.sort === 'price-desc' ? search.sort : 'name',
-  }),
+  validateSearch: normalizeCatalogSearch,
+  search: { middlewares: [stripSearchParams(catalogDefaults)] },
   component: CatalogPage,
 })
 
@@ -51,7 +49,7 @@ const favoritesRoute = createRoute({
   component: FavoritesPage,
 })
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute, checkoutRoute, orderRoute, profileRoute, walletsRoute]), defaultPreload: 'intent' })
+export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute, checkoutRoute, orderRoute, profileRoute, walletsRoute]), parseSearch: parseAppSearch, stringifySearch: stringifyAppSearch, defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }

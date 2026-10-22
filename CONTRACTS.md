@@ -1,4 +1,4 @@
-# Contratos · Etapas 1 a 5B
+# Contratos · Etapas 1 a 6
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
@@ -10,10 +10,29 @@ Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação
 
 | Método / rota | Entrada | Saída |
 | --- | --- | --- |
-| GET `/api/nfts` | `q` string, `page` inteiro >=1, `sort=name|price-asc|price-desc` | `{ items: Nft[], total, page, pageSize: 8 }` |
+| GET `/api/nfts` | `q`, `page`, `sort` e filtros abaixo | `{ items: Nft[], total, page, pageSize: 8 }` |
+| GET `/api/nfts/filters` | Sem parâmetros | `{collections:string[],rarities:Rarity[]}` distintos da fonte compartilhada, ordenados; 503 no cenário `error` |
 | GET `/api/nfts/:id` | Identificador estável | `Nft` ou 404 |
 
-Busca ignora maiúsculas e consulta nome/coleção; sort é estável por ID no empate de preços. Página além da última retorna lista vazia mantendo `total`. Router normaliza busca inválida para string vazia, página 1 e ordenação `name`; a UI limita busca a 120 caracteres. Mudança de busca/ordenação reinicia página. AbortSignal cancela chamadas obsoletas.
+### Catálogo e URL · Etapa 6
+
+| Parâmetro de URL/REST | Semântica |
+| --- | --- |
+| `q` | Busca textual em nome/coleção, sem diferenciar caixa; trim e limite de 120 caracteres; padrão vazio |
+| `page` | Inteiro de 1 a 1.000.000; padrão 1, inválidos voltam a 1 |
+| `sort` | `name` (padrão), `price-asc`, `price-desc`; nome compara com locale `pt-BR`, empates sempre por ID crescente |
+| `collections` | Nomes exatos separados por vírgula; valores dentro do grupo usam OR |
+| `rarities` | `comum,raro,lendário`, separados por vírgula; valores dentro do grupo usam OR |
+| `minPrice`, `maxPrice` | Strings ETH não negativas, limites inclusivos, até 24 dígitos inteiros e 18 decimais; comparação em wei/BigInt |
+| `availability` | `available` para estoque total maior que zero; `sold-out` para zero; ausente inclui ambos |
+
+Grupos, preço e busca usam AND. A API aplica filtros, depois ordena e pagina; `total` é calculado antes do slice e considera todos os filtros. Página além da última retorna lista vazia mantendo `total`; a UI oferece ir à primeira página sem apagar filtros. Ordenação por preço nunca converte ETH para Number e empates têm o mesmo desempate por ID em ambos os sentidos.
+
+Exemplo: `/?q=Emerald&collections=Kurio+Studio&rarities=raro&minPrice=1.19&maxPrice=1.19&availability=available&sort=price-desc`. Valores `q=''`, `page=1`, `sort=name` são omitidos das navegações produzidas pelo Router. CSV é aparado, deduplicado e ordenado; listas acima de 500 caracteres, valores individuais acima de 80 e raridades desconhecidas são ignorados. Coleções desconhecidas não encontram resultados. Preços inválidos, negativos, exponenciais ou com precisão excedida são ignorados na normalização; intervalo invertido ignora ambos os limites. Na interface esses erros impedem Aplicar e são associados aos inputs. O formulário aceita vírgula decimal e envia ponto. Preços válidos são canonicalizados (`0` → `0.0`, zeros finais removidos), sem arredondamento.
+
+O parser do Router separa min/max da desserialização JSON padrão para preservar exatamente os decimais da URL. O stringify os escreve como strings decimais simples, sem aspas JSON. Os demais parâmetros das rotas existentes mantêm a serialização do TanStack Router. URLs recebidas são normalizadas no estado sem redirects em ciclo; a próxima navegação usa valores canônicos. Busca/filtro/ordenação reiniciam `page=1`; paginação mantém todos os filtros. `Limpar tudo` remove busca, filtros, ordenação e página. Refresh, voltar/avançar e links compartilhados usam a URL como fonte de verdade.
+
+Query keys de lista contêm o objeto normalizado completo; metadados usam `['public','nfts','facets']`. Axios recebe todos os parâmetros e AbortSignal. Não há filtragem de uma lista fixa no React nem placeholder reaproveitado entre filtros diferentes. Cache/retry/foco/reconexão existentes permanecem; atualizações Socket.IO cancelam/invalidate queries pela infraestrutura anterior e o servidor reaplica os filtros. Não foram ampliadas fixtures: categoria e rede por NFT continuam sem contrato e não são simuladas como filtros.
 
 Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão, perfil, favoritos, carrinho, carteiras e pedidos estão documentados abaixo.
 

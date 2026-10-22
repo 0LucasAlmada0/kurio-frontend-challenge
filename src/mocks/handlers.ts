@@ -8,6 +8,7 @@ import { cartHandlers, resetCartMocks } from './cart-handlers'
 import { checkoutHandlers, resetCheckoutMocks } from './checkout-handlers'
 import { commerceTransaction } from './commerce-db'
 import { profileHandlers } from './profile-handlers'
+import { normalizeCatalogSearch, selections } from '@/features/catalog/search'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 export const handlers = [
@@ -15,20 +16,31 @@ export const handlers = [
   ...profileHandlers,
   ...cartHandlers,
   ...checkoutHandlers,
+  http.get(`${base}/nfts/filters`, async () => {
+    await delay(120)
+    if (getScenario() === 'error') return HttpResponse.json({ code: 'UNAVAILABLE', message: 'Filtros indisponíveis.' }, { status: 503 })
+    const items = store.list()
+    return HttpResponse.json({ collections: [...new Set(items.map((nft) => nft.collection))].sort(), rarities: [...new Set(items.map((nft) => nft.rarity))].sort() })
+  }),
   http.get(`${base}/nfts`, async ({ request }) => {
     const params = new URL(request.url).searchParams
-    const q = params.get('q')?.trim().toLowerCase() || ''
+    const search = normalizeCatalogSearch(Object.fromEntries(params))
+    const q = search.q.toLowerCase()
     await delay(latency(q))
     if (getScenario() === 'offline') return HttpResponse.error()
     if (getScenario() === 'error') return HttpResponse.json({ code: 'UNAVAILABLE', message: 'O catálogo está indisponível. Tente novamente.' }, { status: 503 })
-    const page = Math.max(1, Math.floor(Number(params.get('page')) || 1))
-    const sort = params.get('sort')
-    const items = getScenario() === 'empty' ? [] : store.list().filter((nft) => `${nft.name} ${nft.collection}`.toLowerCase().includes(q))
+    const { page, sort } = search
+    const collections = selections(search.collections)
+    const rarities = selections(search.rarities)
+    const items = getScenario() === 'empty' ? [] : store.list().filter((nft) => `${nft.name} ${nft.collection}`.toLowerCase().includes(q)
+      && (!collections.length || collections.includes(nft.collection)) && (!rarities.length || rarities.includes(nft.rarity))
+      && (!search.minPrice || ethToWei(nft.priceEth) >= ethToWei(search.minPrice)) && (!search.maxPrice || ethToWei(nft.priceEth) <= ethToWei(search.maxPrice))
+      && (!search.availability || (search.availability === 'available' ? nft.available > 0 : nft.available === 0)))
     if (sort === 'price-asc' || sort === 'price-desc') items.sort((a, b) => {
       const delta = ethToWei(a.priceEth) - ethToWei(b.priceEth)
-      return (delta === 0n ? a.id.localeCompare(b.id) : delta > 0n ? 1 : -1) * (sort === 'price-desc' ? -1 : 1)
+      return delta === 0n ? a.id.localeCompare(b.id) : (delta > 0n ? 1 : -1) * (sort === 'price-desc' ? -1 : 1)
     })
-    if (sort === 'name') items.sort((a, b) => a.name.localeCompare(b.name))
+    if (sort === 'name') items.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR') || a.id.localeCompare(b.id, 'en'))
     const pageSize = 8
     return HttpResponse.json({ items: items.slice((page - 1) * pageSize, page * pageSize), total: items.length, page, pageSize })
   }),

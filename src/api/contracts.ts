@@ -45,7 +45,13 @@ export interface CatalogSearch {
   q: string
   page: number
   sort: 'name' | 'price-asc' | 'price-desc'
+  collections?: string
+  rarities?: string
+  minPrice?: Eth
+  maxPrice?: Eth
+  availability?: 'available' | 'sold-out'
 }
+export interface CatalogFacets { collections: string[]; rarities: Rarity[] }
 
 export interface NftList {
   items: Nft[]

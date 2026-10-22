@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1 a 5B
+# Arquitetura · Etapas 1 a 6
 
 ## Estrutura
 
@@ -27,6 +27,18 @@ public/assets/nfts/    quatro imagens originais copiadas
 O README oficial exige React/TypeScript, Router, Query, Axios/REST, Socket.IO, Tailwind, shadcn/ui, MSW, Playwright e Lighthouse. O candidato limitou a entrega à Etapa 1, escolheu Vite e strict, forneceu capturas e quatro imagens e solicitou tokens provisórios, controles reproduzíveis e documentação.
 
 Decisões do agente: rotas declaradas em código, sem gerador; Tailwind v4; primitives shadcn/ui locais com Slot/CVA; catálogo paginado em 8 itens com 12 fixtures derivadas das quatro imagens; persistência local versionada; eventos com snapshot completo; invalidação de listas após evento em vez de tentar recalcular ordenação/paginação no cliente. Nenhum serviço privado, backend separado, nova imagem ou fonte externa foi usado.
+
+## Catálogo e filtros · Etapa 6
+
+`features/catalog/search.ts` normaliza os parâmetros compartilhados pelo Router, query keys e MSW. Preços são strings validadas/canonicalizadas por wei/BigInt; `app/search.ts` preserva os decimais brutos antes do parser JSON padrão, sem convertê-los a Number. Defaults são omitidos com o middleware do TanStack Router. Navegações parciais leem o estado anterior para preservar filtros em alterações rápidas; filtros/busca/sort reiniciam a página e paginação preserva o conjunto. Ícone de busca do header e fundo da autenticação também mantêm o contexto completo.
+
+GET `/nfts/filters` deriva opções dos NFTs existentes; listas GET `/nfts` combinam grupos e intervalos na rede, contam e só depois ordenam/paginam. Não há nova fixture, categoria ou rede inventada. Seleções no mesmo grupo usam OR; grupos diferentes usam AND. Desempate por ID é crescente mesmo em preço decrescente. Páginas que ficam vazias após alteração de estoque/URL recebem recuperação explícita para a primeira página, sem navegação automática em loop.
+
+Sidebar e drawer reutilizam `FilterGroup`/`FilterOption`, formulário de preço e componentes existentes. As duas apresentações recebem o mesmo estado da URL e os mesmos metadados, consultados uma vez pela página; IDs de campos/radios são distintos por instância. No mobile o dialog nativo abre sobre o viewport, bloqueia scroll de fundo, trata Escape, mantém Tab/Shift+Tab dentro do painel e restaura foco no botão de abertura. Seleções e rascunho de preço permanecem ao fechar/reabrir; Aplicar confirma os preços e Ver resultados fecha o painel. Os inputs substituem o slider ilustrativo para permitir valores exatos de até 18 casas. A regra visual de sidebar/grid/hero permanece; foram ativados os controles e exibido o contador também no mobile.
+
+Consultas consomem AbortSignal; mudanças de chave apresentam skeleton em vez de exibir resultados/contadores do filtro anterior. Revalidação da mesma chave preserva os cards e anuncia atualização em segundo plano. Metadados/erros têm recuperação própria; lista trata HTTP/offline/retry. O provedor Socket.IO existente invalida/reconcilia com REST e continua descartando duplicatas/versões antigas. Chaves privadas, autenticação, carrinho, checkout e perfil não foram substituídos.
+
+Diferenças visuais intencionais: coleções/raridades/disponibilidade reais no lugar de categorias/redes ilustrativas sem dados, inputs de preço precisos e contador mobile. Cinco baselines foram comparadas antes de atualizar: catálogo em três larguras e fundo da sidebar no login/autofill desktop/tablet. Detalhe, cadastro, carrinho, pagamento, recibo e login mobile conservaram suas baselines. Fonte/cores provisórias, dados/ordem ilustrativos e ausência do frame desktop isolado permanecem para o polimento autorizado posteriormente.
 
 ## Perfil e carteiras · Etapa 5B
 
@@ -135,7 +147,7 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 - A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
 - Expiração remota é detectada por REST/foco e timer local, sem evento específico de expiração. Pedidos têm evento privado e recuperação REST. Encerrar a página durante cadastro pode deixar a conta criada, mesmo sem a resposta; novo cadastro retorna conflito e permite login.
 - Perfil e gestão dedicada de carteiras foram implementados na Etapa 5B; checkout e snapshots anteriores permanecem preservados. Senhas alteradas não encerram outros tokens válidos; eles mantêm sua expiração original na simulação.
-- Filtros combinados e controles mais completos, regressões visuais das telas futuras, metadados específicos de cada rota e auditoria de acessibilidade final permanecem pendentes.
+- Catálogo/filtros combinados estão implementados na Etapa 6; metadados específicos de cada rota, Lighthouse e polimento/auditoria final permanecem para etapas autorizadas posteriormente.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
 

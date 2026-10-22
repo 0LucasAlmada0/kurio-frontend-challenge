@@ -297,6 +297,7 @@ test('autofill mantém fundo e texto dos tokens no modal e mobile', async ({ pag
   await page.goto('/login')
   const password = page.getByRole('dialog').getByLabel('Senha', { exact: true })
   await expect(password).toBeVisible()
+  if ((page.viewportSize()?.width ?? 1440) > 600) await expect(page.locator('.auth-background .catalog-layout > .catalog-sidebar').getByLabel('Kurio Apes', { exact: true })).toBeAttached()
   const cdp = await context.newCDPSession(page)
   await cdp.send('DOM.enable')
   await cdp.send('CSS.enable')

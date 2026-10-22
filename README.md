@@ -1,8 +1,49 @@
-# Kurio · Etapas 1 a 5B
+# Kurio · Etapas 1 a 6
 
 Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, perfil, gerenciamento de carteiras e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. Sem blockchain, extensões ou gateways reais.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
+
+## Catálogo e filtros combinados · Etapa 6
+
+A sidebar desktop e o botão de filtros mobile agora usam as coleções/raridades reais da API, disponibilidade e limites de preço ETH. Filtros de um mesmo grupo usam união; grupos, busca e preço são combinados por interseção no MSW, antes de contar/ordenar/paginar. Não foram criadas categorias ou redes por NFT nem alteradas fixtures para preencher o Figma.
+
+Estado pertence à URL: `q`, `page`, `sort`, `collections`, `rarities`, `minPrice`, `maxPrice`, `availability`. Coleções/raridades múltiplas são CSV, `availability=available|sold-out`, e preço usa limite inclusivo com precisão de 18 casas. Exemplo: `/?q=Emerald&collections=Kurio+Studio&rarities=raro&minPrice=1.19&maxPrice=1.19&availability=available`. Defaults podem ser omitidos; preços continuam strings em todo o caminho, inclusive ao ler um link direto. Contrato/normalização detalhados em [CONTRACTS.md](CONTRACTS.md#catálogo-e-url--etapa-6).
+
+Buscar, alterar filtro ou ordenação volta à primeira página. Refresh/histórico restauram campos, seleções e resultados. **Limpar tudo** restaura o catálogo padrão. Faixa inválida é indicada nos campos e não altera a URL; Aplicar aceita vírgula decimal e envia ponto. Preços desatualizados/estoque seguem a mesma reconciliação Socket.IO/REST da jornada de compra. Página além da última oferece retorno à primeira mantendo filtros.
+
+No mobile, **Abrir filtros** abre dialog com scroll próprio, bloqueio do fundo, ciclo de teclado e Escape; **Ver resultados** fecha e restaura foco. Seleções e preços ainda não aplicados sobrevivem ao fechamento. Skeletons respeitam reduced motion; loading, atualização, erro HTTP/offline e recuperação permanecem acessíveis. Os metadados vêm de GET `/api/nfts/filters`; GET `/api/nfts` recebe e aplica todos os parâmetros.
+
+Arquivos novos: `src/app/search.ts`, `src/features/catalog/search.ts`, `tests/e2e/catalog.spec.ts`. Alterados: contratos, router/shell, catálogo/queries, contexto visual de auth, `filter-group.tsx`, handlers MSW, CSS e esperas de metadados nos testes foundation/autofill. Decisões em [ARCHITECTURE.md](ARCHITECTURE.md#catálogo-e-filtros--etapa-6). Sem dependências, commits, deploy ou avanço para Lighthouse/auditoria/polimento geral.
+
+Baselines: a comparação inicial isolada passou em quatro testes e identificou cinco capturas esperadamente diferentes. Foram revistas e atualizadas somente `catalog-{desktop,tablet,mobile}-win32.png` e `login-autofill-{desktop,tablet}-win32.png`: sidebar real, botão ativo e contador mobile. Login/cadastro sobre detalhe e login mobile passaram sem atualização; demais telas continuam sob regressão. As esperas adicionadas confirmam metadados carregados antes de fotografar. A primeira comparação compartilhou indevidamente o dev server de outra rodada; foi descartada e repetida no preview isolado. A correção do ciclo de foco do drawer foi confirmada; outros ajustes iniciais dos testes corrigiram contagem de raridade da fixture e espera assíncrona da ordenação.
+
+Diferenças visuais para etapa futura: fonte/cores provisórias, dados/coleções distintos dos exemplos do Figma e ausência de categoria/rede no modelo. O slider ilustrativo foi substituído por limites digitáveis para preservar precisão. Hero, cards, assets e grid existentes não foram redesenhados. Em capturas de página inteira mobile, a navegação fixa aparece na posição do viewport inicial; na aplicação ela acompanha a rolagem, e o drawer fica acima dela na camada modal.
+
+### Validação e capturas da Etapa 6
+
+| Comando no PowerShell | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado; também executado pelo build final |
+| `npm.cmd run lint` | Aprovado |
+| `npm.cmd run build:demo` | Aprovado; chunk principal 534,21 kB / 171,16 kB gzip, com aviso de tamanho |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa6'; npx.cmd playwright test --output=test-results/etapa6` | **228 aprovados em 7,8min**, sem atualizar snapshots |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa6-final'; npx.cmd playwright test catalog.spec.ts --grep 'drawer e sidebar' --output=test-results/etapa6-final` | **3 aprovados em 7,2s**, após o ajuste pontual do botão de fechar; inclui geometria do foco, teclado e capturas |
+| `git diff --check` | Aprovado |
+
+A regressão reúne 48 execuções novas (16 cenários × 3 larguras) e as 180 anteriores. Cobre filtros combinados/REST, precisão de 18 casas, ordenação estável, paginação/contagem, refresh/link compartilhado/histórico, URL inválida, cancelamento de resposta antiga, erro/offline/recuperação, loading/reduced motion, teclado e reconciliação Socket.IO com preço/estoque/duplicatas. Autenticação, favoritos, perfil, carteiras e jornada de compra continuam aprovados. Nenhum teste foi ignorado ou flaky.
+
+A atualização explícita das cinco baselines justificadas acima usou `npx.cmd playwright test --grep 'catálogo: REST|autofill mantém' --update-snapshots=changed --output=test-results/etapa6-baselines`, com `E2E_PREVIEW=true` e `PLAYWRIGHT_HTML_OUTPUT_DIR=playwright-report/etapa6-baselines`: **6 aprovados em 15,7s**. A suíte completa posterior apenas comparou essas imagens.
+
+Relatórios locais: [regressão completa](playwright-report/etapa6/index.html), [verificação final do painel](playwright-report/etapa6-final/index.html) e [baselines revisadas](playwright-report/etapa6-baselines/index.html). Capturas reais, comparadas com as referências locais:
+
+| Largura | Catálogo filtrado |
+| --- | --- |
+| 390px | [Captura mobile](playwright-report/etapa6-final/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png) |
+| 768px | [Captura tablet](playwright-report/etapa6-final/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png) |
+| 1440px | [Captura desktop](playwright-report/etapa6-final/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png) |
+
+[Drawer mobile com foco visível](playwright-report/etapa6-final/data/bf37be358a2568be02ee62104d9bfda2445089d8.png). Os relatórios/capturas são artefatos locais ignorados pelo Git. Esta etapa não publicou uma nova versão; os resultados correspondem ao preview de produção local.
 
 ## Perfil e gerenciamento de carteiras · Etapa 5B
 

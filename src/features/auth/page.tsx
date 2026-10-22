@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate, useRouterState, useSearch } from '@tanstack/react-router'
 import axios from 'axios'
-import type { ApiError, CatalogSearch, RegisterInput } from '@/api/contracts'
+import type { ApiError, RegisterInput } from '@/api/contracts'
+import { normalizeCatalogSearch } from '@/features/catalog/search'
 import { errorMessage } from '@/api/http'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -59,7 +60,7 @@ export function AuthPage() {
   }
   const target = new URL(returnTo, window.location.origin)
   const match = /^\/nfts\/([^/]+)$/.exec(target.pathname)
-  const backgroundSearch: CatalogSearch = { q: target.searchParams.get('q') ?? '', page: Math.max(1, Number(target.searchParams.get('page')) || 1), sort: target.searchParams.get('sort') === 'price-asc' ? 'price-asc' : target.searchParams.get('sort') === 'price-desc' ? 'price-desc' : 'name' }
+  const backgroundSearch = normalizeCatalogSearch(Object.fromEntries(target.searchParams))
   function input(field: keyof RegisterInput, label: string, type: string, autocomplete: string) {
     return <div className="auth-field"><label htmlFor={`auth-${field}`} className="sr-only">{label}</label><Input id={`auth-${field}`} name={field} type={type} autoComplete={autocomplete} placeholder={label} value={values[field]} aria-invalid={!!fields[field]} aria-describedby={fields[field] ? `error-${field}` : undefined} onChange={(event) => setValues({ ...values, [field]: event.target.value })} disabled={mutation.isPending} />{fields[field] && <p id={`error-${field}`} className="field-error">{fields[field]}</p>}</div>
   }
