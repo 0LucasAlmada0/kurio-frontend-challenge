@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('deploy: fallback HTTP das rotas e arquivos públicos sem service worker', async ({ request }) => {
-  for (const path of ['/', '/nfts/emerald-ape-042', '/login?redirect=%2Fpagamento', '/cadastro', '/favoritos', '/carrinho', '/pagamento', '/pedidos/pedido-inexistente', '/rota-inexistente']) {
+  for (const path of ['/', '/nfts/emerald-ape-042', '/login?redirect=%2Fpagamento', '/cadastro', '/favoritos', '/perfil', '/carteiras', '/carrinho', '/pagamento', '/pedidos/pedido-inexistente', '/rota-inexistente']) {
     const response = await request.get(path)
     expect(response.status(), path).toBe(200)
     expect(response.headers()['content-type'], path).toContain('text/html')

@@ -1,4 +1,4 @@
-# Contratos · Etapas 1, 2, 3 e 4
+# Contratos · Etapas 1 a 5B
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
@@ -15,7 +15,27 @@ Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação
 
 Busca ignora maiúsculas e consulta nome/coleção; sort é estável por ID no empate de preços. Página além da última retorna lista vazia mantendo `total`. Router normaliza busca inválida para string vazia, página 1 e ordenação `name`; a UI limita busca a 120 caracteres. Mudança de busca/ordenação reinicia página. AbortSignal cancela chamadas obsoletas.
 
-Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão, favoritos, carrinho, carteiras e pedidos estão documentados abaixo; perfil e edição dedicada de carteiras permanecem para etapa posterior.
+Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão, perfil, favoritos, carrinho, carteiras e pedidos estão documentados abaixo.
+
+## Perfil e edição de carteiras · Etapa 5B
+
+| Método / rota sob `/api` | Entrada / saída |
+| --- | --- |
+| GET `/users/:userId/profile` | Bearer token → `Profile`; 401 sem sessão, 403 se o usuário não for o dono |
+| PUT `/users/:userId/profile` | `ProfileUpdate` → perfil confirmado com versão incrementada; validação e gravação conjunta dos dados/avatar/senha |
+| PUT `/wallets/:id` | `WalletInput` → `Wallets` atualizado, reutilizando as regras de POST `/wallets`; 403 para carteira alheia, 404 para ID inexistente |
+
+`Profile = {userId,version,displayName,username,email,ens,walletAlias,avatar}`. `ProfileUpdate` contém os campos editáveis, a `version` lida e, opcionalmente, `password:{currentPassword,newPassword,confirmPassword}`. IDs e versão da saída são definidos pelo servidor. Nome e username têm 2–60 caracteres; username aceita letras/números/ponto/hífen/sublinhado e é único sem diferenciar maiúsculas. E-mail é válido até 254 caracteres, normalizado e único. ENS é opcional, até 120 caracteres, terminado em `.eth`; `walletAlias` é um apelido público do perfil, até 60 caracteres, independente dos apelidos das carteiras cadastradas. O cliente não resolve ENS em rede.
+
+`avatar` é `null` ou data URL base64 PNG/JPEG/WebP com até 512 KiB decodificados. Cliente valida MIME/tamanho e decodificação; MSW repete validação de tipo, tamanho, assinatura do arquivo e decodificação antes de gravar. SVG, conteúdo corrompido e outros formatos são rejeitados. Alterar/remover avatar prepara a edição local; **Salvar** confirma junto aos outros dados. Sem upload/serviço privado. Falta de espaço ou storage indisponível retorna 503 `STORAGE_FULL`, preservando o perfil anterior em vez de confirmar persistência inexistente.
+
+Senha: atual não vazia até 128 caracteres, nova entre 8–128 diferente da atual, confirmação idêntica. Senha atual incorreta retorna 422 `PASSWORD_INVALID` em `fields.currentPassword`. Nada é salvo se qualquer validação/conflito falhar. Persiste somente salt novo e hash PBKDF2/SHA-256 (600.000 iterações); dados de senha nunca aparecem na resposta e são apagados das variáveis da mutation após o request. Tokens válidos mantêm seu prazo original de 30min; a troca de senha não cria outra sessão nem limpa o carrinho.
+
+Perfil desatualizado retorna 409 `PROFILE_STALE` e exige **Recarregar dados**. Conflitos: 409 `EMAIL_CONFLICT`/`USERNAME_CONFLICT`, associados ao campo; demais validações: 422 `VALIDATION`. A resposta atualiza o cache de perfil e nome/e-mail da sessão atual sem mudar a identidade ou descartar os outros caches privados. GET `/session` também devolve os dados novos; demais sessões recebem esses dados na próxima revalidação. Perfis anteriores migram por leitura, mantendo contas/favoritos existentes.
+
+Carteiras mantêm `label,address,networkId,kind`. Campos opcionais do frame: `displayName,profileName,email,ens,secondaryAddress,referralCode`; novos campos são retrocompatíveis com fixtures e cadastros do checkout anterior. Nomes, quando preenchidos, têm 2–60 caracteres; email/ENS seguem os formatos acima; endereço secundário segue a regra do endereço principal, indicação aceita até 32 alfanuméricos/hífen/sublinhado. São metadados; não conectam provedores nem criam outra carteira automaticamente. A UI permite listar, cadastrar, editar e promover; somente uma carteira por usuário pode ficar como principal. Duplicata de endereço (sem diferenciar caixa) na mesma rede retorna 409 `WALLET_EXISTS` com `fields.address`. Outra rede é permitida. Mudar endereço/rede remove conexões simuladas desse ID em todas as sessões e exige reconexão. Apelido/metadados não desconectam. Pedidos anteriores preservam o snapshot de carteira/colecionador/cotação.
+
+Rotas protegidas: `/perfil` e `/carteiras`, com retorno após login. Queries usam `['private',userId,sessionId,'profile'|'wallets']`, Axios/AbortSignal e as barreiras de sessão existentes. Perfil e carteira reautorizam após a latência; perfil também reautoriza após derivar a senha/decodificar imagem. Escritas de conta e revogação de sessão compartilham o lock já utilizado pelo comércio, evitando perda de atualizações entre abas suportadas.
 
 ## Autenticação e favoritos
 
@@ -41,7 +61,7 @@ Rotas UI: `/login` e `/cadastro`, com `redirect` interno normalizado e `reason=e
 
 | POST sob `/api/__mock/auth` | Body / comportamento |
 | --- | --- |
-| `/scenario` | Campos opcionais `{authFailure, favoritesFailure, privateDelay, mutationDelay}`; booleanos e latências de 0 a 6000ms. Padrão: false/false/120/350 |
+| `/scenario` | Campos opcionais `{authFailure, favoritesFailure, accountFailure, privateDelay, mutationDelay}`; booleanos e latências de 0 a 6000ms. Padrão: false/false/false/120/350. `accountFailure` retorna 503 em consultas/mutations de perfil e carteiras, sem gravar |
 | `/expire` | Expira todas as sessões da simulação; próxima consulta REST as rejeita |
 | `/idle` | Aguarda latências privadas já em andamento; barreira determinística para testes de logout com operações pendentes |
 

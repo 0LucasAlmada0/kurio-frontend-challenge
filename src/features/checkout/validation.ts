@@ -22,5 +22,10 @@ export function validateWallet(input: Partial<WalletInput> | undefined) {
   if (typeof input?.address !== 'string' || !/^(0x[\da-f]{40}|[a-z\d-]+(?:\.[a-z\d-]+)*\.eth)$/i.test(input.address.trim()) || input.address.length > 120) fields.address = 'Informe endereço 0x com 40 caracteres hexadecimais ou ENS .eth.'
   if (!['ethereum', 'polygon'].includes(input?.networkId ?? '')) fields.networkId = 'Selecione uma rede válida.'
   if (!['primary', 'secondary'].includes(input?.kind ?? '')) fields.kind = 'Selecione principal ou secundária.'
+  for (const field of ['displayName', 'profileName'] as const) if (input?.[field] !== undefined && (typeof input[field] !== 'string' || (input[field] && input[field].trim().length < 2) || input[field].length > 60)) fields[field] = 'Informe de 2 a 60 caracteres ou deixe vazio.'
+  if (input?.email !== undefined && (typeof input.email !== 'string' || input.email.length > 254 || (input.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email.trim())))) fields.email = 'Informe um e-mail válido.'
+  if (input?.ens !== undefined && (typeof input.ens !== 'string' || input.ens.length > 120 || (input.ens && !/^[a-z\d-]+(?:\.[a-z\d-]+)*\.eth$/i.test(input.ens.trim())))) fields.ens = 'Informe um nome terminado em .eth.'
+  if (input?.secondaryAddress !== undefined && (typeof input.secondaryAddress !== 'string' || input.secondaryAddress.length > 120 || (input.secondaryAddress && !/^(0x[\da-f]{40}|[a-z\d-]+(?:\.[a-z\d-]+)*\.eth)$/i.test(input.secondaryAddress.trim())))) fields.secondaryAddress = 'Informe endereço 0x ou ENS .eth válido.'
+  if (input?.referralCode !== undefined && (typeof input.referralCode !== 'string' || (input.referralCode && !/^[a-z\d_-]{1,32}$/i.test(input.referralCode.trim())))) fields.referralCode = 'Código de indicação inválido.'
   return fields
 }

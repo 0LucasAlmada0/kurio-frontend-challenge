@@ -1,5 +1,5 @@
 import axios, { CanceledError, type AxiosRequestConfig } from 'axios'
-import type { LoginInput, RegisterInput, Session } from '@/api/contracts'
+import type { LoginInput, RegisterInput, Session, User } from '@/api/contracts'
 import { http } from '@/api/http'
 import { queryClient } from '@/app/query-client'
 import { guestCart } from '@/features/cart/identity'
@@ -51,6 +51,7 @@ export const auth = {
     try {
       const response = await http.get<Session>('/session', { signal: controller.signal, headers: { Authorization: `Bearer ${token}` } })
       if (requestGeneration === generation && state.session?.id !== response.data.id) transition(response.data)
+      else if (requestGeneration === generation) auth.updateUser(response.data, response.data.user)
     } catch (error) {
       if (requestGeneration !== generation) return
       if (axios.isAxiosError(error) && error.response?.status === 401) transition(null, 'expired')
@@ -70,6 +71,9 @@ export const auth = {
     if (token) await http.delete('/session', { headers: { Authorization: `Bearer ${token}` } })
   },
   expire: () => transition(null, 'expired'),
+  updateUser: (session: Session, user: User) => {
+    if (auth.isCurrent(session) && JSON.stringify(state.session!.user) !== JSON.stringify(user)) publish({ ...state, session: { ...state.session!, user } })
+  },
   dismissExpiry: () => { if (state.reason) publish({ ...state, reason: undefined }) },
   syncStorage: () => {
     if (storedToken() === (state.session?.token ?? null)) return

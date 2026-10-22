@@ -7,6 +7,7 @@ import { checkoutScenario, resetCheckoutScenario, setCheckoutScenario } from './
 import { orderStore, resetOrderTimers, settleOrders } from './order-store'
 import { disconnectClients, emitNftUpdated, replayOrderUpdated } from './socket'
 import { store } from './store'
+import { getAuthScenario } from './auth-scenarios'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 function authorize(request: Request): Session {
@@ -17,9 +18,11 @@ function authorize(request: Request): Session {
 async function handle<T extends object>(request: Request, action: (session: Session) => T | Promise<T>) {
   try {
     authorize(request)
-    await delay(120)
+    const isWallet = new URL(request.url).pathname.includes('/wallets')
+    await delay(isWallet ? (request.method === 'GET' ? getAuthScenario().privateDelay : getAuthScenario().mutationDelay) : 120)
     return await commerceTransaction(async () => {
       const session = authorize(request)
+      if (isWallet && getAuthScenario().accountFailure) throw new CartError(503, 'ACCOUNT_UNAVAILABLE', 'Não foi possível acessar suas carteiras. Tente novamente.')
       if (request.signal.aborted) return HttpResponse.error()
       settleOrders()
       const result = await action(session)
@@ -41,6 +44,7 @@ export function resetCheckoutMocks() {
 export const checkoutHandlers = [
   http.get(`${base}/wallets`, ({ request }) => handle(request, (session) => orderStore.wallets(session))),
   http.post(`${base}/wallets`, ({ request }) => handle(request, async (session) => orderStore.addWallet(session, await request.json() as WalletInput))),
+  http.put(`${base}/wallets/:id`, ({ request, params }) => handle(request, async (session) => orderStore.addWallet(session, await request.json() as WalletInput, String(params.id)))),
   http.post(`${base}/wallets/connection`, ({ request }) => handle(request, async (session) => {
     const input = await request.json() as { walletId: string; provider: WalletProvider }
     return orderStore.connect(session, input.walletId, input.provider)

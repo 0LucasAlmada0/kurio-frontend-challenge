@@ -1,6 +1,8 @@
 import type { ComponentProps } from 'react'
 
 const paths = {
+  pin: <><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
+  warning: <><path d="m12 3 10 18H2Z" /><path d="M12 9v5m0 3v.01" /></>,
   eye: <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>,
   eyeOff: <><path d="m3 3 18 18M10 5a12 12 0 0 1 12 7 15 15 0 0 1-3 4M6 6a16 16 0 0 0-4 6s3 7 10 7a12 12 0 0 0 5-1M10 10a3 3 0 0 0 4 4" /></>,
   search: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></>,

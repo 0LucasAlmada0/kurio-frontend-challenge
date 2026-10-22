@@ -10,7 +10,8 @@ export function useWallets(session: Session) {
   const query = useQuery({ queryKey: key, queryFn: ({ signal }) => auth.request<Wallets>(session, { url: '/wallets', signal }) })
   const mutation = useMutation({
     mutationKey: [...key, 'write'],
-    mutationFn: (action: { kind: 'add'; input: WalletInput } | { kind: 'connect'; walletId: string; provider: WalletProvider } | { kind: 'disconnect' }) => auth.request<Wallets>(session, action.kind === 'add' ? { url: '/wallets', method: 'POST', data: action.input } : { url: '/wallets/connection', method: action.kind === 'disconnect' ? 'DELETE' : 'POST', data: action.kind === 'connect' ? { walletId: action.walletId, provider: action.provider } : undefined }),
+    mutationFn: (action: { kind: 'add'; input: WalletInput } | { kind: 'update'; walletId: string; input: WalletInput } | { kind: 'connect'; walletId: string; provider: WalletProvider } | { kind: 'disconnect' }) => auth.request<Wallets>(session, action.kind === 'add' || action.kind === 'update' ? { url: action.kind === 'add' ? '/wallets' : `/wallets/${encodeURIComponent(action.walletId)}`, method: action.kind === 'add' ? 'POST' : 'PUT', data: action.input } : { url: '/wallets/connection', method: action.kind === 'disconnect' ? 'DELETE' : 'POST', data: action.kind === 'connect' ? { walletId: action.walletId, provider: action.provider } : undefined }),
+    onMutate: () => client.cancelQueries({ queryKey: key }),
     onSuccess: (data) => { if (auth.isCurrent(session)) client.setQueryData(key, data) },
   })
   return { query, mutation }

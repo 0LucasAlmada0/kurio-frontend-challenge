@@ -37,11 +37,13 @@ export const authHandlers = [
     const fields = input ? validateCredentials(input) : { email: 'Dados de cadastro inválidos.' }
     if (!input || Object.keys(fields).length) return HttpResponse.json({ code: 'VALIDATION', message: 'Revise os campos indicados.', fields }, { status: 422 })
     if (authStore.findEmail(input.email)) return HttpResponse.json({ code: 'EMAIL_CONFLICT', message: 'Este e-mail já está cadastrado.', fields: { email: 'Este e-mail já está cadastrado.' } }, { status: 409 })
-    const user = await authStore.register(input.name, input.email, input.password)
-    if (!user) return HttpResponse.json({ code: 'EMAIL_CONFLICT', message: 'Este e-mail já está cadastrado.' }, { status: 409 })
-    authStore.revoke(request)
-    await commerceTransaction(() => cartStore.merge(request.headers.get('X-Guest-Cart'), user.id))
-    return HttpResponse.json(authStore.createSession(user), { status: 201 })
+    return commerceTransaction(async () => {
+      const user = await authStore.register(input.name, input.email, input.password)
+      if (!user) return HttpResponse.json({ code: 'EMAIL_CONFLICT', message: 'Este e-mail já está cadastrado.' }, { status: 409 })
+      authStore.revoke(request)
+      cartStore.merge(request.headers.get('X-Guest-Cart'), user.id)
+      return HttpResponse.json(authStore.createSession(user), { status: 201 })
+    })
   }),
   http.post(`${base}/session`, async ({ request }) => {
     await delay(120)
@@ -51,9 +53,13 @@ export const authHandlers = [
     if (!input || Object.keys(fields).length) return HttpResponse.json({ code: 'VALIDATION', message: 'Revise os campos indicados.', fields }, { status: 422 })
     const user = authStore.findEmail(input.email)
     if (!user || await passwordHash(input.password, user.salt) !== user.passwordHash) return HttpResponse.json({ code: 'INVALID_CREDENTIALS', message: 'E-mail ou senha incorretos.' }, { status: 401 })
-    authStore.revoke(request)
-    await commerceTransaction(() => cartStore.merge(request.headers.get('X-Guest-Cart'), user.id))
-    return HttpResponse.json(authStore.createSession(user))
+    return commerceTransaction(() => {
+      const current = authStore.findEmail(input.email)
+      if (!current || current.passwordHash !== user.passwordHash) return HttpResponse.json({ code: 'INVALID_CREDENTIALS', message: 'E-mail ou senha incorretos.' }, { status: 401 })
+      authStore.revoke(request)
+      cartStore.merge(request.headers.get('X-Guest-Cart'), current.id)
+      return HttpResponse.json(authStore.createSession(current))
+    })
   }),
   http.get(`${base}/session`, async ({ request }) => {
     await delay(120)
@@ -61,7 +67,7 @@ export const authHandlers = [
     const session = authStore.authorize(request)
     return session ? HttpResponse.json(session) : unauthorized()
   }),
-  http.delete(`${base}/session`, ({ request }) => { authStore.revoke(request); return new HttpResponse(null, { status: 204 }) }),
+  http.delete(`${base}/session`, ({ request }) => commerceTransaction(() => { authStore.revoke(request); return new HttpResponse(null, { status: 204 }) })),
   http.get(`${base}/users/:userId/favorites`, async ({ request, params }) => {
     const session = authStore.authorize(request)
     if (!session) return unauthorized()
@@ -75,15 +81,17 @@ export const authHandlers = [
     if (!session) return unauthorized()
     if (session.user.id !== params.userId) return forbidden()
     await privateDelay(getAuthScenario().mutationDelay)
-    if (!authStore.authorize(request)) return unauthorized()
-    if (!store.get(String(params.nftId))) return HttpResponse.json({ code: 'NOT_FOUND', message: 'NFT não encontrado.' }, { status: 404 })
-    if (getAuthScenario().favoritesFailure) return HttpResponse.json({ code: 'FAVORITE_REFUSED', message: 'Não foi possível alterar o favorito. Tente novamente.' }, { status: 503 })
-    return HttpResponse.json(authStore.favorite(session, String(params.nftId), method === 'put'))
+    return commerceTransaction(() => {
+      if (!authStore.authorize(request)) return unauthorized()
+      if (!store.get(String(params.nftId))) return HttpResponse.json({ code: 'NOT_FOUND', message: 'NFT não encontrado.' }, { status: 404 })
+      if (getAuthScenario().favoritesFailure) return HttpResponse.json({ code: 'FAVORITE_REFUSED', message: 'Não foi possível alterar o favorito. Tente novamente.' }, { status: 503 })
+      return HttpResponse.json(authStore.favorite(session, String(params.nftId), method === 'put'))
+    })
   })),
   http.post(`${base}/__mock/auth/scenario`, async ({ request }) => {
     setAuthScenario(await request.json() as Parameters<typeof setAuthScenario>[0])
     return HttpResponse.json(getAuthScenario())
   }),
-  http.post(`${base}/__mock/auth/expire`, () => { authStore.expire(); return HttpResponse.json({ ok: true }) }),
+  http.post(`${base}/__mock/auth/expire`, () => commerceTransaction(() => { authStore.expire(); return HttpResponse.json({ ok: true }) })),
   http.post(`${base}/__mock/auth/idle`, async () => { await Promise.all([...inFlight]); return HttpResponse.json({ ok: true }) }),
 ]

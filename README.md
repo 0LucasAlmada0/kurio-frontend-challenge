@@ -1,12 +1,52 @@
-# Kurio · Etapas 1, 1.5, 2, 3 e 4
+# Kurio · Etapas 1 a 5B
 
-Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, carteiras simuladas e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. A Etapa 4 mantém a arquitetura existente e não integra blockchain, extensões ou gateways reais.
+Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, perfil, gerenciamento de carteiras e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. Sem blockchain, extensões ou gateways reais.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
 
+## Perfil e gerenciamento de carteiras · Etapa 5B
+
+Entre como Ana/Bruno e abra o nome do usuário no header desktop ou **Conta → Meu perfil/Carteiras** no mobile. `/perfil` e `/carteiras` exigem sessão e retornam à rota original após login. A sidebar também permite alternar telas e abrir favoritos; itens editoriais continuam indisponíveis.
+
+No perfil, edite nome de exibição, username, e-mail, ENS opcional e apelido público. **Alterar** seleciona um avatar PNG/JPEG/WebP de até 512 KiB; **Remover** prepara sua exclusão. A imagem fica em preview até **Salvar**. Senha só muda quando os três campos estão preenchidos e válidos. O mesmo Salvar confirma dados, avatar e senha em conjunto: senha atual incorreta, conflito ou erro não deixam alterações parciais. E-mail/username têm unicidade no MSW. Edições desatualizadas exigem **Recarregar dados**; isso descarta a edição local em favor do perfil atual. Nome/e-mail da sessão são atualizados sem logout, troca de identidade ou limpeza do carrinho/favoritos.
+
+Em Carteiras, edite a principal ou use **Adicionar**/**Adicionar secundária**. A lista permite editar/promover as secundárias; a anterior passa a secundária. Endereço `0x` exige 40 caracteres hexadecimais ou ENS `.eth`; duplicata de endereço/rede é recusada. Metadados opcionais do frame são persistidos e validados. Alterações aparecem no checkout, que usa o mesmo hook/contrato/fonte. Mudar endereço/rede exige reconectar a carteira; editar apelido não desconecta. Pedidos anteriores conservam seus snapshots. O apelido público do perfil é independente dos apelidos dessas carteiras.
+
+Para falhas, em **Cenários de demonstração → Sessão e favoritos**, selecione `account-error`: consultas/mutations de perfil e carteiras retornam 503. `success` recupera; os valores digitados permanecem após falha de mutation. `private-slow`/`mutation-slow` aplicam latência também a esses recursos. **Expirar sessão** reencaminha ao login; a API também reautoriza após a espera e operações assíncronas. Dados privados usam chaves por usuário/sessão e são cancelados/limpos na troca como nas etapas anteriores. **Restaurar cenário** remove alterações de perfil/avatar/senha/carteiras e restaura as duas contas originais.
+
+Arquivos novos: `src/features/profile/{layout,page,wallets-page,queries,validation}`, `src/mocks/profile-handlers.ts` e `tests/e2e/account.spec.ts`. Arquivos estendidos: contratos, autenticação/store/handlers/cenários, `WalletForm`/`useWallets`/validação do checkout, `order-store`/handlers de carteira, router/shell/ícones/CSS/controles e teste de fallback de deploy. Não foram adicionadas dependências, serviços privados ou commits. Decisões e contratos completos estão em [ARCHITECTURE.md](ARCHITECTURE.md) e [CONTRACTS.md](CONTRACTS.md).
+
+Limitações: dados de demonstração persistem no storage da origem, sem backend; avatar utiliza data URL e recusa gravação se o storage não puder persistir. Tokens existentes mantêm sua validade original após troca de senha. Metadados/ENS/indicação opcionais evitam exigir dados blockchain fictícios. Fonte/cores continuam provisórias; o placeholder de avatar reutiliza o ícone local. Desktop segue os frames locais, tablet/mobile empilham formulários e compactam navegação; dados preenchidos e carteiras existentes diferem dos frames vazios. Rodapé/controles de demonstração anteriores foram preservados.
+
+O usuário informou publicação pública validada com seis testes após a Etapa 5A. Esta entrega é verificada no preview local de produção; as alterações da Etapa 5B ainda precisam de nova publicação para chegar à URL pública. Não foram executados filtros, Lighthouse ou outras etapas.
+
+### Validação e capturas da Etapa 5B
+
+| Comando no PowerShell | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado; repetido pelo build final |
+| `npm.cmd run lint` | Aprovado após os ajustes finais |
+| `npm.cmd run build:demo` | Aprovado, MSW e Socket.IO preservados; chunk principal 530,45 kB / 169,70 kB gzip, com aviso de tamanho |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa5b'; npx.cmd playwright test --output=test-results/etapa5b` | **180 aprovados em 6,7min**, sem atualizar snapshots; 60 por viewport |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa5b-final'; npx.cmd playwright test --grep 'layout de conta\|perfil editado persiste\|validação cliente/MSW\|autofill mantém' --output=test-results/etapa5b-final` | **12 aprovados em 27,9s** após estender a correção de autofill ao perfil; pseudo-classe real do Chromium via CDP |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa5b-carteiras'; npx.cmd playwright test --grep 'carteiras: cadastro\|layout de conta\|carteiras: validação' --output=test-results/etapa5b-carteiras` | **9 aprovados em 33,7s** após isolar erros por formulário; inclui carteira do checkout anterior e autofill/capturas nos três tamanhos |
+| `git diff --check` | Aprovado |
+
+A suíte completa reúne 36 execuções novas (12 cenários × 3 larguras) e as 144 anteriores. Cobre acesso protegido/retorno, perfil/sessão/cache/persistência, conflitos/versão, troca de senha atômica, avatar/tamanho/tipo/conteúdo, carteira/edição/promoção/duplicata, checkout/conexão invalidada, snapshot de pedido, autorização Ana/Bruno, expiração durante mutation, falha/recuperação, teclado/skeleton/capturas. A regressão anterior inclui cadastro/favoritos/rollback, carrinho/cupom/wei, pedido idempotente, timeout/reconexão, eventos reais Socket.IO e acesso direto. Nenhum teste foi ignorado ou flaky; baselines anteriores foram comparadas sem regeneração.
+
+Relatórios preservados: [180 testes](playwright-report/etapa5b/index.html), [verificação final de formulários/autofill](playwright-report/etapa5b-final/index.html) e [verificação final de carteiras](playwright-report/etapa5b-carteiras/index.html). A rodada inicial corrigiu um PNG inválido do teste e um seletor ambíguo, sem enfraquecer as asserções. A revisão também isolou erros da API ao formulário de carteira enviado, evitando marcar a principal quando o cadastro da secundária falha. Capturas reais sem máscaras, anexadas ao relatório completo:
+
+| Largura | Perfil | Carteiras |
+| --- | --- | --- |
+| 390px | [Captura](playwright-report/etapa5b/data/fc801f0169578509f09f27e203e61805a84ffa0a.png) | [Captura](playwright-report/etapa5b/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png) |
+| 768px | [Captura](playwright-report/etapa5b/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png) | [Captura](playwright-report/etapa5b/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png) |
+| 1440px | [Captura](playwright-report/etapa5b/data/786086919e6ad61c4d6c3381476af70ef37998da.png) | [Captura](playwright-report/etapa5b/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png) |
+
+Nas capturas de página inteira mobile, a navegação inferior fixa aparece na posição do viewport inicial; ela acompanha o viewport ao rolar na aplicação. O conteúdo e as ações finais permanecem alcançáveis por rolagem/teclado. Não foram utilizadas capturas como implementação.
+
 ## Publicação de demonstração na Vercel · Etapa 5A
 
-Status: configuração preparada; publicação pública ainda não realizada. Não há remote Git, projeto Vercel vinculado ou URL pública identificados neste workspace. Build/preview local não comprovam publicação. Esta etapa não altera funcionalidades nem baselines visuais.
+Registro ao encerrar a Etapa 5A: configuração preparada e validação local concluída. Depois, o usuário confirmou publicação pública validada com seis testes. Build/preview local por si só não comprovam publicação. O roteiro abaixo permite publicar novas versões; a Etapa 5B não fez deploy nem alterou baselines visuais.
 
 `vercel.json` fixa preset `vite`, instalação `npm ci`, build `npm run build:demo` e saída `dist`. O fallback SPA preserva `/api`, `/assets`, `/socket.io` e `/mockServiceWorker.js`; demais rotas recebem `index.html`, incluindo login, carrinho, pagamento e pedidos. Arquivos existentes têm prioridade. O worker conserva `Cache-Control: no-cache` e não pode receber o HTML da SPA. Referências oficiais: [Vite/SPAs na Vercel](https://vercel.com/docs/frameworks/frontend/vite#using-vite-to-make-spas) e [configuração estática](https://vercel.com/docs/project-configuration/vercel-json).
 
@@ -62,7 +102,7 @@ O segundo comando também compara pagamento/recibo com as baselines existentes; 
 
 Relatório: [playwright-report/etapa5a/index.html](playwright-report/etapa5a/index.html). Os 54 testes incluem 48 execuções anteriores e seis novas, em 390/768/1440px. Cobrem catálogo/detalhe, URL/histórico, login/refresh/logout, isolamento, favoritos otimistas/rollback, carrinho persistente/merge/cupom/precisão, checkout confirmado/recusado, timeout idempotente, retomada pending e Socket.IO público/privado com reconexão e descarte de duplicatas. As 12 comparações de início, detalhe, pagamento e recibo passaram com as baselines existentes; as capturas de pagamento/recibo também estão anexadas ao relatório. Não há testes ignorados ou flaky.
 
-Permanece o aviso anterior de chunk principal de 518,71 kB (166,71 kB gzip), sem impedir o build. Nenhuma URL foi publicada ou testada: o usuário confirmou que ela ainda não existe. Conectar o Git, publicar na Vercel e validar a URL/headers reais são os passos pendentes. Sem commits automáticos, perfil, filtros ou outras funcionalidades novas.
+Ao encerrar a Etapa 5A, permanecia o aviso de chunk principal de 518,71 kB (166,71 kB gzip), sem impedir o build. Nenhuma URL havia sido publicada/testada pelo agente; posteriormente o usuário confirmou publicação validada com seis testes. Aquela etapa não criou commits, perfil ou filtros. Alterações da Etapa 5B precisam de nova publicação.
 
 ## Checkout, carteiras e pedidos · Etapa 4
 
@@ -191,7 +231,7 @@ Para desktop no PowerShell: `$env:LH_PROFILE='desktop'` antes de `npm run audit`
 
 ## Publicação futura e limites
 
-Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. Nenhum deploy público foi realizado.
+Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. O usuário confirmou o deploy da Etapa 5A; a versão da Etapa 5B ainda requer publicação.
 
 Tokens são aproximações das capturas. A família real ainda não foi identificada: `--font-kurio` usa Consolas/Liberation Mono/Courier New/monospace. O conector Figma negou leitura por falta de acesso de edição na Etapa 1; as capturas locais foram usadas conforme o kit. Não há alegação de fidelidade final.
 

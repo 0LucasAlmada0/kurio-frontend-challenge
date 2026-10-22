@@ -61,6 +61,10 @@ export interface ApiError {
 }
 
 export interface User { id: string; name: string; email: string }
+export interface ProfileInput { displayName: string; username: string; email: string; ens: string; walletAlias: string; avatar: string | null }
+export interface Profile extends ProfileInput { userId: string; version: number }
+export interface PasswordChange { currentPassword: string; newPassword: string; confirmPassword: string }
+export interface ProfileUpdate extends ProfileInput { version: number; password?: PasswordChange }
 export interface Session { id: string; token: string; user: User; expiresAt: string }
 export interface LoginInput { email: string; password: string }
 export interface RegisterInput extends LoginInput { name: string; confirmPassword: string }
@@ -68,7 +72,10 @@ export interface Favorites { userId: string; sessionId: string; nftIds: string[]
 
 export type NetworkId = 'ethereum' | 'polygon'
 export type WalletProvider = 'WalletConnect' | 'MetaMask' | 'Coinbase Wallet'
-export interface WalletInput { label: string; address: string; networkId: NetworkId; kind: 'primary' | 'secondary' }
+export interface WalletInput {
+  label: string; address: string; networkId: NetworkId; kind: 'primary' | 'secondary'
+  displayName?: string; profileName?: string; email?: string; ens?: string; secondaryAddress?: string; referralCode?: string
+}
 export interface Wallet extends WalletInput { id: string; userId: string }
 export interface WalletConnection { walletId: string; provider: WalletProvider; sessionId: string; userId: string }
 export interface Wallets {

@@ -7,10 +7,12 @@ import { authHandlers, resetAuthMocks } from './auth-handlers'
 import { cartHandlers, resetCartMocks } from './cart-handlers'
 import { checkoutHandlers, resetCheckoutMocks } from './checkout-handlers'
 import { commerceTransaction } from './commerce-db'
+import { profileHandlers } from './profile-handlers'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 export const handlers = [
   ...authHandlers,
+  ...profileHandlers,
   ...cartHandlers,
   ...checkoutHandlers,
   http.get(`${base}/nfts`, async ({ request }) => {

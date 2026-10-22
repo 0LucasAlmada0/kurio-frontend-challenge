@@ -10,6 +10,8 @@ import { FavoritesPage } from '@/features/favorites/page'
 import { CartPage } from '@/features/cart/page'
 import { CheckoutPage } from '@/features/checkout/page'
 import { OrderPage } from '@/features/checkout/order-page'
+import { ProfilePage } from '@/features/profile/page'
+import { WalletsPage } from '@/features/profile/wallets-page'
 
 const rootRoute = createRootRoute({
   component: Shell,
@@ -40,6 +42,8 @@ const requireAuth = async ({ location }: { location: { href: string } }) => {
 }
 const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/pagamento', beforeLoad: requireAuth, component: CheckoutPage })
 const orderRoute = createRoute({ getParentRoute: () => rootRoute, path: '/pedidos/$orderId', beforeLoad: requireAuth, component: OrderPage })
+const profileRoute = createRoute({ getParentRoute: () => rootRoute, path: '/perfil', beforeLoad: requireAuth, component: ProfilePage })
+const walletsRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carteiras', beforeLoad: requireAuth, component: WalletsPage })
 const favoritesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/favoritos',
@@ -47,7 +51,7 @@ const favoritesRoute = createRoute({
   component: FavoritesPage,
 })
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute, checkoutRoute, orderRoute]), defaultPreload: 'intent' })
+export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute, checkoutRoute, orderRoute, profileRoute, walletsRoute]), defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }

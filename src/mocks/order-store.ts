@@ -75,13 +75,21 @@ export const orderStore = {
     const data = readCommerce()
     return { userId: session.user.id, items: data.wallets.filter((wallet) => wallet.userId === session.user.id), connection: data.connections[session.id] ?? null, networks, providers }
   },
-  addWallet(session: Session, input: WalletInput) {
+  addWallet(session: Session, input: WalletInput, id?: string) {
     const fields = validateWallet(input)
     if (Object.keys(fields).length) throw new CartError(422, 'VALIDATION', 'Revise os campos da carteira.', fields)
     const data = readCommerce()
-    if (data.wallets.some((wallet) => wallet.userId === session.user.id && wallet.address.toLowerCase() === input.address.trim().toLowerCase() && wallet.networkId === input.networkId)) throw new CartError(409, 'WALLET_EXISTS', 'Esta carteira já está cadastrada nesta rede.')
+    const existing = id ? data.wallets.find((wallet) => wallet.id === id) : undefined
+    if (id && !existing) throw new CartError(404, 'WALLET_NOT_FOUND', 'Carteira não encontrada.')
+    if (existing && existing.userId !== session.user.id) throw new CartError(403, 'FORBIDDEN', 'Esta carteira não pertence à sua conta.')
+    if (data.wallets.some((wallet) => wallet.id !== id && wallet.userId === session.user.id && wallet.address.toLowerCase() === input.address.trim().toLowerCase() && wallet.networkId === input.networkId)) throw new CartError(409, 'WALLET_EXISTS', 'Esta carteira já está cadastrada nesta rede.', { address: 'Esta carteira já está cadastrada nesta rede.' })
     if (input.kind === 'primary') for (const wallet of data.wallets) if (wallet.userId === session.user.id) wallet.kind = 'secondary'
-    data.wallets.push({ ...input, label: input.label.trim(), address: input.address.trim(), userId: session.user.id, id: crypto.randomUUID() })
+    const wallet = { label: input.label.trim(), address: input.address.trim(), kind: input.kind, networkId: input.networkId, userId: session.user.id, id: id ?? crypto.randomUUID() }
+    for (const field of ['displayName', 'profileName', 'email', 'ens', 'secondaryAddress', 'referralCode'] as const) if (input[field] !== undefined) Object.assign(wallet, { [field]: input[field]!.trim() })
+    if (existing) {
+      if (existing.address !== wallet.address || existing.networkId !== wallet.networkId) for (const [key, connection] of Object.entries(data.connections)) if (connection.walletId === id) delete data.connections[key]
+      Object.assign(existing, wallet)
+    } else data.wallets.push(wallet)
     writeCommerce(data)
     return this.wallets(session)
   },

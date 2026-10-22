@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1, 1.5, 2, 3 e 4
+# Arquitetura · Etapas 1 a 5B
 
 ## Estrutura
 
@@ -11,6 +11,7 @@ src/
   features/favorites/  queries privadas, mutations otimistas, botões e lista protegida
   features/cart/       identidade visitante, consultas/mutations, seleção e carrinho
   features/checkout/   carteira compartilhável, revisão, tentativa persistida e recibo
+  features/profile/    layout de conta, formulário/avatar/senha e gestão de carteiras
   components/          card, loading, erro e primitives shadcn/ui
   realtime/            socket.io-client, validação e ciclo de vida
   mocks/               fixtures, armazenamento, rede e controles
@@ -27,11 +28,21 @@ O README oficial exige React/TypeScript, Router, Query, Axios/REST, Socket.IO, T
 
 Decisões do agente: rotas declaradas em código, sem gerador; Tailwind v4; primitives shadcn/ui locais com Slot/CVA; catálogo paginado em 8 itens com 12 fixtures derivadas das quatro imagens; persistência local versionada; eventos com snapshot completo; invalidação de listas após evento em vez de tentar recalcular ordenação/paginação no cliente. Nenhum serviço privado, backend separado, nova imagem ou fonte externa foi usado.
 
+## Perfil e carteiras · Etapa 5B
+
+Perfil reutiliza `kurio:mock-auth:v1` com campo opcional por usuário; contas anteriores recebem defaults na leitura, sem reset. Edição contém versão e só persiste após validar todos os campos, senha atual, confirmação e avatar. Um único commit salva dados/salt/hash e atualiza nome/e-mail das sessões desse usuário. Falha mantém tudo anterior. `auth.updateUser` publica os dados novos mantendo token/ID/timer/cache; `restore` também atualiza dados de uma sessão já conhecida. Queries e mutations mantêm chaves por usuário/sessão, cancelamento e guarda de identidade. Senhas não vão para storage/logs/respostas e são removidas das variáveis da mutation após o envio.
+
+Avatar é uma imagem local PNG/JPEG/WebP de até 512 KiB, validada no cliente e MSW. Data URL foi escolhida para manter a simulação persistente sem serviço privado/dependência; leitura/preview/remover são edições pendentes, confirmadas pelo mesmo Salvar do frame. Storage cheio/indisponível recusa a gravação em vez de declarar sucesso. Apelido público/ENS do perfil são metadados opcionais; não alteram carteiras cadastradas. A senha permanece opcional na edição normal; preencher um dos campos exige o conjunto completo.
+
+`WalletForm`, `useWallets`, `validateWallet` e a fonte de carteiras do checkout agora suportam edição e os metadados opcionais do frame. Não há segunda fonte/regra de carteira. PUT mantém identidade/autorizações; promoção reclassifica a anterior dentro do mesmo commit. Alterar endereço/rede invalida conexões existentes; pedidos guardam cópias imutáveis e não são reescritos. A resposta atualiza o cache compartilhado pelo checkout. Sem Web Locks o fallback continua limitado à página; com ele, escritas de perfil, sessão, favoritos e comércio usam a mesma serialização, inclusive durante operações assíncronas.
+
+`AccountLayout` reproduz a sidebar desktop; perfil e carteira usam colunas do frame, com campos empilhados no tablet e navegação de conta compacta no mobile. Inputs/Button/Skeleton/ícones e tokens existentes foram reutilizados. Ações fora do escopo permanecem desativadas. Não há avatar estático original; o placeholder usa o ícone local existente e a imagem escolhida pelo usuário ocupa 50×50px com recorte circular. ENS/indicação e metadados opcionais são identificados; não se exige uma identidade blockchain fictícia para salvar a conta. Dados preenchidos, carteira secundária da fixture, mensagens de validação e controles de demonstração explicam diferenças em relação ao frame vazio. Fontes/cores provisórias permanecem. Capturas reais são anexadas aos testes em 390/768/1440px; baselines anteriores não foram regeneradas.
+
 ## Publicação · Etapa 5A
 
 Hospedagem estática na raiz da origem, com `vercel.json` fixando `npm ci`, `npm run build:demo`, preset Vite e `dist`. Rewrites preservam arquivos existentes e excluem API/assets/socket/worker do fallback SPA. O header do worker exige revalidação; seu escopo é a raiz. Não houve alteração do bootstrap: MSW continua iniciando antes de React e Socket.IO. Sem `VITE_SOCKET_URL`, ambos os lados da simulação usam a origem publicada e o protocolo seguro em HTTPS; não há processo WebSocket hospedado na Vercel. Variáveis Vite são públicas e exigem rebuild.
 
-Playwright aceita `E2E_BASE_URL` para usar a URL publicada sem iniciar um servidor local; `E2E_PREVIEW=true` mantém a opção de testar o artefato via Vite. `deploy.spec.ts` verifica fallback por HTTP fora do service worker, MIME/arquivos públicos e inicialização em acesso direto, sem storage anterior, seguida de evento Socket.IO e refresh. O preview não valida regras/headers executados na CDN; essa confirmação depende de URL pública. Não há URL ou projeto vinculado neste workspace; importação do Git e publicação permanecem ações manuais, descritas no README. Não foram modificadas funcionalidades, dependências ou baselines.
+Playwright aceita `E2E_BASE_URL` para usar a URL publicada sem iniciar um servidor local; `E2E_PREVIEW=true` mantém a opção de testar o artefato via Vite. `deploy.spec.ts` verifica fallback por HTTP fora do service worker, MIME/arquivos públicos e inicialização em acesso direto, sem storage anterior, seguida de evento Socket.IO e refresh. O preview não valida regras/headers executados na CDN; essa confirmação depende de URL pública. O usuário confirmou publicação validada após a Etapa 5A. Novas publicações e verificações externas seguem o roteiro manual do README; a Etapa 5B não realizou deploy.
 
 ## Checkout e consistência · Etapa 4
 
@@ -117,13 +128,13 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 
 ## Limitações e pendências
 
-- Sem auditorias Lighthouse executadas, deploy ou integração com backend real. Configurações iniciais estão prontas; pontuações e metas finais ainda precisam ser medidas.
+- Sem auditorias Lighthouse executadas ou integração com backend real. O usuário informou deploy público validado com seis testes após a Etapa 5A; a Etapa 5B é validada localmente e precisa de nova publicação para atualizar esse ambiente.
 - A ferramenta Browser integrada falhou ao inicializar por erro de infraestrutura (`sandboxPolicy` ausente). Verificação executável e screenshots usam os testes Playwright do projeto.
 - Mock apenas do namespace padrão e eventos JSON de texto. Rooms, namespaces privados, binários, acknowledgements e polling não foram implementados nem validados. Não é servidor Socket.IO de produção.
-- REST lê o snapshot compartilhado, mas broadcasts Socket.IO entre páginas distintas não foram implementados. Sessão/favoritos têm logout compartilhado; suas escritas anteriores continuam sem transações multiaba. Comércio usa Web Locks quando disponível; não há transação distribuída entre dispositivos nem backend real.
+- REST lê o snapshot compartilhado, mas broadcasts Socket.IO entre páginas distintas não foram implementados. Sessão/favoritos têm logout compartilhado; escritas de conta/comércio usam Web Locks quando disponível. Não há transação distribuída entre dispositivos nem backend real.
 - A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
 - Expiração remota é detectada por REST/foco e timer local, sem evento específico de expiração. Pedidos têm evento privado e recuperação REST. Encerrar a página durante cadastro pode deixar a conta criada, mesmo sem a resposta; novo cadastro retorna conflito e permite login.
-- Perfil e tela dedicada de carteiras permanecem para etapa posterior; checkout, base de carteiras e pedidos idempotentes foram implementados na Etapa 4.
+- Perfil e gestão dedicada de carteiras foram implementados na Etapa 5B; checkout e snapshots anteriores permanecem preservados. Senhas alteradas não encerram outros tokens válidos; eles mantêm sua expiração original na simulação.
 - Filtros combinados e controles mais completos, regressões visuais das telas futuras, metadados específicos de cada rota e auditoria de acessibilidade final permanecem pendentes.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
