@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Icon } from '@/components/icon'
 import { CatalogPage } from '@/features/catalog/page'
 import { NftDetailPage } from '@/features/catalog/detail-page'
+import { CartPage } from '@/features/cart/page'
 import { auth } from './session'
 import { safeReturnTo, validateCredentials } from './validation'
 
@@ -63,7 +64,7 @@ export function AuthPage() {
     return <div className="auth-field"><label htmlFor={`auth-${field}`} className="sr-only">{label}</label><Input id={`auth-${field}`} name={field} type={type} autoComplete={autocomplete} placeholder={label} value={values[field]} aria-invalid={!!fields[field]} aria-describedby={fields[field] ? `error-${field}` : undefined} onChange={(event) => setValues({ ...values, [field]: event.target.value })} disabled={mutation.isPending} />{fields[field] && <p id={`error-${field}`} className="field-error">{fields[field]}</p>}</div>
   }
   return <>
-    <div className="auth-background" aria-hidden="true" inert>{match ? <NftDetailPage nftId={decodeURIComponent(match[1]!)} /> : <CatalogPage backgroundSearch={backgroundSearch} />}</div>
+    <div className="auth-background" aria-hidden="true" inert>{match ? <NftDetailPage nftId={decodeURIComponent(match[1]!)} /> : target.pathname === '/carrinho' ? <CartPage /> : <CatalogPage backgroundSearch={backgroundSearch} />}</div>
     <dialog ref={dialog} className={`auth-dialog${register ? ' register-dialog' : ''}`} aria-labelledby="auth-heading" onCancel={(event) => { event.preventDefault(); if (!mutation.isPending) close() }}>
       <button className="auth-close" aria-label="Fechar autenticação" disabled={mutation.isPending} onClick={close}>×</button>
       <div className="auth-mobile-brand" aria-hidden="true">KURIO</div>

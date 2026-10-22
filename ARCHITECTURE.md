@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1, 1.5 e 2
+# Arquitetura · Etapas 1, 1.5, 2 e 3
 
 ## Estrutura
 
@@ -9,6 +9,7 @@ src/
   features/catalog/    consultas, query keys, catálogo e detalhe
   features/auth/       sessão, ciclo de vida, validação e formulário compartilhado
   features/favorites/  queries privadas, mutations otimistas, botões e lista protegida
+  features/cart/       identidade visitante, consultas/mutations, seleção e carrinho
   components/          card, loading, erro e primitives shadcn/ui
   realtime/            socket.io-client, validação e ciclo de vida
   mocks/               fixtures, armazenamento, rede e controles
@@ -24,6 +25,18 @@ public/assets/nfts/    quatro imagens originais copiadas
 O README oficial exige React/TypeScript, Router, Query, Axios/REST, Socket.IO, Tailwind, shadcn/ui, MSW, Playwright e Lighthouse. O candidato limitou a entrega à Etapa 1, escolheu Vite e strict, forneceu capturas e quatro imagens e solicitou tokens provisórios, controles reproduzíveis e documentação.
 
 Decisões do agente: rotas declaradas em código, sem gerador; Tailwind v4; primitives shadcn/ui locais com Slot/CVA; catálogo paginado em 8 itens com 12 fixtures derivadas das quatro imagens; persistência local versionada; eventos com snapshot completo; invalidação de listas após evento em vez de tentar recalcular ordenação/paginação no cliente. Nenhum serviço privado, backend separado, nova imagem ou fonte externa foi usado.
+
+## Carrinho e cotação
+
+`mocks/cart-store.ts` é a fonte compartilhada de carrinhos, merge, estoque e cotação; `cart-handlers.ts` aplica autorização, latência e falhas. Persistência mock em `kurio:mock-carts:v1`, catálogo com edições em `kurio:mocks:v2`. A migração de catálogo reinicia apenas a fixture pública anterior; usuários e favoritos permanecem nos seus armazenamentos existentes.
+
+Componentes recebem dados REST e enviam intenções; não calculam subtotal, desconto ou total. `PurchaseControls` compartilha seleção entre cards/detalhe. `useCart` usa Axios/TanStack Query e mutations pessimistas: mantém os itens anteriores em falhas e serializa alterações por identidade, com bloqueio compartilhado entre componentes. O servidor é responsável pelos limites de estoque. As chaves são `['private', userId, sessionId, 'cart', ...]` e `['visitor', guestId, 'cart', ...]`; quote acrescenta revisão do carrinho. Placeholder de cotação só pode reutilizar dados do mesmo proprietário.
+
+Sessão anterior é cancelada/limpa como nos favoritos; carrinhos visitantes também são cancelados/limpos na transição. Requisições verificam identidade antes/depois, combinam AbortSignals e capturam credencial de origem. O MSW reautoriza após a latência e rejeita capacidades visitantes consumidas pelo merge. Troca de conta nunca transforma um carrinho privado em visitante. Carrinhos persistidos da conta só voltam com autenticação dessa conta.
+
+Eventos aceitos pelo provedor Socket.IO invalidam carrinho/cotação e catálogo; reconexão também reconsulta REST. Versões/duplicatas continuam filtradas pelo pipeline público existente. Cotação tem fingerprint/validade e validação REST para futura reutilização; BigInt/wei garante precisão financeira. Estoque não é reservado nesta etapa. A persistência local é uma simulação no navegador, sem transações entre abas/dispositivos nem segurança de backend real; concorrência de produção precisará de armazenamento servidor, revisão condicional e idempotência transacional.
+
+Correção de autofill: campos transparentes deixavam aparecer o preenchimento interno de autofill do Chromium (regras UA com `!important`). A regra localizada `:autofill`/`:-webkit-autofill` pinta um inset com o token de fundo da apresentação e preserva texto/caret, sem desativar autocomplete. Referência: [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:autofill). Playwright força a pseudo-classe pelo CDP para verificar o estado e capturar a aparência; não armazena senhas reais no navegador.
 
 ## Rede e tempo real
 
@@ -87,9 +100,9 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 - Persistência do catálogo é consistente na página e no refresh; sincronização de alterações públicas entre abas não foi implementada. Sessão e favoritos são persistidos, com logout compartilhado validado em duas abas. Escritas simultâneas entre abas não têm transações de backend.
 - A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
 - Expiração remota é detectada por REST/foco e pelo timer local; não há push privado ou listeners de pedidos. Encerrar a página durante um cadastro pode deixar uma conta criada na simulação, mesmo se a resposta não chegou ao cliente; novo cadastro retorna conflito e permite login.
-- Carrinho, cotações, checkout, pedidos idempotentes, perfil, carteiras e respectivos cenários permanecem para etapas autorizadas posteriores.
+- Checkout, pedidos idempotentes, perfil, carteiras e respectivos cenários permanecem para etapas autorizadas posteriores. Carrinho e cotações foram implementados na Etapa 3.
 - Filtros combinados e controles mais completos, regressões visuais das telas futuras, metadados específicos de cada rota e auditoria de acessibilidade final permanecem pendentes.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
 
-Próxima etapa depende de autorização. Carrinho, checkout e pedidos não foram implementados. Não foram criados commits automaticamente.
+Próxima etapa depende de autorização. Checkout, carteiras e pedidos não foram implementados. Não foram criados commits automaticamente.

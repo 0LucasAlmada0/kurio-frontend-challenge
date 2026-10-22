@@ -16,6 +16,7 @@ const paths = {
   filters: <><path d="M10 6h11M3 6h2M3 18h11m5 0h2" /><rect x="5" y="3" width="5" height="6" rx="1" /><rect x="14" y="15" width="5" height="6" rx="1" /></>,
   image: <><rect x="3" y="3" width="18" height="18" rx="3" /><circle cx="8" cy="8" r="1" /><path d="m3 17 5-5 4 4 4-6 5 7" /></>,
   minus: <path d="M5 12h14" />,
+  trash: <><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" /></>,
   plus: <path d="M5 12h14M12 5v14" />,
   mail: <><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 5 10 8 10-8" /></>,
 } as const

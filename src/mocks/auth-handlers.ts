@@ -5,6 +5,7 @@ import { userFixtures } from './fixtures'
 import { authStore, passwordHash } from './auth-store'
 import { store } from './store'
 import { getAuthScenario, resetAuthScenario, setAuthScenario } from './auth-scenarios'
+import { cartStore } from './cart-store'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 authStore.init(userFixtures)
@@ -38,6 +39,7 @@ export const authHandlers = [
     const user = await authStore.register(input.name, input.email, input.password)
     if (!user) return HttpResponse.json({ code: 'EMAIL_CONFLICT', message: 'Este e-mail já está cadastrado.' }, { status: 409 })
     authStore.revoke(request)
+    cartStore.merge(request.headers.get('X-Guest-Cart'), user.id)
     return HttpResponse.json(authStore.createSession(user), { status: 201 })
   }),
   http.post(`${base}/session`, async ({ request }) => {
@@ -49,6 +51,7 @@ export const authHandlers = [
     const user = authStore.findEmail(input.email)
     if (!user || await passwordHash(input.password, user.salt) !== user.passwordHash) return HttpResponse.json({ code: 'INVALID_CREDENTIALS', message: 'E-mail ou senha incorretos.' }, { status: 401 })
     authStore.revoke(request)
+    cartStore.merge(request.headers.get('X-Guest-Cart'), user.id)
     return HttpResponse.json(authStore.createSession(user))
   }),
   http.get(`${base}/session`, async ({ request }) => {

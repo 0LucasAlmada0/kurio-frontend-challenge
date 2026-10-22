@@ -1,8 +1,45 @@
-# Kurio · Etapas 1, 1.5 e 2
+# Kurio · Etapas 1, 1.5, 2 e 3
 
-Marketplace com catálogo/detalhe, autenticação simulada, sessão persistida, isolamento por usuário e favoritos otimistas com rollback. REST é interceptado por MSW e preços são atualizados via Socket.IO. Carrinho, checkout, pedidos e demais telas permanecem fora desta etapa.
+Marketplace com catálogo/detalhe, autenticação simulada, sessão persistida, isolamento por usuário, favoritos otimistas e carrinho com cupons e cotação precisa. REST é interceptado por MSW e preços/disponibilidade são atualizados via Socket.IO. Checkout, carteiras e pedidos permanecem fora desta etapa.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
+
+## Carrinho e cotação
+
+Cards permitem abrir **Escolher edição**; detalhe permite selecionar edição/quantidade e adicionar. `/carrinho` funciona com visitante e conta. Carrinho, edições e cupons persistem via fonte MSW compartilhada; login combina o visitante à conta uma única vez. Logout/troca/expiração isolam os dados privados. O resumo é integralmente fornecido pela cotação REST, com precisão de 18 casas e validação de versão. Preço/estoque mudam pelo Socket.IO existente.
+
+Cupom demonstrável: `KURIO10` (10%); `EXPIRADO` exercita expiração; outros códigos são inválidos. **Cenários de demonstração → Carrinho e cotação** permite falha de rede/503, latência, timeout e recuperação. **Alterar Emerald Ape** atualiza a cotação com o carrinho aberto. Nenhuma alteração reserva estoque ou executa compra. **Continuar ao checkout** fica explicitamente inativo até autorização da próxima etapa.
+
+As referências locais de carrinho orientam tabela/resumo desktop e cards/resumo mobile. Foram mantidos os assets, tokens e rodapé existentes; os blocos editoriais/newsletter/carteiras do frame não pertencem ao escopo. A ausência de fonte original e as cores provisórias continuam sendo limitações visuais documentadas.
+
+Arquivos da Etapa 3: `src/features/cart/{identity,queries,purchase-controls,cart-link,page}`, `src/mocks/{cart-store,cart-handlers}`, contratos/fixtures/store/handlers, merge nos handlers de autenticação e cancelamento na sessão, router/shell, integração nos cards/detalhe, validação e reconciliação Socket.IO, helper ETH, ícone de remoção e CSS responsivo/autofill. Testes em `tests/e2e/cart.spec.ts`, asserções de ações atualizadas em `foundation.spec.ts` e baselines nas três pastas `*.spec.ts-snapshots`. Contratos e decisões completos em [CONTRACTS.md](CONTRACTS.md#carrinho-e-cotação--etapa-3) e [ARCHITECTURE.md](ARCHITECTURE.md#carrinho-e-cotação). Nenhuma dependência foi adicionada.
+
+Limitações específicas: mocks persistem no navegador e não garantem transações entre abas/dispositivos; cotação não reserva estoque e usa taxa estimada fixa. O catálogo anterior migra para a fixture com edições, preservando o armazenamento de contas/favoritos. A navegação inferior mobile existente é mantida no carrinho; em capturas de página inteira, sua posição fixa corresponde ao viewport inicial. Fonte, dados e conteúdo inferior diferem do frame. O checkout futuro deverá validar a cotação no commit da operação, reservar estoque e tratar idempotência/pagamento/pedidos; nenhuma dessas ações foi implementada.
+
+### Evidências visuais da Etapa 3
+
+| Viewport | Carrinho | Campo com autofill e foco |
+| --- | --- | --- |
+| 390px | [Captura](tests/e2e/cart.spec.ts-snapshots/cart-mobile-win32.png) | [Captura](tests/e2e/cart.spec.ts-snapshots/login-autofill-mobile-win32.png) |
+| 768px | [Captura](tests/e2e/cart.spec.ts-snapshots/cart-tablet-win32.png) | [Captura](tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png) |
+| 1440px | [Captura](tests/e2e/cart.spec.ts-snapshots/cart-desktop-win32.png) | [Captura](tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png) |
+
+Revisão visual local identificou e corrigiu o deslocamento das colunas/espaço superior desktop, o acesso direto ao carrinho no detalhe mobile e a sobreposição causada por preços ETH longos. As capturas são da aplicação executada no Chromium, não assets usados como implementação. Início/detalhe e login/cadastro continuam cobertos nas pastas de baselines anteriores.
+
+### Validação final da Etapa 3
+
+| Comando executado no PowerShell | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado; repetido também pelo script de build final |
+| `npm.cmd run lint` | Aprovado após os ajustes finais |
+| `npm.cmd run build:demo` | Aprovado, Vite 7.3.7, MSW habilitado |
+| `$env:E2E_PREVIEW='true'; npx.cmd playwright test --project=mobile --grep 'merge no login\|isolamento entre Ana\|precisão de 18 casas\|catálogo: REST\|layout responsivo' --update-snapshots` | 5 aprovados em 24,7s após as correções mobile |
+| `$env:E2E_PREVIEW='true'; npx.cmd playwright test` | **84 aprovados em 4,6min**, sem atualizar snapshots; 28 por viewport |
+| `git diff --check` | Aprovado |
+
+São 45 execuções novas (15 cenários de carrinho/cotação/autofill × 3 viewports) e 39 execuções anteriores. Incluem adição/listagem/detalhe, edições, alteração/remoção, validação de estoque na UI/REST, refresh, merge limitado e idempotente, isolamento Ana/Bruno/visitante, cupons, 18 casas e arredondamento em wei, paridade REST/UI, cotação vencida/desatualizada, sessão expirada com retorno ao carrinho, Socket.IO/versões/duplicatas/payload inválido, edição esgotada, falha de rede/503 e recuperação, resposta privada atrasada, skeleton, foco, overflow e regressão visual. Autofill é verificado via pseudo-classe real do Chromium forçada por CDP, incluindo foco, fundo e texto dos tokens. A suíte anterior preserva autenticação/favoritos, catálogo, URL/histórico e reconexão Socket.IO.
+
+Rodadas iniciais detectaram o atalho mobile ausente e o overflow com ETH longo; ambos foram corrigidos antes da execução final. O helper de logout foi ajustado à navegação real pelo mercado. Baselines foram atualizadas intencionalmente e revisadas; a última execução comparou todas sem regeneração. Relatório final: [playwright-report/index.html](playwright-report/index.html). Sem testes desabilitados, novas dependências, commits automáticos ou avanço para checkout/carteiras/pedidos.
 
 ## Instalação e comandos
 

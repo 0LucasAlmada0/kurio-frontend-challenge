@@ -2,6 +2,7 @@ import axios, { CanceledError, type AxiosRequestConfig } from 'axios'
 import type { LoginInput, RegisterInput, Session } from '@/api/contracts'
 import { http } from '@/api/http'
 import { queryClient } from '@/app/query-client'
+import { guestCart } from '@/features/cart/identity'
 
 export type AuthState = { status: 'loading' | 'anonymous' | 'authenticated' | 'error'; session: Session | null; reason?: 'expired'; error?: unknown }
 const tokenKey = 'kurio:session-token'
@@ -23,11 +24,14 @@ function clearPrivate() {
   clearTimeout(timer)
   void queryClient.cancelQueries({ queryKey: ['private'] })
   queryClient.removeQueries({ queryKey: ['private'] })
+  void queryClient.cancelQueries({ queryKey: ['visitor'] })
+  queryClient.removeQueries({ queryKey: ['visitor'] })
   for (const mutation of queryClient.getMutationCache().getAll()) {
-    if (mutation.options.mutationKey?.[0] === 'private') queryClient.getMutationCache().remove(mutation)
+    if (['private', 'visitor'].includes(String(mutation.options.mutationKey?.[0]))) queryClient.getMutationCache().remove(mutation)
   }
 }
 function transition(session: Session | null, reason?: 'expired') {
+  if (session || state.session) guestCart.rotate()
   generation += 1
   clearPrivate()
   saveToken(session?.token ?? null)
@@ -56,7 +60,7 @@ export const auth = {
   authenticate: async (mode: 'login' | 'register', input: LoginInput | RegisterInput, signal?: AbortSignal) => {
     const requestGeneration = ++generation
     const previousToken = state.session?.token ?? storedToken()
-    const response = await http.post<Session>(mode === 'login' ? '/session' : '/users', input, { signal, headers: previousToken ? { Authorization: `Bearer ${previousToken}` } : {} })
+    const response = await http.post<Session>(mode === 'login' ? '/session' : '/users', input, { signal, headers: { 'X-Guest-Cart': guestCart.id(), ...(previousToken ? { Authorization: `Bearer ${previousToken}` } : {}) } })
     if (requestGeneration !== generation) throw new CanceledError('Tentativa de autenticação obsoleta.')
     transition(response.data)
   },

@@ -7,6 +7,7 @@ import { AuthPage } from '@/features/auth/page'
 import { auth } from '@/features/auth/session'
 import { safeReturnTo } from '@/features/auth/validation'
 import { FavoritesPage } from '@/features/favorites/page'
+import { CartPage } from '@/features/cart/page'
 
 const rootRoute = createRootRoute({
   component: Shell,
@@ -25,6 +26,7 @@ const catalogRoute = createRoute({
 })
 
 const detailRoute = createRoute({ getParentRoute: () => rootRoute, path: '/nfts/$nftId', component: NftDetailPage })
+const cartRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carrinho', component: CartPage })
 
 const authSearch = (search: Record<string, unknown>) => ({ redirect: safeReturnTo(search.redirect), reason: search.reason === 'expired' ? 'expired' : '' })
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', validateSearch: authSearch, component: () => <AuthPage key="login" /> })
@@ -40,7 +42,7 @@ const favoritesRoute = createRoute({
   component: FavoritesPage,
 })
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute]), defaultPreload: 'intent' })
+export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute]), defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }

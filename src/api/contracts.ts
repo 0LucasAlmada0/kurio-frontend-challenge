@@ -12,6 +12,33 @@ export interface Nft {
   available: number
   version: number
   description: string
+  editions: NftEdition[]
+}
+
+export interface NftEdition { id: string; label: string; available: number }
+export interface CartItem { nftId: string; editionId: string; quantity: number }
+export interface Cart { ownerId: string; version: number; items: CartItem[]; coupon: string | null; notices: string[] }
+export interface CartItemInput extends CartItem { operation?: 'add' | 'set' }
+export interface QuoteLine extends CartItem {
+  nft: Nft
+  edition: NftEdition
+  unitPriceEth: Eth
+  totalEth: Eth
+  issue: string | null
+}
+export interface Quote {
+  id: string
+  version: string
+  ownerId: string
+  cartVersion: number
+  expiresAt: string
+  lines: QuoteLine[]
+  coupon: string | null
+  subtotalEth: Eth
+  discountEth: Eth
+  networkFeeEth: Eth
+  totalEth: Eth
+  valid: boolean
 }
 
 export interface CatalogSearch {

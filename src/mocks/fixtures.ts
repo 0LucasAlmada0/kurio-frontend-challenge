@@ -24,6 +24,11 @@ export function createNfts(): Nft[] {
       collection: edition === 2 ? 'Kurio Studio' : 'Kurio Apes',
       creator: edition === 1 ? 'Nova Sato' : 'Kurio Editions',
       version: 1,
+      editions: [
+        { id: 'standard', label: '1/50', available: Math.max(0, base.available - 2) },
+        { id: 'limited', label: '1/10', available: Math.min(1, base.available) },
+        { id: 'unique', label: '1/1', available: Math.min(1, Math.max(0, base.available - 1)) },
+      ],
       description: 'Um colecionável digital da coleção Kurio. Arte e identidade em um mundo digital sem fronteiras.',
     }
   })

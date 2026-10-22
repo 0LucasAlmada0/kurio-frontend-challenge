@@ -10,4 +10,8 @@ export function isNftUpdated(value: unknown): value is NftUpdated {
     && typeof nft.name === 'string' && typeof nft.priceEth === 'string'
     && /^\d+\.\d{1,18}$/.test(nft.priceEth)
     && Number.isSafeInteger(nft.available) && nft.available >= 0
+    && Array.isArray(nft.editions) && nft.editions.length > 0
+    && nft.editions.every((edition) => !!edition && typeof edition.id === 'string' && typeof edition.label === 'string' && Number.isSafeInteger(edition.available) && edition.available >= 0)
+    && new Set(nft.editions.map((edition) => edition.id)).size === nft.editions.length
+    && nft.editions.reduce((sum, edition) => sum + edition.available, 0) === nft.available
 }

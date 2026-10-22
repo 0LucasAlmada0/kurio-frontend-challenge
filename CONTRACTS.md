@@ -1,12 +1,12 @@
-# Contratos · Etapas 1 e 2
+# Contratos · Etapas 1, 2 e 3
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
 ## NFT
 
-`Nft`: `id`, `name`, `image` (caminho local), `collection`, `creator`, `rarity` (`comum|raro|lendário`), `priceEth` (string decimal de até 18 casas), `available` (inteiro >= 0), `version` (inteiro monotônico > 0), `description`.
+`Nft`: `id`, `name`, `image` (caminho local), `collection`, `creator`, `rarity` (`comum|raro|lendário`), `priceEth` (string decimal de até 18 casas), `available` (inteiro >= 0), `version` (inteiro monotônico > 0), `description`, `editions` (IDs, rótulos e estoques).
 
-Preço nunca deve ser convertido a Number para cálculo. Ordenação usa wei/BigInt. Nenhum checkout ou cálculo de taxas faz parte desta etapa.
+Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação usam wei/BigInt. A cotação inclui taxa de rede simulada; checkout não faz parte desta etapa.
 
 | Método / rota | Entrada | Saída |
 | --- | --- | --- |
@@ -47,6 +47,32 @@ Rotas UI: `/login` e `/cadastro`, com `redirect` interno normalizado e `reason=e
 
 Os cenários de auth ficam em `sessionStorage` e sobrevivem ao refresh da aba, até reset. O reset geral restaura usuários originais, remove contas cadastradas, sessões e favoritos e restaura os cenários. A UI oferece `auth-error`, `favorite-error`, `private-slow` e `mutation-slow` em **Sessão e favoritos**, além de **Expirar sessão**.
 
+## Carrinho e cotação · Etapa 3
+
+Todas as rotas abaixo usam o mesmo proprietário: `Authorization: Bearer <token>` resolve a conta no servidor simulado; credenciais inválidas retornam 401 e nunca caem no carrinho visitante. Sem bearer, exige-se `X-Guest-Cart: guest:<UUID>`, uma capacidade opaca de demonstração. O body não seleciona usuário. A autorização é verificada novamente após a latência. Capacidades já mescladas retornam 410.
+
+| Método / rota sob `/api` | Contrato |
+| --- | --- |
+| GET `/cart` | `Cart {ownerId, version, items: [{nftId, editionId, quantity}], coupon: string|null, notices: string[]}` |
+| PUT `/cart/items` | `{nftId, editionId, quantity, operation?: 'add'|'set'}`; `set` é padrão, `add` soma; retorna Cart. Quantidade inteira 1–10000; 422 para inválida, 404 edição ausente, 409 estoque insuficiente/esgotado |
+| DELETE `/cart/items/:nftId/:editionId` | Remove uma linha, retorna Cart; repetição mantém ausência |
+| PUT `/cart/coupon` | `{code}`; normaliza espaços/caixa. `KURIO10`: desconto de 10%. `EXPIRADO`: 422 `COUPON_EXPIRED`; demais: 422 `COUPON_INVALID`. Falha preserva cupom anterior |
+| DELETE `/cart/coupon` | Remove cupom, retorna Cart |
+| GET `/cart/quote` | Retorna Quote atual; sem reservar estoque ou criar pedido |
+| POST `/cart/quote/validate` | `{id}`; retorna Quote se ainda válida; 409 `QUOTE_STALE` se ID mudou, expirou ou há linhas indisponíveis. Contrato preparado para checkout, sem executar compra |
+
+`Nft.editions` contém `{id, label, available}[]`. A soma dos estoques das edições corresponde a `Nft.available`. Cada edição usa o preço atual do NFT; quantidade e estoque são específicos da edição. Fixtures repartem o estoque original entre `standard` (1/50), `limited` (1/10) e `unique` (1/1); edições esgotadas continuam selecionáveis para informar seu estado.
+
+`Quote` contém `id`, `version`, `ownerId`, `cartVersion`, `expiresAt`, `coupon`, `valid`, `lines`, `subtotalEth`, `discountEth`, `networkFeeEth` e `totalEth`. Cada linha contém IDs, quantidade, snapshot do NFT/edição, `unitPriceEth`, `totalEth` e `issue: string|null`. Valores são strings decimais com até 18 casas. Cálculos usam inteiros `BigInt` em wei; desconto percentual trunca frações de wei, uma única vez sobre o subtotal. Taxa simulada: `0.016` ETH para carrinho não vazio, zero para vazio. Total = subtotal − desconto + taxa. Linhas sem estoque permanecem no carrinho e no resumo de referência, com `valid:false` e aviso; não representam compra permitida.
+
+ID/versão são SHA-256 do proprietário, revisão do carrinho, versões/edições/quantidades dos NFTs, cupom, versão da política e janela de validade. Validade até o fim da janela UTC de cinco minutos (no máximo cinco minutos). Alterações de conteúdo ou expiração invalidam IDs anteriores. A UI renova no vencimento, a cada 30s, em foco e em eventos/reconexão; valores antigos ficam marcados como desatualizados durante renovação/falha. A futura criação de pedido deverá validar novamente e reservar estoque atomicamente.
+
+Login/cadastro recebem também `X-Guest-Cart`: após validar credenciais, o MSW soma linhas por NFT/edição ao carrinho da conta, limita ao estoque atual com aviso e mantém linhas esgotadas visíveis para correção. O cupom da conta tem precedência; senão, herda o do visitante. A capacidade visitante é consumida uma única vez. Refresh/novo login não repetem o merge. O cliente gera outra capacidade após autenticar, sair ou expirar; o carrinho da conta permanece associado ao usuário.
+
+`POST /api/__mock/cart/scenario` aceita `{failure?: 'none'|'network'|'server', delay?: number}` (0–9000ms; padrão none/150). Falhas ocorrem antes de alterar a fonte de dados; `server` retorna 503 e `network` simula falha de transporte. Cenário em sessionStorage sobrevive ao refresh; reset geral limpa carrinhos/cenários. UI: **Carrinho e cotação** oferece recuperação, falha, latência e timeout.
+
+O controle `POST /api/__mock/nfts/:id/update` também aceita `{priceEth?, editionId?, available?}`. Preço precisa ser decimal não negativo com até 18 casas; disponibilidade inteira não negativa. Atualiza fonte compartilhada e versão antes de emitir Socket.IO, sem chamar setters React. Sem body, mantém a alternância de preço e reduz a primeira edição com estoque.
+
 ## Evento `nft.updated`
 
 Servidor simulado → `socket.io-client` pelo WebSocket Socket.IO:
@@ -67,6 +93,7 @@ Servidor simulado → `socket.io-client` pelo WebSocket Socket.IO:
     "priceEth": "1.49",
     "available": 7,
     "version": 2,
+    "editions": [{"id":"standard","label":"1/50","available":5},{"id":"limited","label":"1/10","available":1},{"id":"unique","label":"1/1","available":1}],
     "description": "Um colecionável digital da coleção Kurio. Arte e identidade em um mundo digital sem fronteiras."
   }
 }

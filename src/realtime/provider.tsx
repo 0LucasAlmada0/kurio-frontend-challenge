@@ -4,6 +4,7 @@ import type { Nft, NftList } from '@/api/contracts'
 import { nftKeys } from '@/features/catalog/queries'
 import { createSocket } from './client'
 import { isNftUpdated } from './events'
+import { isCartQuery } from '@/features/cart/queries'
 
 const LiveContext = createContext({ connected: false, message: '', received: 0 })
 
@@ -18,6 +19,7 @@ export function LiveUpdatesProvider({ children }: { children: ReactNode }) {
     socket.on('connect', () => {
       setState((previous) => ({ ...previous, connected: true }))
       void queryClient.invalidateQueries({ queryKey: nftKeys.all })
+      void queryClient.invalidateQueries({ predicate: isCartQuery })
     })
     socket.on('disconnect', () => setState((previous) => ({ ...previous, connected: false })))
     socket.on('connect_error', () => setState((previous) => ({ ...previous, connected: false })))
@@ -32,7 +34,11 @@ export function LiveUpdatesProvider({ children }: { children: ReactNode }) {
       if (!active || versions.get(event.resourceId) !== event.version) return
       queryClient.setQueryData<Nft>(nftKeys.detail(event.resourceId), (previous) => previous && previous.version < event.version ? event.resource : previous)
       setState((previous) => ({ ...previous, received: previous.received + 1, message: `${event.resource.name}: ${event.resource.priceEth} ETH · ${event.resource.available} disponíveis (v${event.version})` }))
-      await queryClient.invalidateQueries({ queryKey: nftKeys.all })
+      await queryClient.cancelQueries({ predicate: isCartQuery })
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: nftKeys.all }),
+        queryClient.invalidateQueries({ predicate: isCartQuery }),
+      ])
     })
     socket.connect()
     return () => {
