@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import type { Nft } from '@/api/contracts'
 import { Icon } from './icon'
+import { FavoriteButton } from '@/features/favorites/favorite-button'
 
 export function NFTCard({ nft, index }: { nft: Nft; index: number }) {
   return (
@@ -13,7 +14,7 @@ export function NFTCard({ nft, index }: { nft: Nft; index: number }) {
         </div>
         <h3>{nft.name}</h3>
       </Link>
-      <button className="card-favorite" disabled aria-label={`Favoritar ${nft.name} · em breve`} title="Favoritos · em breve"><Icon name="heart" /></button>
+      <FavoriteButton nftId={nft.id} name={nft.name} className="card-favorite" />
       <div className="card-meta"><p className="price" data-testid="price">{nft.priceEth} ETH</p><span>{nft.available ? `${nft.available} disponíveis` : 'Esgotado'}</span></div>
     </article>
   )

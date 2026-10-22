@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1 e 1.5
+# Arquitetura · Etapas 1, 1.5 e 2
 
 ## Estrutura
 
@@ -7,6 +7,8 @@ src/
   app/                 bootstrap de rotas, shell e QueryClient
   api/                 Axios e contratos de transporte
   features/catalog/    consultas, query keys, catálogo e detalhe
+  features/auth/       sessão, ciclo de vida, validação e formulário compartilhado
+  features/favorites/  queries privadas, mutations otimistas, botões e lista protegida
   components/          card, loading, erro e primitives shadcn/ui
   realtime/            socket.io-client, validação e ciclo de vida
   mocks/               fixtures, armazenamento, rede e controles
@@ -41,7 +43,19 @@ Dados públicos usam `['public', 'nfts', ...]`, com parâmetros completos na cha
 
 O catálogo simulado persiste em `localStorage` sob `kurio:mocks:v1`; cenário de rede e conexões ficam em memória. Reset integral restaura as fixtures e o cenário e, pela UI, recarrega a página. Cada teste tem contexto de navegador/armazenamento próprio e executa o reset via HTTP interceptado por MSW. O store permanece em memória se armazenamento estiver indisponível.
 
-Fronteira futura privada: `privateKeys.user(userId)` separada das chaves públicas. Nenhum dado privado é carregado hoje. `order.updated` já tem contrato com userId/sessionId e não é assinado/aplicado nesta etapa. A implementação futura deverá ter conexão/subscriptions vinculadas à sessão, validar userId/sessionId antes de ler ou escrever cache e cancelar/remover queries privadas no logout/troca/expiração. A limpeza do provider público já libera listeners e desconecta o socket ao desmontar. Isolamento autenticado não é declarado pronto.
+A Etapa 2 usa `['private', userId, sessionId, 'favorites']`. Dados públicos continuam nas chaves anteriores. `order.updated` permanece somente como contrato reservado: não há listeners privados nesta etapa. O socket público permanece conectado nas mudanças de conta; seus listeners não capturam identidade privada.
+
+## Sessão e isolamento · Etapa 2
+
+`features/auth/session.ts` coordena a identidade recuperada por REST, token opaco persistido e um AbortController por ciclo de sessão. O React assina o estado com `useSyncExternalStore`; não contém fixtures ou respostas alternativas. Uma geração invalida recuperações/logins antigos. Logout, troca e expiração abortam as operações privadas, cancelam/removem queries privadas, removem suas mutations do cache e liberam o timer anterior. Requisições privadas capturam a sessão e verificam sua identidade antes e depois do Axios. Callbacks de mutations também verificam a sessão antes de alterar cache/feedback. Um token de A nunca é substituído silenciosamente pelo token de B em uma requisição em andamento.
+
+O token é recuperado no início; GET `/session` confirma usuário/validade. Timer local e respostas REST 401 encerram a sessão; foco revalida com a API. A rota `/favoritos` usa `beforeLoad` do Router e é invalidada nas transições. Login mantém o destino interno na URL, preservando busca/hash e recusando redirecionamento externo. Eventos `storage` sincronizam entrada/saída entre abas e são liberados ao desmontar o lifecycle. O store MSW relê o armazenamento na autorização, inclusive depois da espera simulada.
+
+Favoritos usam mutations TanStack Query com PUT/DELETE idempotentes, atualização otimista da associação do NFT e rollback apenas desse ID. Rollback de um item não substitui a lista inteira nem apaga mudanças de outros itens. Um bloqueio síncrono por sessão/NFT e `useIsMutating` impedem duplicatas entre botões. A lista só é revalidada quando as mutations locais dessa sessão terminam. Feedback da lista observa o cache de mutations da sessão, mantendo o erro visível mesmo se a remoção otimista desmontar o card. Nenhuma resposta de sessão anterior pode aplicar rollback ou recriar dados privados.
+
+MSW guarda usuários, salts/hashes, sessões revogáveis e favoritos por usuário em `kurio:mock-auth:v1`. A autorização aplica 401/403 na rede; a sessão é revalidada antes da leitura/escrita final para recusar operações que ficaram pendentes após logout. Há dois usuários determinísticos. [Web Crypto deriveBits](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/deriveBits) fornece PBKDF2/SHA-256, 600.000 iterações e 256 bits; cadastros recebem salt aleatório. Nenhuma senha é persistida em texto claro.
+
+O formulário único usa `<dialog>` nativo para foco modal/Escape, com apresentação sobre o catálogo/detalhe no desktop e tela inteira no mobile. Componentes públicos aceitam parâmetros de apresentação para mostrar o contexto de retorno atrás do modal, mantendo os mesmos hooks/contratos. Inputs têm labels, erros associados e estado pendente. Google/Facebook e recuperação de senha permanecem desativados. A lista de favoritos reutiliza NFTCard e consultas públicas por ID; não implementa perfil ou outros fluxos privados.
 
 ## Interface e acessibilidade
 
@@ -70,10 +84,12 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 - Sem auditorias Lighthouse executadas, deploy ou integração com backend real. Configurações iniciais estão prontas; pontuações e metas finais ainda precisam ser medidas.
 - A ferramenta Browser integrada falhou ao inicializar por erro de infraestrutura (`sandboxPolicy` ausente). Verificação executável e screenshots usam os testes Playwright do projeto.
 - Mock apenas do namespace padrão e eventos JSON de texto. Rooms, namespaces privados, binários, acknowledgements e polling não foram implementados nem validados. Não é servidor Socket.IO de produção.
-- Persistência do catálogo é consistente na página e no refresh; sincronização de múltiplas abas não foi implementada. Não há persistência de sessão ou dados privados.
-- Auth, fixtures de dois usuários, favoritos/otimismo com rollback, carrinho, cotações, checkout, pedidos idempotentes, perfil, carteiras e respectivos cenários permanecem para etapas autorizadas posteriores.
+- Persistência do catálogo é consistente na página e no refresh; sincronização de alterações públicas entre abas não foi implementada. Sessão e favoritos são persistidos, com logout compartilhado validado em duas abas. Escritas simultâneas entre abas não têm transações de backend.
+- A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
+- Expiração remota é detectada por REST/foco e pelo timer local; não há push privado ou listeners de pedidos. Encerrar a página durante um cadastro pode deixar uma conta criada na simulação, mesmo se a resposta não chegou ao cliente; novo cadastro retorna conflito e permite login.
+- Carrinho, cotações, checkout, pedidos idempotentes, perfil, carteiras e respectivos cenários permanecem para etapas autorizadas posteriores.
 - Filtros combinados e controles mais completos, regressões visuais das telas futuras, metadados específicos de cada rota e auditoria de acessibilidade final permanecem pendentes.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
 
-Próxima etapa sugerida: autenticação simulada e fronteira de sessão com dois usuários, favoritos com rollback, expansão controlada dos filtros e revisão dos tokens no Figma. Carrinho/checkout dependem de autorização posterior.
+Próxima etapa depende de autorização. Carrinho, checkout e pedidos não foram implementados. Não foram criados commits automaticamente.

@@ -3,9 +3,11 @@ import { ethToWei } from '@/lib/eth'
 import { store } from './store'
 import { disconnectClients, emitNftUpdated, socketHandler } from './socket'
 import { getScenario, latency, setScenario } from './scenarios'
+import { authHandlers, resetAuthMocks } from './auth-handlers'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 export const handlers = [
+  ...authHandlers,
   http.get(`${base}/nfts`, async ({ request }) => {
     const params = new URL(request.url).searchParams
     const q = params.get('q')?.trim().toLowerCase() || ''
@@ -32,6 +34,7 @@ export const handlers = [
   }),
   http.post(`${base}/__mock/reset`, () => {
     store.reset()
+    resetAuthMocks()
     setScenario('success')
     return HttpResponse.json({ ok: true })
   }),

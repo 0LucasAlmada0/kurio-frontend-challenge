@@ -5,12 +5,16 @@ import { nftKeys } from '@/features/catalog/queries'
 import { useLiveUpdates } from '@/realtime/provider'
 import { Button } from '@/components/ui/button'
 import { scenarioNames } from './scenarios'
+import { auth } from '@/features/auth/session'
+import { getAuthScenario } from './auth-scenarios'
 
 export default function MockControls() {
   const queryClient = useQueryClient()
   const { connected } = useLiveUpdates()
   const [pending, setPending] = useState(false)
   const [error, setError] = useState('')
+  const authScenario = getAuthScenario()
+  const selectedAuthScenario = authScenario.authFailure ? 'auth-error' : authScenario.favoritesFailure ? 'favorite-error' : authScenario.privateDelay > 120 ? 'private-slow' : authScenario.mutationDelay > 350 ? 'mutation-slow' : 'success'
 
   async function run(action: () => Promise<unknown>) {
     setPending(true)
@@ -21,7 +25,9 @@ export default function MockControls() {
 
   return <details className="mock-controls"><summary>Cenários de demonstração</summary><p>Ambiente simulado. A alteração abaixo é emitida via Socket.IO.</p><div className="mock-actions">
     <Button disabled={!connected || pending} onClick={() => { void run(() => http.post('/__mock/nfts/emerald-ape-042/update')) }}>Alterar Emerald Ape</Button>
-    <Button variant="outline" disabled={pending} onClick={() => { void run(async () => { await http.post('/__mock/reset'); window.location.reload() }) }}>Restaurar cenário</Button>
+    <Button variant="outline" disabled={pending} onClick={() => { void run(async () => { await http.post('/__mock/reset'); await auth.logout(); window.location.reload() }) }}>Restaurar cenário</Button>
+    <Button variant="outline" disabled={pending} onClick={() => { void run(async () => { await http.post('/__mock/auth/expire'); await auth.restore() }) }}>Expirar sessão</Button>
+    <label htmlFor="auth-scenario">Sessão e favoritos</label><select id="auth-scenario" defaultValue={selectedAuthScenario} disabled={pending} onChange={(event) => { const scenario = event.target.value; void run(() => http.post('/__mock/auth/scenario', { authFailure: scenario === 'auth-error', favoritesFailure: scenario === 'favorite-error', privateDelay: scenario === 'private-slow' ? 3_000 : 120, mutationDelay: scenario === 'favorite-error' || scenario === 'mutation-slow' ? 2_000 : 350 })) }}><option value="success">success</option><option value="auth-error">auth-error</option><option value="favorite-error">favorite-error</option><option value="private-slow">private-slow</option><option value="mutation-slow">mutation-slow</option></select>
     <label htmlFor="scenario">Resposta da API</label><select id="scenario" defaultValue="success" disabled={pending} onChange={(event) => { const scenario = event.target.value; void run(async () => { await http.post('/__mock/scenario', { scenario }); await queryClient.cancelQueries({ queryKey: nftKeys.all }); await queryClient.invalidateQueries({ queryKey: nftKeys.all }) }) }}>{scenarioNames.map((name) => <option key={name}>{name}</option>)}</select>
   </div>{error && <p role="alert">{error}</p>}</details>
 }

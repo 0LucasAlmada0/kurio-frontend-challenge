@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getRouteApi, useRouterState } from '@tanstack/react-router'
+import { useNavigate, useRouterState, useSearch } from '@tanstack/react-router'
+import type { CatalogSearch } from '@/api/contracts'
 import { catalogOptions } from './queries'
 import { NFTCard } from '@/components/nft-card'
 import { CatalogLoading } from '@/components/loading'
@@ -10,17 +11,16 @@ import { Input } from '@/components/ui/input'
 import { Icon } from '@/components/icon'
 import { CatalogFilters } from '@/components/filter-group'
 
-const route = getRouteApi('/')
-
 function SearchForm({ query, submit }: { query: string; submit: (q: string) => void }) {
   const [value, setValue] = useState(query)
   function onSubmit(event: FormEvent) { event.preventDefault(); submit(value.trim()) }
   return <form onSubmit={onSubmit} className="search-form" role="search"><label htmlFor="search" className="sr-only">Buscar NFTs</label><Icon name="search" /><Input id="search" type="search" placeholder="Explorar coleções" value={value} onChange={(event) => setValue(event.target.value)} /><Button type="submit" variant="outline">Buscar</Button></form>
 }
 
-export function CatalogPage() {
-  const search = route.useSearch()
-  const navigate = route.useNavigate()
+export function CatalogPage({ backgroundSearch }: { backgroundSearch?: CatalogSearch } = {}) {
+  const params = useSearch({ strict: false })
+  const search: CatalogSearch = backgroundSearch ?? { q: params.q ?? '', page: params.page ?? 1, sort: params.sort ?? 'name' }
+  const navigate = useNavigate({ from: '/' })
   const result = useQuery(catalogOptions(search))
   const data = result.data
   const showSearch = useRouterState({ select: (state) => state.location.hash === 'search' })

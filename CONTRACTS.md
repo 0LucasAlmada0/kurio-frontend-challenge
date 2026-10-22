@@ -1,4 +1,4 @@
-# Contratos iniciais
+# Contratos · Etapas 1 e 2
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
@@ -15,7 +15,37 @@ Preço nunca deve ser convertido a Number para cálculo. Ordenação usa wei/Big
 
 Busca ignora maiúsculas e consulta nome/coleção; sort é estável por ID no empate de preços. Página além da última retorna lista vazia mantendo `total`. Router normaliza busca inválida para string vazia, página 1 e ordenação `name`; a UI limita busca a 120 caracteres. Mudança de busca/ordenação reinicia página. AbortSignal cancela chamadas obsoletas.
 
-Erros: `{ code: string, message: string }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Demais recursos privados, validação, conflitos e idempotência serão especificados quando implementados.
+Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão/favoritos abaixo; demais recursos e idempotência de pedidos permanecem pendentes.
+
+## Autenticação e favoritos
+
+`User = {id, name, email}`. `Session = {id, token, user: User, expiresAt}`; `expiresAt` é ISO 8601, 30 minutos após criação. Token e ID são UUIDs novos a cada login/cadastro. Somente o token é persistido pelo cliente; a identidade é recuperada via REST. `Favorites = {userId, sessionId, nftIds: string[]}`.
+
+| Método / rota | Entrada | Resultado |
+| --- | --- | --- |
+| POST `/api/users` | `{name,email,password,confirmPassword}` | 201 + Session; 422 por validação, 409 por e-mail existente |
+| POST `/api/session` | `{email,password}` | 200 + Session; 401 por credenciais inválidas, 422 por formato |
+| GET `/api/session` | Bearer token | Session ou 401 por token ausente, revogado ou expirado |
+| DELETE `/api/session` | Bearer token anterior | 204; revoga exclusivamente esse token, operação idempotente |
+| GET `/api/users/:userId/favorites` | Bearer token | Favorites; 401 sem sessão válida, 403 se o ID não pertence à sessão |
+| PUT `/api/users/:userId/favorites/:nftId` | Bearer token, sem body | Favorites; inclusão idempotente |
+| DELETE `/api/users/:userId/favorites/:nftId` | Bearer token, sem body | Favorites; remoção idempotente |
+
+Favoritos também retornam 404 para NFT inexistente e 503 no cenário de recusa. O MSW valida a sessão e o usuário na entrada e revalida a sessão depois da latência, antes de ler/gravar. Um token revogado durante a espera não autoriza a operação. IDs de usuário arbitrários na URL não concedem acesso. Login/cadastro com um Bearer anterior o revoga ao criar a nova sessão.
+
+Validação compartilhada por formulário e handler: nome com 2–60 caracteres, e-mail válido com até 254 caracteres, senha de cadastro com 8–128 caracteres e confirmação igual. Login exige senha não vazia com até 128 caracteres. E-mail é normalizado para minúsculas sem espaços nas extremidades. Erros de campos vêm em `fields` e são associados aos inputs. Senhas são derivadas com PBKDF2/SHA-256, salt por usuário e 600.000 iterações; o mock persiste apenas salt/hash. Não há autenticação social ou recuperação de senha simulada.
+
+Rotas UI: `/login` e `/cadastro`, com `redirect` interno normalizado e `reason=expired` opcional; `/favoritos` exige sessão. Redirecionamentos externos e ciclos para as rotas de auth são rejeitados. O login retorna à rota solicitada, incluindo busca/hash. Favoritar como visitante abre login, sem realizar a mutation até um novo clique autenticado.
+
+### Controles de sessão/favoritos
+
+| POST sob `/api/__mock/auth` | Body / comportamento |
+| --- | --- |
+| `/scenario` | Campos opcionais `{authFailure, favoritesFailure, privateDelay, mutationDelay}`; booleanos e latências de 0 a 6000ms. Padrão: false/false/120/350 |
+| `/expire` | Expira todas as sessões da simulação; próxima consulta REST as rejeita |
+| `/idle` | Aguarda latências privadas já em andamento; barreira determinística para testes de logout com operações pendentes |
+
+Os cenários de auth ficam em `sessionStorage` e sobrevivem ao refresh da aba, até reset. O reset geral restaura usuários originais, remove contas cadastradas, sessões e favoritos e restaura os cenários. A UI oferece `auth-error`, `favorite-error`, `private-slow` e `mutation-slow` em **Sessão e favoritos**, além de **Expirar sessão**.
 
 ## Evento `nft.updated`
 

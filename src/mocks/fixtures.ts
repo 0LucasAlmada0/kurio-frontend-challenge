@@ -1,5 +1,10 @@
 import type { Nft } from '@/api/contracts'
 
+export const userFixtures = [
+  { id: 'user-ana', name: 'Ana', email: 'ana@kurio.test', salt: 'kurio-demo-ana-v1', passwordHash: '052c6dcf18ec2b541cd06fe6d8776b129074c76230e1d4042cd4b94208361aa9' },
+  { id: 'user-bruno', name: 'Bruno', email: 'bruno@kurio.test', salt: 'kurio-demo-bruno-v1', passwordHash: '8d1e28ac530247a7f315ad93bbe1cf04b17cb51b776443b92e3f9a27f39e047e' },
+]
+
 const originals = [
   { id: 'emerald-ape-042', name: 'Emerald Ape #042', image: 'emerald-ape.png', priceEth: '1.19', rarity: 'raro', available: 8 },
   { id: 'violet-nomad-314', name: 'Violet Nomad #314', image: 'violet-nomad.png', priceEth: '1.39', rarity: 'comum', available: 15 },

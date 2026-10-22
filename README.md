@@ -1,6 +1,6 @@
-# Kurio · Etapas 1 e 1.5
+# Kurio · Etapas 1, 1.5 e 2
 
-Fundação executável do marketplace com alinhamento visual de início e detalhe às referências locais, REST simulado e atualização por Socket.IO. Não inclui autenticação, carrinho, checkout nem as demais telas. Os espaços dessas ações são explicitamente inativos.
+Marketplace com catálogo/detalhe, autenticação simulada, sessão persistida, isolamento por usuário e favoritos otimistas com rollback. REST é interceptado por MSW e preços são atualizados via Socket.IO. Carrinho, checkout, pedidos e demais telas permanecem fora desta etapa.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
 
@@ -94,3 +94,42 @@ Validação final: `npm run typecheck`, `npm run lint` e `npm run build:demo` ap
 | 1440px | [Captura](tests/e2e/foundation.spec.ts-snapshots/catalog-desktop-win32.png) | [Captura](tests/e2e/foundation.spec.ts-snapshots/detail-desktop-win32.png) |
 
 Diferenças remanescentes: início desktop isolado ausente (comparação feita com o fundo do modal); fonte exata desconhecida; dados/ordenação da API diferentes dos exemplos visuais; somente uma vista por NFT; avaliações/atributos sem contrato não inventados; footer e conteúdo inferior mantidos dentro do escopo. A comparação detalhada está em [ARCHITECTURE.md](./ARCHITECTURE.md#comparação-visual-e-diferenças-remanescentes). Sem commits automáticos e sem avanço à Etapa 2.
+
+## Etapa 2 · Sessão e favoritos
+
+Credenciais fictícias determinísticas (não use credenciais reais):
+
+| Usuário | E-mail | Senha de demonstração |
+| --- | --- | --- |
+| Ana | `ana@kurio.test` | `KurioDemo!123` |
+| Bruno | `bruno@kurio.test` | `KurioDemo!123` |
+
+1. Abra **Entrar** no desktop ou o ícone de conta no mobile. **Criar conta/Crie uma conta** abre cadastro. Desktop usa modal sobre início/detalhe; mobile usa tela inteira. Social e recuperação de senha são explicitamente indisponíveis.
+2. Entre como Ana, clique no coração de um card e abra **Seus favoritos**. O clique muda o estado otimisticamente; a API confirma. Recarregue para validar sessão e favoritos persistidos. No mobile, **Sair** fica no menu do ícone de conta; no desktop fica no header.
+3. Saia e entre como Bruno: seus favoritos começam vazios. Volte à conta Ana e confira que os favoritos continuam associados a ela. `/favoritos` exige login e retorna a essa rota depois da autenticação.
+4. Em **Cenários de demonstração → Sessão e favoritos**, `favorite-error` recusa mutations com 503 após 2s: o coração muda imediatamente e depois faz rollback com mensagem. `success` permite nova tentativa. A exclusão na lista privada também restaura o card e mostra o erro.
+5. `private-slow` aplica 3s à consulta privada; `mutation-slow` aplica 2s à alteração. Faça logout durante a operação para observar cancelamento/isolamento. A suíte realiza a troca por navegação SPA, sem recarregar para esconder caches antigos.
+6. **Expirar sessão** invalida a sessão no mock e reconsulta REST; o login reaparece com o destino preservado. `auth-error` produz falha 503 recuperável no login/cadastro/recuperação de sessão. Esses cenários persistem em `sessionStorage` durante refresh da aba; `success` ou **Restaurar cenário** os remove.
+7. O reset geral restaura as duas contas originais, apaga contas criadas e favoritos e revoga sessões. O botão também faz logout local e recarrega. Não há commits automáticos, carrinho, checkout ou pedidos.
+
+O cliente persiste somente um token de demonstração e confirma a identidade em GET `/session`. Senhas nunca são persistidas em texto claro; o MSW guarda salt/hash PBKDF2. A sessão expira após 30 minutos, é revalidada ao foco e é revogada ao sair. Logout em outra aba também encerra o acesso privado. Contratos, cache, cancelamento e limitações estão em [CONTRACTS.md](./CONTRACTS.md) e [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+Esta autenticação é uma simulação local: o armazenamento e o Bearer token são inspecionáveis no navegador. Não substitui autenticação de produção com backend/cookie seguro. Escritas simultâneas entre abas não têm transações. A detecção de expiração remota depende de REST/foco/timer; não há eventos privados nesta etapa.
+
+Arquivos principais: `features/auth/{session,lifecycle,page,validation}`, `features/favorites/{queries,use-favorite,favorite-button,page}`, `mocks/{auth-store,auth-handlers,auth-scenarios}`, router/shell, integrações de favoritos nos cards/galeria/detalhe e `tests/e2e/auth.spec.ts`. Sem novas dependências. Capturas de login/cadastro em `tests/e2e/auth.spec.ts-snapshots/`, nos três viewports; início/detalhe continuam em `foundation.spec.ts-snapshots/`.
+
+### Validação da Etapa 2
+
+| Comando | Resultado |
+| --- | --- |
+| `npm run typecheck` | Aprovado, strict |
+| `npm run lint` | Aprovado |
+| `npm run build:demo` | Aprovado, MSW incluído no build |
+| `npm run test:e2e -- --update-snapshots` | 39 aprovados em 2,0min; baselines revisadas |
+| `$env:E2E_PREVIEW='true'; npm run test:e2e` | 39 aprovados em 1,6min no build otimizado, sem atualizar baselines |
+| `$env:E2E_PREVIEW='true'; npm run test:e2e -- auth.spec.ts --grep favoritar/desfavoritar` | 3 aprovados em 12,2s após ajuste final da posição do erro na galeria; erro confirmado dentro do viewport |
+| `git diff --check` | Aprovado |
+
+São 27 execuções novas de auth/favoritos e 12 da regressão existente, em 390/768/1440px. Cobrem cadastro/validação/conflito, login incorreto e falha 503 recuperável, retorno ao detalhe, persistência, logout/401, autorização 403 entre contas, troca de usuários sem refresh, consulta cancelada, mutation atrasada com barreira de conclusão, rollback de inclusão/remoção no catálogo/detalhe/lista, duplo clique com somente uma requisição, expiração e logout entre abas. A regressão mantém catálogo, REST/MSW, busca/paginação/histórico, reduced motion, eventos Socket.IO reais, versões antigas e reconexão.
+
+O relatório completo foi preservado em [playwright-report/index.html](playwright-report/index.html). A verificação final de detalhe usou `PLAYWRIGHT_HTML_OUTPUT_DIR=playwright-report/detail` e `--output=test-results/detail`, com relatório em [playwright-report/detail/index.html](playwright-report/detail/index.html). Os testes não manipulam cache/hooks para simular sucesso. Nenhum teste foi desabilitado.

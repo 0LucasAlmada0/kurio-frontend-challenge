@@ -1,0 +1,258 @@
+import { expect, test, type Page } from '@playwright/test'
+
+const password = 'KurioDemo!123'
+const nftId = 'emerald-ape-042'
+
+async function control(page: Page, path: string, body: unknown = {}) {
+  return page.evaluate(async ({ path, body }) => {
+    const response = await fetch(`/api/__mock/${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    if (!response.ok) throw new Error(`Mock control: ${response.status}`)
+    return response.json() as Promise<unknown>
+  }, { path, body })
+}
+async function login(page: Page, user: 'ana' | 'bruno', target = '/') {
+  const dialog = page.getByRole('dialog')
+  if (!await dialog.isVisible()) {
+    if (target === '/favoritos') await page.getByRole('link', { name: 'Seus favoritos', exact: true }).filter({ visible: true }).click()
+    else await page.getByRole('button', { name: 'Entrar', exact: true }).filter({ visible: true }).click()
+  }
+  await dialog.getByLabel('E-mail', { exact: true }).fill(`${user}@kurio.test`)
+  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(dialog).not.toBeVisible()
+}
+async function home(page: Page) {
+  const back = page.getByRole('link', { name: 'Voltar ao mercado', exact: true })
+  if (await back.isVisible()) await back.click()
+  else await page.getByRole('link', { name: 'Início', exact: true }).filter({ visible: true }).click()
+}
+async function logout(page: Page) {
+  const account = page.getByRole('button', { name: /^Conta de / })
+  if ((page.viewportSize()?.width ?? 1440) <= 600) await account.click()
+  await page.getByRole('button', { name: 'Sair', exact: true }).click()
+}
+async function privateRead(page: Page, userId: string) {
+  return page.evaluate(async (userId) => {
+    const token = localStorage.getItem('kurio:session-token')
+    const response = await fetch(`/api/users/${userId}/favorites`, { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+    return { status: response.status, body: await response.json() as { nftIds?: string[]; userId?: string } }
+  }, userId)
+}
+function favorite(page: Page, id = nftId) { return page.getByTestId(`nft-${id}`).getByRole('button', { name: /favoritar /i }) }
+function favoriteResponse(page: Page) {
+  return page.waitForResponse((response) => response.url().endsWith(`/favorites/${nftId}`) && ['PUT', 'DELETE'].includes(response.request().method()))
+}
+async function toggleAndWait(page: Page) {
+  const response = favoriteResponse(page)
+  await favorite(page).click()
+  expect((await response).status()).toBe(200)
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByTestId('socket-status')).toHaveText('● Ao vivo')
+  await control(page, 'reset')
+  await page.reload()
+  await expect(page.getByTestId('socket-status')).toHaveText('● Ao vivo')
+})
+
+test('cadastro validado, conflito REST e login com retorno à rota original', async ({ page }) => {
+  await page.goto(`/login?redirect=${encodeURIComponent(`/nfts/${nftId}`)}`)
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByLabel('E-mail', { exact: true })).toBeFocused()
+  await expect(dialog.getByRole('button', { name: 'Continuar com Google' })).toBeDisabled()
+  await expect(page).toHaveScreenshot('login.png')
+  await dialog.getByRole('link', { name: /^(Criar conta|Crie uma conta)$/ }).click()
+  await expect(page).toHaveScreenshot('register.png')
+  await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+  await expect(dialog.getByText('Informe um e-mail válido.')).toBeVisible()
+  await dialog.getByLabel('Nome de usuário').fill('Colecionador')
+  await dialog.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  await dialog.getByLabel('Confirmar senha').fill('diferente')
+  await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+  await expect(dialog.getByText('As senhas não coincidem.')).toBeVisible()
+  await dialog.getByLabel('Confirmar senha').fill(password)
+  await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+  await expect(dialog.getByRole('alert')).toContainText('já está cadastrado')
+  await dialog.getByLabel('E-mail', { exact: true }).fill('novo@kurio.test')
+  await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+  await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
+  await expect(page.getByTestId(`detail-${nftId}`)).toBeVisible()
+  await home(page)
+  await logout(page)
+  await page.goto(`/login?redirect=${encodeURIComponent(`/nfts/${nftId}`)}`)
+  await dialog.getByLabel('E-mail', { exact: true }).fill('novo@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill('senha-errada')
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(dialog.getByRole('alert')).toContainText('E-mail ou senha incorretos')
+  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
+})
+
+test('sessão persiste no refresh; logout revoga acesso e protege favoritos', async ({ page }) => {
+  await login(page, 'ana', '/favoritos')
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Ana')
+  await page.reload()
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Ana')
+  const token = await page.evaluate(() => localStorage.getItem('kurio:session-token'))
+  await page.goto('/')
+  await logout(page)
+  const revoked = await page.evaluate(async (token) => (await fetch('/api/users/user-ana/favorites', { headers: { Authorization: `Bearer ${token}` } })).status, token)
+  expect(revoked).toBe(401)
+  await page.goto('/favoritos')
+  await expect(page).toHaveURL(/\/login\?/)
+  await expect(page.getByRole('dialog')).toBeVisible()
+  expect((await privateRead(page, 'user-ana')).status).toBe(401)
+  expect(await page.evaluate(() => JSON.stringify(localStorage))).not.toContain(password)
+})
+
+test('favoritar/desfavoritar persiste e sincroniza card, detalhe e lista privada', async ({ page }) => {
+  await login(page, 'ana')
+  await expect(favorite(page)).toBeEnabled()
+  await toggleAndWait(page)
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  await expect(favorite(page)).toBeEnabled()
+  expect((await privateRead(page, 'user-ana')).body.nftIds).toEqual([nftId])
+  await page.reload()
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  await page.getByTestId(`nft-${nftId}`).getByRole('link').click()
+  const detailButton = page.getByTestId(`detail-${nftId}`).getByRole('button', { name: /favoritar Emerald Ape #042$/i }).filter({ visible: true })
+  await expect(detailButton).toHaveAttribute('aria-pressed', 'true')
+  await control(page, 'auth/scenario', { favoritesFailure: true, mutationDelay: 1_000 })
+  const refusal = favoriteResponse(page)
+  await detailButton.click()
+  await expect(detailButton).toHaveAttribute('aria-pressed', 'false')
+  expect((await refusal).status()).toBe(503)
+  await expect(page.getByTestId(`detail-${nftId}`).getByRole('alert')).toBeInViewport()
+  await expect(detailButton).toHaveAttribute('aria-pressed', 'true')
+  await control(page, 'auth/scenario', { favoritesFailure: false, mutationDelay: 120 })
+  const removal = favoriteResponse(page)
+  await detailButton.click()
+  await expect(detailButton).toHaveAttribute('aria-pressed', 'false')
+  await expect(detailButton).toBeEnabled()
+  expect((await removal).status()).toBe(200)
+  await page.goto('/favoritos')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+})
+
+test('troca de usuário e autorização MSW impedem vazamento de favoritos', async ({ page }) => {
+  await login(page, 'ana')
+  await expect(favorite(page)).toBeEnabled()
+  await toggleAndWait(page)
+  await expect(favorite(page)).toBeEnabled()
+  await logout(page)
+  await login(page, 'bruno', '/favoritos')
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Bruno')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+  expect((await privateRead(page, 'user-ana')).status).toBe(403)
+  expect((await privateRead(page, 'user-bruno')).body.nftIds).toEqual([])
+  await home(page)
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'false')
+  await logout(page)
+  await login(page, 'ana', '/favoritos')
+  await expect(page.getByTestId(`nft-${nftId}`)).toBeVisible()
+})
+
+test('consulta privada atrasada é cancelada ao sair e não afeta a próxima sessão', async ({ page }) => {
+  await login(page, 'ana')
+  await expect(favorite(page)).toBeEnabled()
+  await toggleAndWait(page)
+  await expect(favorite(page)).toBeEnabled()
+  await control(page, 'auth/scenario', { privateDelay: 3_000 })
+  const request = page.waitForRequest((request) => request.url().endsWith('/users/user-ana/favorites'))
+  await page.reload()
+  await request
+  const aborted = page.waitForEvent('requestfailed', { predicate: (request) => request.url().endsWith('/users/user-ana/favorites') })
+  await logout(page)
+  await aborted
+  await login(page, 'bruno', '/favoritos')
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Bruno')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+  await page.reload()
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Bruno')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+})
+
+test('mutation atrasada após logout não grava favoritos nem restaura dados antigos', async ({ page }) => {
+  await login(page, 'ana')
+  await expect(favorite(page)).toBeEnabled()
+  await control(page, 'auth/scenario', { mutationDelay: 3_000 })
+  const request = page.waitForRequest((request) => request.method() === 'PUT' && request.url().includes('/favorites/'))
+  await favorite(page).click()
+  await request
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  await expect(favorite(page)).toBeDisabled()
+  await logout(page)
+  await login(page, 'bruno', '/favoritos')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+  await control(page, 'auth/idle')
+  await home(page)
+  await logout(page)
+  await login(page, 'ana', '/favoritos')
+  await expect(page.getByText('Você ainda não tem favoritos.')).toBeVisible()
+})
+
+test('otimismo e rollback na inclusão e remoção; bloqueio de duplicatas', async ({ page }) => {
+  await login(page, 'ana')
+  await expect(favorite(page)).toBeEnabled()
+  await control(page, 'auth/scenario', { favoritesFailure: true, mutationDelay: 1_500 })
+  let calls = 0
+  page.on('request', (request) => { if (request.method() === 'PUT' && request.url().endsWith(`/favorites/${nftId}`)) calls += 1 })
+  await favorite(page).dblclick()
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  await expect(favorite(page)).toBeDisabled()
+  await expect(page.getByTestId(`nft-${nftId}`).getByRole('alert')).toContainText('Não foi possível alterar')
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'false')
+  expect(calls).toBe(1)
+  expect((await privateRead(page, 'user-ana')).body.nftIds).toEqual([])
+  await control(page, 'auth/scenario', { favoritesFailure: false, mutationDelay: 120 })
+  await toggleAndWait(page)
+  await expect(favorite(page)).toBeEnabled()
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  await control(page, 'auth/scenario', { favoritesFailure: true, mutationDelay: 1_500 })
+  await favorite(page).click()
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.getByTestId(`nft-${nftId}`).getByRole('alert')).toBeVisible()
+  await expect(favorite(page)).toHaveAttribute('aria-pressed', 'true')
+  expect((await privateRead(page, 'user-ana')).body.nftIds).toEqual([nftId])
+  await page.getByRole('link', { name: 'Seus favoritos', exact: true }).filter({ visible: true }).click()
+  await favorite(page).click()
+  await expect(page.getByTestId(`nft-${nftId}`)).not.toBeVisible()
+  await expect(page.getByTestId(`nft-${nftId}`)).toBeVisible()
+  await expect(page.getByRole('alert')).toContainText('Não foi possível alterar')
+})
+
+test('falha de login recuperável, expiração REST e retorno privado após novo login', async ({ page }) => {
+  await control(page, 'auth/scenario', { authFailure: true })
+  await page.goto('/login?redirect=%2Ffavoritos')
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(dialog.getByRole('alert')).toContainText('indisponível')
+  await control(page, 'auth/scenario', { authFailure: false })
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page.getByTestId('favorites-owner')).toHaveText('Coleção de Ana')
+  await control(page, 'auth/expire')
+  await page.reload()
+  await expect(page).toHaveURL(/\/login\?/)
+  await expect(dialog.getByRole('status')).toContainText('Sua sessão expirou')
+  expect((await privateRead(page, 'user-ana')).status).toBe(401)
+  await dialog.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill(password)
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL(/\/favoritos$/)
+})
+
+test('logout em outra aba remove o acesso privado da sessão compartilhada', async ({ page, context }) => {
+  await login(page, 'ana')
+  const other = await context.newPage()
+  await other.goto('/favoritos')
+  await expect(other.getByTestId('favorites-owner')).toHaveText('Coleção de Ana')
+  await logout(page)
+  await expect(other).toHaveURL(/\/login\?/)
+  expect((await privateRead(other, 'user-ana')).status).toBe(401)
+  await other.close()
+})

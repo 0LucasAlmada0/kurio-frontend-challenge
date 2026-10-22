@@ -1,8 +1,12 @@
-import { createRootRoute, createRoute, createRouter, Link } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter, Link, redirect } from '@tanstack/react-router'
 import type { CatalogSearch } from '@/api/contracts'
 import { CatalogPage } from '@/features/catalog/page'
 import { NftDetailPage } from '@/features/catalog/detail-page'
 import { Shell } from './shell'
+import { AuthPage } from '@/features/auth/page'
+import { auth } from '@/features/auth/session'
+import { safeReturnTo } from '@/features/auth/validation'
+import { FavoritesPage } from '@/features/favorites/page'
 
 const rootRoute = createRootRoute({
   component: Shell,
@@ -22,7 +26,21 @@ const catalogRoute = createRoute({
 
 const detailRoute = createRoute({ getParentRoute: () => rootRoute, path: '/nfts/$nftId', component: NftDetailPage })
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute]), defaultPreload: 'intent' })
+const authSearch = (search: Record<string, unknown>) => ({ redirect: safeReturnTo(search.redirect), reason: search.reason === 'expired' ? 'expired' : '' })
+const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', validateSearch: authSearch, component: () => <AuthPage key="login" /> })
+const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/cadastro', validateSearch: authSearch, component: () => <AuthPage key="register" /> })
+const favoritesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/favoritos',
+  beforeLoad: async ({ location }) => {
+    await auth.ready()
+    const state = auth.getSnapshot()
+    if (state.status === 'anonymous') throw redirect({ to: '/login', search: { redirect: location.href, reason: state.reason ?? '' }, replace: true })
+  },
+  component: FavoritesPage,
+})
+
+export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute]), defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }

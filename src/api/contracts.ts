@@ -30,7 +30,14 @@ export interface NftList {
 export interface ApiError {
   code: string
   message: string
+  fields?: Record<string, string>
 }
+
+export interface User { id: string; name: string; email: string }
+export interface Session { id: string; token: string; user: User; expiresAt: string }
+export interface LoginInput { email: string; password: string }
+export interface RegisterInput extends LoginInput { name: string; confirmPassword: string }
+export interface Favorites { userId: string; sessionId: string; nftIds: string[] }
 
 export interface NftUpdated {
   eventId: string

@@ -23,6 +23,7 @@
   --price: #f0a057;
   --primary-bright: #ffb06a;
   --skeleton-sheen: #d68d4914;
+  --auth-overlay: rgb(0 0 0 / .08);
 }
 
 @theme inline {
@@ -63,6 +64,43 @@ img { display: block; max-width: 100%; }
 .icon-button:disabled { opacity: .55; }
 .header-actions .login-button { height: 36px; padding: 0 12px; }
 .login-button svg { width: 18px; height: 18px; }
+.account-actions, .account-actions > a { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.account-actions > a span { max-width: 90px; overflow: hidden; text-overflow: ellipsis; }
+.account-actions button { color: var(--primary); }
+.account-actions svg { width: 18px; height: 18px; }
+.favorite-button[aria-pressed="true"] svg { fill: currentColor; }
+.card-favorite[aria-pressed="true"] { opacity: 1; }
+.card-favorite:disabled { pointer-events: auto; }
+.favorite-error { position: absolute; z-index: 3; left: 0; right: 0; top: 100%; padding: 8px; color: var(--foreground); background: var(--secondary); border: 1px solid var(--primary); border-radius: var(--radius); font-size: 12px; font-weight: 400; line-height: 1.5; }
+.purchase-buttons { position: relative; }
+.favorites-page { padding-top: 28px; }
+.favorites-page > h1 { font-size: 26px; font-weight: 700; }
+.favorites-owner { color: var(--muted-foreground); margin: 8px 0 28px; }
+.session-error { padding: 12px; margin-bottom: 12px; color: var(--muted-foreground); }
+.auth-dialog { position: fixed; width: 500px; max-width: calc(100% - 40px); max-height: calc(100dvh - 80px); margin: 10vh auto 0; padding: 44px 70px 50px; border: 0; border-bottom: 10px solid var(--primary); border-radius: 6px; background: var(--secondary); color: var(--foreground); overflow-y: auto; }
+.auth-dialog::backdrop { background: var(--auth-overlay); }
+.auth-close { position: absolute; right: 15px; top: 8px; color: var(--primary); font-size: 26px; line-height: 1; }
+.auth-tabs { display: flex; justify-content: center; gap: 8px; font-size: 20px; font-weight: 700; }
+.auth-tabs > span, .auth-tabs .selected { color: var(--primary); }
+.auth-dialog h1 { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.auth-intro { margin: 32px -20px 24px; text-align: center; font-size: 13px; line-height: 1.4; }
+.auth-dialog form { display: flex; flex-direction: column; gap: 12px; }
+.auth-dialog input { height: 40px; border-color: var(--input); background: transparent; font-size: 14px; padding-inline: 14px; }
+.auth-dialog input[aria-invalid="true"] { border-color: var(--primary); }
+.field-error, .auth-error, .auth-expired { color: var(--primary-bright); font-size: 12px; line-height: 1.4; margin-top: 4px; }
+.auth-expired { margin-bottom: 20px; }
+.password-field { position: relative; }
+.password-field input { padding-right: 40px; }
+.password-field > button { position: absolute; top: 6px; right: 12px; color: var(--muted-foreground); font-size: 23px; line-height: 1; }
+.password-field > button svg { width: 20px; height: 20px; }
+.forgot-password { align-self: end; color: var(--primary); font-size: 12px; opacity: .5; }
+.auth-submit { width: 100%; margin-top: 16px; font-size: 16px; height: 44px; }
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 28px -70px 18px; font-size: 12px; text-align: center; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.social-actions { display: flex; flex-direction: column; gap: 12px; }
+.social-actions button { width: 100%; font-size: 13px; font-weight: 400; }
+.social-actions p { color: var(--muted-foreground); font-size: 11px; text-align: center; margin-top: 6px; }
+.auth-mobile-brand, .auth-mobile-switch { display: none; }
 .skip-link { position: fixed; top: -100px; z-index: 10; background: var(--primary); color: var(--primary-foreground); padding: 12px; }
 .skip-link:focus { top: 0; }
 .hero { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 480px; padding: 16px 0 16px 48px; }
@@ -127,7 +165,7 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
 .breadcrumb { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 10px; font-size: 14px; font-weight: 700; }
 .detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 32px; }
 .nft-gallery { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 24px; }
-.gallery-toolbar { display: none; }
+.gallery-toolbar { position: relative; display: none; }
 .gallery-thumbnails { display: grid; gap: 12px; align-content: start; }
 .gallery-thumbnail { display: flex; justify-content: center; align-items: center; aspect-ratio: 1; background: var(--card); border-radius: 6px; color: var(--muted-foreground); overflow: hidden; }
 .gallery-thumbnail img { width: 100%; height: auto; }
@@ -223,6 +261,24 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .related-grid .nft-card:nth-child(n+4) { display: none; }
 }
 @media (max-width: 600px) {
+  .auth-dialog { inset: 0; width: 100%; height: 100dvh; max-width: 100%; max-height: 100dvh; margin: 0; padding: 116px 26px 64px; border: 0; border-radius: 0; background: var(--background); }
+  .auth-close { top: 24px; right: 24px; }
+  .auth-mobile-brand { display: block; font-size: 32px; font-weight: 700; text-align: center; letter-spacing: 3px; margin-bottom: 72px; }
+  .auth-tabs, .auth-intro, .auth-background { display: none; }
+  .auth-dialog h1 { position: static; width: auto; height: auto; margin: 0 0 34px; overflow: visible; clip-path: none; white-space: normal; font-size: 20px; font-weight: 700; text-align: center; }
+  .register-dialog h1 { font-size: 18px; }
+  .auth-dialog input { height: 47px; border-radius: 10px; font-size: 14px; }
+  .password-field > button { top: 9px; }
+  .forgot-password { margin-top: 0; font-size: 12px; }
+  .auth-submit { height: 57px; border-radius: 12px; margin-top: 24px; font-size: 19px; }
+  .auth-divider { margin: 38px 0 14px; font-size: 13px; gap: 10px; }
+  .social-actions { gap: 14px; }
+  .social-actions button { height: 40px; font-size: 14px; border-radius: 6px; }
+  .auth-mobile-switch { display: block; margin-top: 38px; text-align: center; font-size: 14px; color: var(--muted-foreground); }
+  .auth-mobile-switch a { color: var(--primary); }
+  .mobile-account { position: absolute; right: 22px; bottom: 100%; display: grid; gap: 12px; min-width: 180px; padding: 16px; background: var(--secondary); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; }
+  .mobile-account a, .mobile-account button { color: var(--primary); text-align: left; }
+  .is-auth .mobile-nav { display: none; }
   .page-width { width: calc(100% - 44px); }
   .site-header { display: none; }
   main.page-width { padding-top: 38px; }
