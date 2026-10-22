@@ -1,8 +1,129 @@
-# Kurio · Etapas 1 a 7
+# Kurio · Etapas 1 a 8
 
 Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, perfil, gerenciamento de carteiras e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. Sem blockchain, extensões ou gateways reais.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
+
+## Acesso rápido
+
+**URL pública:** [kurio-frontend-challenge.vercel.app](https://kurio-frontend-challenge.vercel.app/). A entrega local da Etapa 8 não foi publicada automaticamente.
+
+**Stack:** React 19, TypeScript, Vite, TanStack Router/Query, Axios, Tailwind, shadcn/ui, MSW e Socket.IO. APIs, autenticação, carteiras e compras são simuladas localmente; nenhum pagamento real é realizado.
+
+### Instalar e executar
+
+Requer Node >= 22.12 (validado com 24.14.1) e npm. Na raiz do repositório:
+
+```sh
+npm ci
+npm run dev
+```
+
+Abra `http://127.0.0.1:5173`. Para executar o build de demonstração otimizado, com MSW habilitado por `.env.demo`:
+
+```sh
+npm run build:demo
+npm run preview
+```
+
+Abra `http://127.0.0.1:4173`. Não são necessários segredos nem backend externo. No PowerShell com scripts bloqueados, use `npm.cmd`/`npx.cmd`.
+
+### Credenciais fictícias e cenários
+
+| Usuário | E-mail | Senha de demonstração |
+| --- | --- | --- |
+| Ana | `ana@kurio.test` | `KurioDemo!123` |
+| Bruno | `bruno@kurio.test` | `KurioDemo!123` |
+
+Em **Cenários de demonstração → Restaurar cenário**, retorne às fixtures padrão. Explore catálogo/filtros, favoritos, perfil/carteiras e carrinho → pagamento → pedido. **Alterar Emerald Ape** demonstra atualização via Socket.IO. Os cenários `empty`, `error`, `slow`, `variable`, `offline` e `timeout` exercitam estados da API; `success` recupera o fluxo. Sessão e dados persistem no navegador/origem, com isolamento entre usuários. Os contratos e demais cenários estão em [CONTRACTS.md](CONTRACTS.md).
+
+### Evidências entregues
+
+- [Índice navegável no GitHub](evidence/etapa8/README.md) e [índice HTML local](evidence/etapa8/index.html).
+- [12 medições finais Lighthouse: HTML/JSON](evidence/etapa8/README.md#as-12-medicoes-finais), [medianas](evidence/etapa8/lighthouse/summary.json) e [configurações efetivas/MSW/Socket.IO](evidence/etapa8/lighthouse/runs.json).
+- [Playwright definitivo: 249 testes aprovados](evidence/etapa8/playwright/index.html), com todos os anexos necessários em `data/`, sem traces de falhas anteriores.
+
+O GitHub exibe o código dos HTML; clone/baixe o repositório para abri-los. Lighthouse é independente por arquivo. Para navegar no relatório Playwright: `npx playwright show-report evidence/etapa8/playwright`. A pasta `evidence/etapa8/` é versionável; os diretórios de trabalho `.lighthouseci/`, `playwright-report/` e `test-results/` continuam ignorados. Relatórios/capturas históricos citados abaixo como caminhos em código são registros locais, não arquivos publicados no GitHub. Apenas a rodada final e dois pequenos registros complementares foram preparados para entrega.
+
+## Lighthouse e otimização · Etapa 8
+
+Auditoria realizada no **build de demonstração**, com MSW, REST, Socket.IO, imagens e fontes do projeto ativos. Comparação usa 12 medições iniciais e 12 finais: três execuções independentes por página/perfil, sempre em um novo perfil Chromium. Também foram preservadas duas rodadas intermediárias de 12, sem escolher as melhores execuções para compor as medianas. Todas as metas foram atingidas na rodada definitiva.
+
+### Medianas antes → depois
+
+| Página/perfil | Performance ≥ 90 | Accessibility ≥ 95 | Best Practices ≥ 95 | SEO ≥ 90 |
+| --- | --- | --- | --- | --- |
+| Home desktop | 100 → **100** | 99 → **100** | 96 → **100** | 92 → **100** |
+| Detalhe desktop | 99 → **100** | 99 → **100** | 96 → **100** | 92 → **100** |
+| Home mobile | 90 → **92** | 99 → **100** | 93 → **100** | 92 → **100** |
+| Detalhe mobile | 89 → **92** | 99 → **100** | 96 → **100** | 92 → **100** |
+
+| Página/perfil | LCP (ms) antes → depois | CLS antes → depois | TBT (ms) antes → depois |
+| --- | --- | --- | --- |
+| Home desktop | 735,9 → **647,1** | 0,010748 → **0,009312** | 23 → **18** |
+| Detalhe desktop | 745,2 → **701,3** | 0,060615 → **0** | 14,5 → **16** |
+| Home mobile | 2695,4 → **2661,0** | 0,000415 → **0,000415** | 286,0 → **209,5** |
+| Detalhe mobile | 2944,4 → **2758,8** | 0 → **0** | 252 → **208** |
+
+Medianas calculadas separadamente para cada categoria e métrica; dados sem arredondamento em [antes](evidence/etapa8/baseline-summary.json) e [depois](evidence/etapa8/lighthouse/summary.json). O **[índice da entrega](evidence/etapa8/README.md)** reúne os HTML/JSON originais das **12 medições finais**, [configurações e verificações por execução](evidence/etapa8/lighthouse/runs.json). Cada combinação tem três relatórios `home|detail-desktop|mobile-1|2|3.html` e `.json`. Os relatórios incluem as imagens capturadas pelo próprio Lighthouse.
+
+As 48 medições válidas e o índice completo original continuam preservados localmente em `.lighthouseci/`, fora do Git. Não se duplicam nesta entrega rodadas intermediárias, capturas externas ou evidências por execução já reunidas em `runs.json`. As imagens locais `-measured.webp` foram extraídas da captura nativa; `-loaded.png` são verificações posteriores à restauração da emulação e não representam o viewport medido.
+
+### Diagnóstico e mudanças
+
+- A análise inicial identificou favicon 404, `/robots.txt` recebendo HTML da SPA, alt redundante e nome acessível que omitia o badge. Bootstrap e MSW concentravam execução de script; havia 569 nós no catálogo, 393 no detalhe e quatro PNGs somando 1.582.736 bytes. O CLS desktop do detalhe foi atribuído pelo Lighthouse ao rodapé que aparecia durante o carregamento.
+- `src/app/router.tsx`: componentes de autenticação, favoritos, carrinho, pagamento, pedidos, perfil e carteiras carregam sob demanda pelo TanStack Router. Guards e contratos anteriores permanecem. `src/app/shell.tsx` preserva o redirect se Entrar for acionado novamente durante o carregamento de login/cadastro.
+- `src/components/nft-card.tsx` e `src/mocks/controls.tsx`: painéis fechados montam seu conteúdo na primeira abertura e o conservam depois, incluindo quantidades, edições e cenários selecionados. Não se removem ações; os testes abrem, alteram, fecham e reabrem os painéis. DOM inicial caiu para 382 nós no catálogo e 260 no detalhe.
+- `src/components/loading.tsx`: skeleton reserva informações e relacionados, evitando o deslocamento do rodapé. Shimmer/reduced motion e composição final permanecem. Nenhuma baseline visual foi atualizada nesta etapa.
+- Quatro variantes WebP **lossless**, 500×500, somam **869.456 bytes**, redução de **45,1%**. Igualdade de todos os pixels RGBA foi verificada com Pillow 11.1.0; [registro](evidence/etapa8/image-optimization.json). PNGs originais/contrato REST foram preservados. `src/lib/nft-image.ts`, cards, galeria e hero selecionam variantes locais via srcset; imagens arbitrárias não são reescritas. Imagens principais têm prioridade alta e a imagem secundária do hero, oculta no desktop, é lazy. `public/favicon.png` foi reduzido a 64×64 a partir do asset Emerald original.
+- `src/lib/page-metadata.ts`, catálogo e detalhe atualizam/restauram título e descrição. `public/robots.txt` e o favicon referenciado em `index.html` eliminam respostas incorretas/erros. Alt e nome acessível dos cards foram corrigidos sem alterar sua aparência.
+- Bootstrap caiu de **536,84 kB / 172,07 kB gzip** para **496,93 kB / 161,72 kB gzip**, eliminando o aviso acima de 500 kB por separação real de código. Soma dos recursos JavaScript observados em cada página pública: **895.316 → 855.792 bytes descomprimidos**. Não se atribuiu a performance apenas ao tamanho do bundle: houve diagnóstico de execução de script, DOM, imagens e CLS.
+- `scripts/lighthouse.mjs` e `package.json` implementam coleta, verificações, medianas e índice HTML usando Lighthouse/LHCI e Playwright já instalados. `tests/e2e/optimization.spec.ts` adiciona nove execuções (três cenários × três larguras) para os recursos alterados. Decisões e limites em [ARCHITECTURE.md](ARCHITECTURE.md).
+
+As variantes podem ser regeneradas a partir dos PNGs com Pillow 11.1.0: `Image.open(p).convert('RGBA').save(p.with_suffix('.webp'), format='WEBP', lossless=True, quality=100, method=6, exact=True)`. Compare dimensões e `tobytes()` de ambos em RGBA antes de substituir. O favicon usa thumbnail 64×64 com `Image.Resampling.LANCZOS` e PNG otimizado. Python/Pillow são necessários somente para regenerar assets; checkout limpo/build usa os arquivos entregues, sem dependência nova no projeto.
+
+### Ambiente, reprodução e limites
+
+Node **24.14.1**, Chromium **156.0.8078.4** (Playwright 1.64.1), Lighthouse **12.6.1**, LHCI **0.15.1**. Windows NT **10.0.26200 x64**, Intel i5-10400F 2,90 GHz, 12 processadores lógicos e 16 GiB de RAM. Headless Chrome, sem extensões/perfil pessoal. Auditado em `http://127.0.0.1:4174/` e `/nfts/emerald-ape-042`, Vite preview HTTP local. Sem testes Playwright concorrentes durante medições.
+
+Perfis padrão do Lighthouse 12, `throttlingMethod=simulate`: desktop 1350×940/DPR 1, RTT 40 ms, throughput 10.240 Kbps e CPU 1×; mobile 412×823/DPR 1,75, RTT 150 ms, throughput 1.638,4 Kbps e CPU 4×. São simulações Lantern, não rede/CPU de um aparelho físico. Configurações completas e benchmarkIndex por execução estão nos JSONs/evidências. Fontes continuam de sistema (`Consolas`, `Liberation Mono`, `Courier New`), sem downloads de webfonts. Fixture padrão: Emerald 1,19 ETH/v1 e 12 NFTs; cache/storage inicialmente frios em cada processo, sem alterações/usuário herdados de outra medição.
+
+O runner **não prepara uma página aquecida**. Depois da coleta verifica controlador do service worker, REST efetivamente interceptada, fixture, imagens visíveis carregadas, fontes prontas e status Ao vivo. Só então dispara um update via REST/MSW e aguarda a recepção pelo Socket.IO Client, fora da janela medida, descartando o perfil ao terminar. Nada disso desativa funcionalidades ou muda cenários durante a auditoria.
+
+```powershell
+npm.cmd ci
+npx.cmd playwright install chromium
+npm.cmd run build:demo
+Remove-Item Env:LH_PROFILE -ErrorAction SilentlyContinue
+npm.cmd run audit -- before
+# Após aplicar as alterações que deseja comparar:
+npm.cmd run build:demo
+npm.cmd run audit -- final
+# Regerar apenas o índice, sem novas medições:
+npm.cmd run audit -- report
+```
+
+`npm.cmd run audit` equivale à rodada final completa. `LH_PROFILE=desktop` ou `mobile` limita a seis auditorias; deixe a variável ausente para as 12. `CHROME_PATH` permite outro executável, cuja versão ficará registrada; o padrão é o Chromium instalado pelo Playwright. `lighthouserc.cjs` fornece URLs, quantidade, categorias e metas; o runner seleciona o preset correspondente e não ignora audits dessas categorias. Falha de runtime/conteúdo interrompe a rodada, sem inventar medianas. Relatórios ficam em `.lighthouseci/`, ignorados pelo Git e fora de `dist`.
+
+A primeira tentativa de preparação perdeu a aba após Lighthouse fechá-la; foi preservada em `.lighthouseci/setup-failure/` e excluída das medianas por não completar a verificação das integrações. A implementação passou a fornecer uma aba Puppeteer mantida aberta, conectando Playwright apenas depois da coleta. Import paralelo da aplicação foi descartado porque o cliente Socket.IO podia capturar WebSocket antes do interceptor; a ordem original de `worker.start` foi mantida. As rodadas intermediárias de modulepreload e ajuste de layout foram preservadas no índice local, fora da entrega versionada. Modulepreload piorou o LCP simulado e não mostrou ganho local consistente; foi retirado. A regressão também identificou perda de redirect por clique redundante no header durante o carregamento da autenticação, corrigida antes da rodada definitiva.
+
+**Limites:** respostas/recursos que atravessam o service worker podem aparecer com `transferSize=0` no CDP mesmo com `resourceSize` não zero. Na tentativa de modulepreload, o bootstrap passou de transferência opaca para contabilizada, alterando a previsão Lantern; por isso foram mantidos os relatórios intermediários e a mesma sequência de carregamento no comparativo definitivo. Bytes de arquivos, resourceSize e verificação visual foram analisados separadamente. As notas locais não comprovam performance de rede móvel real, DNS/TLS/CDN/Vercel; existe variação de carga/frequência do host. LCP mobile permanece perto de 2,7s e o MSW obrigatório conserva custo de execução. Metadados são atualizados no cliente, sem SSR. Lighthouse não substitui revisão manual de acessibilidade nem auditoria completa de segurança. A URL pública não foi atualizada ou medida nesta etapa; nenhum commit, deploy ou revisão final geral foi realizado.
+
+### Validações executadas
+
+| Comando | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado; repetido pelo build definitivo |
+| `npm.cmd run lint` | Aprovado, incluindo o runner/gerador de relatórios |
+| `npm.cmd run build:demo` | Aprovado, 558 módulos; maior chunk 496,93 kB, sem aviso acima de 500 kB |
+| `npm.cmd run audit -- before` / `npm.cmd run audit -- final` | 12 medições válidas por rodada; todas as metas finais atingidas; 24 medições intermediárias preservadas |
+| `npm.cmd run audit -- report` | Índice HTML e capturas nativas extraídas dos LHRs, sem novas medições |
+| `npx.cmd playwright test optimization.spec.ts foundation.spec.ts --grep 'produção:\|rotas carregadas\|painéis sob demanda\|catálogo: REST\|Socket.IO: evento real\|cenários:' --output=test-results/etapa8-otimizacoes` | **18 aprovados em 40,9s** |
+| `npx.cmd playwright test checkout.spec.ts --project=desktop --max-failures=1 --output=test-results/etapa8-checkout` | **18 aprovados em 53,5s**, após corrigir o clique redundante em Entrar |
+| `npx.cmd playwright test --max-failures=1 --output=test-results/etapa8-final` | **249 aprovados em 8,5min**, 83 por viewport, sem ignorados/flaky e sem atualizar baselines |
+| `git diff --check` | Aprovado |
+
+Playwright usou `$env:E2E_PREVIEW='true'` e `$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/NOME-DA-RODADA'`, correspondendo ao nome após `test-results/`. Relatórios: [249 testes no build definitivo](evidence/etapa8/playwright/index.html), otimizações direcionadas (local: `playwright-report/etapa8-otimizacoes/index.html`) e checkout (local: `playwright-report/etapa8-checkout/index.html`). A regressão completa anterior foi interrompida ao revelar a perda do redirect; não é apresentada como aprovação. A rodada definitiva passou nos 240 testes anteriores e nos nove novos, preservando filtros/URL/slider, precisão ETH, autenticação/isolamento, favoritos/rollback, perfil/carteiras, carrinho, cupons, compra, pedidos idempotentes, sockets, loading/teclado e refresh/acesso direto de rotas internas.
 
 ## Ajustes visuais e responsividade · Etapa 7
 
@@ -45,20 +166,20 @@ Diferenças remanescentes: fonte/cores continuam nos tokens provisórios existen
 | `npx.cmd playwright test responsive.spec.ts catalog.spec.ts foundation.spec.ts --grep 'cards alinhados\|slider duplo\|painel rolável\|formulários e conta\|drawer e sidebar\|catálogo: REST' --output=test-results/etapa7-final` | **18 aprovados em 35,0s**, após correções finais de largura dos links da conta, quebra de preços longos e safe area; sem atualizar snapshots |
 | `git diff --check` | Aprovado |
 
-Todos os testes usaram preview de produção local com `$env:E2E_PREVIEW='true'`. Cada rodada definiu `$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/NOME-DA-RODADA'`, conforme o nome em `--output`. Relatórios: [antes](playwright-report/etapa7-antes/index.html), [comparação sem atualização](playwright-report/etapa7-comparacao/index.html), [baselines revisadas](playwright-report/etapa7-baselines/index.html), [240 testes](playwright-report/etapa7/index.html) e [18 verificações finais](playwright-report/etapa7-final/index.html). Nenhum teste ignorado ou flaky nas duas últimas rodadas. A suite completa cobre filtros, REST/MSW, cache/URL, autenticação/isolamento, favoritos/rollback, perfil/carteiras, carrinho/cupons, checkout/pedidos idempotentes, sockets e acesso direto. A rodada final reforça mouse/touch/teclado, não cruzamento dos controles, 18 casas após refresh, preço longo sem overflow, foco, painel de 390×600, menu e comparação do catálogo/detalhe.
+Todos os testes usaram preview de produção local com `$env:E2E_PREVIEW='true'`. Cada rodada definiu `$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/NOME-DA-RODADA'`, conforme o nome em `--output`. Relatórios: antes (local: `playwright-report/etapa7-antes/index.html`), comparação sem atualização (local: `playwright-report/etapa7-comparacao/index.html`), baselines revisadas (local: `playwright-report/etapa7-baselines/index.html`), 240 testes (local: `playwright-report/etapa7/index.html`) e 18 verificações finais (local: `playwright-report/etapa7-final/index.html`). Nenhum teste ignorado ou flaky nas duas últimas rodadas. A suite completa cobre filtros, REST/MSW, cache/URL, autenticação/isolamento, favoritos/rollback, perfil/carteiras, carrinho/cupons, checkout/pedidos idempotentes, sockets e acesso direto. A rodada final reforça mouse/touch/teclado, não cruzamento dos controles, 18 casas após refresh, preço longo sem overflow, foco, painel de 390×600, menu e comparação do catálogo/detalhe.
 
 Capturas comparativas com os mesmos dados de demonstração e, no catálogo, a mesma combinação aplicada (`collections=Kurio Studio`, mínimo 1,2 ETH). Inspeção visual comparou imagens atuais, diffs e os frames fornecidos; imagens de perfil/carteiras desktop e tablet permaneceram idênticas às anteriores. Artefatos locais ignorados pelo Git:
 
 | Tela | Antes | Depois |
 | --- | --- | --- |
-| Catálogo · 390px | [Captura](playwright-report/etapa7-antes/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png) | [Captura](playwright-report/etapa7-final/data/6ddbf3e1fa63edd08fe60389f515c58d6bc49c39.png) |
-| Catálogo · 768px | [Captura](playwright-report/etapa7-antes/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png) | [Captura](playwright-report/etapa7-final/data/5a6fcfadb7e194c43723003251fa35de6405de15.png) |
-| Catálogo · 1440px | [Captura](playwright-report/etapa7-antes/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png) | [Captura](playwright-report/etapa7-final/data/146ca075150dd12d2e3ce8edb1dd629e16a706b1.png) |
-| Painel · 390px | [Captura](playwright-report/etapa7-antes/data/bf37be358a2568be02ee62104d9bfda2445089d8.png) | [Captura](playwright-report/etapa7-final/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png) |
-| Perfil · 390px | [Captura](playwright-report/etapa7-antes/data/fc801f0169578509f09f27e203e61805a84ffa0a.png) | [Captura](playwright-report/etapa7-final/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png) |
-| Carteiras · 390px | [Captura](playwright-report/etapa7-antes/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png) | [Captura](playwright-report/etapa7-final/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png) |
+| Catálogo · 390px | Captura (local: `playwright-report/etapa7-antes/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png`) | Captura (local: `playwright-report/etapa7-final/data/6ddbf3e1fa63edd08fe60389f515c58d6bc49c39.png`) |
+| Catálogo · 768px | Captura (local: `playwright-report/etapa7-antes/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png`) | Captura (local: `playwright-report/etapa7-final/data/5a6fcfadb7e194c43723003251fa35de6405de15.png`) |
+| Catálogo · 1440px | Captura (local: `playwright-report/etapa7-antes/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png`) | Captura (local: `playwright-report/etapa7-final/data/146ca075150dd12d2e3ce8edb1dd629e16a706b1.png`) |
+| Painel · 390px | Captura (local: `playwright-report/etapa7-antes/data/bf37be358a2568be02ee62104d9bfda2445089d8.png`) | Captura (local: `playwright-report/etapa7-final/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png`) |
+| Perfil · 390px | Captura (local: `playwright-report/etapa7-antes/data/fc801f0169578509f09f27e203e61805a84ffa0a.png`) | Captura (local: `playwright-report/etapa7-final/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png`) |
+| Carteiras · 390px | Captura (local: `playwright-report/etapa7-antes/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png`) | Captura (local: `playwright-report/etapa7-final/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png`) |
 
-Capturas do viewport: [cards mobile sem filtros](playwright-report/etapa7-final/data/f17bffca1480f16ee762830c5895c4fd2faa3b46.png), [painel com ação inferior](playwright-report/etapa7-final/data/315f90b1cf00671068fd31f58d911b35a8537caa.png), [ações finais de carteiras acima da barra](playwright-report/etapa7-final/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png) e [menu da conta](playwright-report/etapa7-final/data/fddd097f16797d88fdca7143a362d2f391edae72.png). A publicação pública não foi alterada.
+Capturas do viewport: cards mobile sem filtros (local: `playwright-report/etapa7-final/data/f17bffca1480f16ee762830c5895c4fd2faa3b46.png`), painel com ação inferior (local: `playwright-report/etapa7-final/data/315f90b1cf00671068fd31f58d911b35a8537caa.png`), ações finais de carteiras acima da barra (local: `playwright-report/etapa7-final/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png`) e menu da conta (local: `playwright-report/etapa7-final/data/fddd097f16797d88fdca7143a362d2f391edae72.png`). A publicação pública não foi alterada.
 
 ## Catálogo e filtros combinados · Etapa 6
 
@@ -91,15 +212,15 @@ A regressão reúne 48 execuções novas (16 cenários × 3 larguras) e as 180 a
 
 A atualização explícita das cinco baselines justificadas acima usou `npx.cmd playwright test --grep 'catálogo: REST|autofill mantém' --update-snapshots=changed --output=test-results/etapa6-baselines`, com `E2E_PREVIEW=true` e `PLAYWRIGHT_HTML_OUTPUT_DIR=playwright-report/etapa6-baselines`: **6 aprovados em 15,7s**. A suíte completa posterior apenas comparou essas imagens.
 
-Relatórios locais: [regressão completa](playwright-report/etapa6/index.html), [verificação final do painel](playwright-report/etapa6-final/index.html) e [baselines revisadas](playwright-report/etapa6-baselines/index.html). Capturas reais, comparadas com as referências locais:
+Relatórios locais: regressão completa (local: `playwright-report/etapa6/index.html`), verificação final do painel (local: `playwright-report/etapa6-final/index.html`) e baselines revisadas (local: `playwright-report/etapa6-baselines/index.html`). Capturas reais, comparadas com as referências locais:
 
 | Largura | Catálogo filtrado |
 | --- | --- |
-| 390px | [Captura mobile](playwright-report/etapa6-final/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png) |
-| 768px | [Captura tablet](playwright-report/etapa6-final/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png) |
-| 1440px | [Captura desktop](playwright-report/etapa6-final/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png) |
+| 390px | Captura mobile (local: `playwright-report/etapa6-final/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png`) |
+| 768px | Captura tablet (local: `playwright-report/etapa6-final/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png`) |
+| 1440px | Captura desktop (local: `playwright-report/etapa6-final/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png`) |
 
-[Drawer mobile com foco visível](playwright-report/etapa6-final/data/bf37be358a2568be02ee62104d9bfda2445089d8.png). Os relatórios/capturas são artefatos locais ignorados pelo Git. Esta etapa não publicou uma nova versão; os resultados correspondem ao preview de produção local.
+Drawer mobile com foco visível (local: `playwright-report/etapa6-final/data/bf37be358a2568be02ee62104d9bfda2445089d8.png`). Os relatórios/capturas são artefatos locais ignorados pelo Git. Esta etapa não publicou uma nova versão; os resultados correspondem ao preview de produção local.
 
 ## Perfil e gerenciamento de carteiras · Etapa 5B
 
@@ -115,7 +236,7 @@ Arquivos novos: `src/features/profile/{layout,page,wallets-page,queries,validati
 
 Limitações: dados de demonstração persistem no storage da origem, sem backend; avatar utiliza data URL e recusa gravação se o storage não puder persistir. Tokens existentes mantêm sua validade original após troca de senha. Metadados/ENS/indicação opcionais evitam exigir dados blockchain fictícios. Fonte/cores continuam provisórias; o placeholder de avatar reutiliza o ícone local. Desktop segue os frames locais, tablet/mobile empilham formulários e compactam navegação; dados preenchidos e carteiras existentes diferem dos frames vazios. Rodapé/controles de demonstração anteriores foram preservados.
 
-O usuário informou publicação pública validada com seis testes após a Etapa 5A. Esta entrega é verificada no preview local de produção; as alterações da Etapa 5B ainda precisam de nova publicação para chegar à URL pública. Não foram executados filtros, Lighthouse ou outras etapas.
+Registro da Etapa 5B: o usuário havia informado publicação pública validada com seis testes após a Etapa 5A. As alterações daquela etapa foram verificadas no preview local, sem nova publicação pelo agente. Filtros e Lighthouse ainda não faziam parte daquela execução; seus resultados posteriores estão nas seções das Etapas 6 e 8.
 
 ### Validação e capturas da Etapa 5B
 
@@ -131,13 +252,13 @@ O usuário informou publicação pública validada com seis testes após a Etapa
 
 A suíte completa reúne 36 execuções novas (12 cenários × 3 larguras) e as 144 anteriores. Cobre acesso protegido/retorno, perfil/sessão/cache/persistência, conflitos/versão, troca de senha atômica, avatar/tamanho/tipo/conteúdo, carteira/edição/promoção/duplicata, checkout/conexão invalidada, snapshot de pedido, autorização Ana/Bruno, expiração durante mutation, falha/recuperação, teclado/skeleton/capturas. A regressão anterior inclui cadastro/favoritos/rollback, carrinho/cupom/wei, pedido idempotente, timeout/reconexão, eventos reais Socket.IO e acesso direto. Nenhum teste foi ignorado ou flaky; baselines anteriores foram comparadas sem regeneração.
 
-Relatórios preservados: [180 testes](playwright-report/etapa5b/index.html), [verificação final de formulários/autofill](playwright-report/etapa5b-final/index.html) e [verificação final de carteiras](playwright-report/etapa5b-carteiras/index.html). A rodada inicial corrigiu um PNG inválido do teste e um seletor ambíguo, sem enfraquecer as asserções. A revisão também isolou erros da API ao formulário de carteira enviado, evitando marcar a principal quando o cadastro da secundária falha. Capturas reais sem máscaras, anexadas ao relatório completo:
+Relatórios preservados: 180 testes (local: `playwright-report/etapa5b/index.html`), verificação final de formulários/autofill (local: `playwright-report/etapa5b-final/index.html`) e verificação final de carteiras (local: `playwright-report/etapa5b-carteiras/index.html`). A rodada inicial corrigiu um PNG inválido do teste e um seletor ambíguo, sem enfraquecer as asserções. A revisão também isolou erros da API ao formulário de carteira enviado, evitando marcar a principal quando o cadastro da secundária falha. Capturas reais sem máscaras, anexadas ao relatório completo:
 
 | Largura | Perfil | Carteiras |
 | --- | --- | --- |
-| 390px | [Captura](playwright-report/etapa5b/data/fc801f0169578509f09f27e203e61805a84ffa0a.png) | [Captura](playwright-report/etapa5b/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png) |
-| 768px | [Captura](playwright-report/etapa5b/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png) | [Captura](playwright-report/etapa5b/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png) |
-| 1440px | [Captura](playwright-report/etapa5b/data/786086919e6ad61c4d6c3381476af70ef37998da.png) | [Captura](playwright-report/etapa5b/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png) |
+| 390px | Captura (local: `playwright-report/etapa5b/data/fc801f0169578509f09f27e203e61805a84ffa0a.png`) | Captura (local: `playwright-report/etapa5b/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png`) |
+| 768px | Captura (local: `playwright-report/etapa5b/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png`) | Captura (local: `playwright-report/etapa5b/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png`) |
+| 1440px | Captura (local: `playwright-report/etapa5b/data/786086919e6ad61c4d6c3381476af70ef37998da.png`) | Captura (local: `playwright-report/etapa5b/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png`) |
 
 Nas capturas de página inteira mobile, a navegação inferior fixa aparece na posição do viewport inicial; ela acompanha o viewport ao rolar na aplicação. O conteúdo e as ações finais permanecem alcançáveis por rolagem/teclado. Não foram utilizadas capturas como implementação.
 
@@ -159,7 +280,7 @@ Variáveis `VITE_*` são públicas e incorporadas no build; alterações exigem 
 
 ### Conectar o repositório e publicar
 
-1. Revise as alterações locais, crie o commit manualmente quando desejar e publique o repositório no GitHub/GitLab/Bitbucket. A branch local atual é `master`; use a branch que contiver esta entrega. Não envie `node_modules`, `dist`, `.env` privados, `.vercel`, logs ou relatórios temporários. Nenhum commit/push foi executado pelo agente.
+1. Revise as alterações locais e a pasta de evidências, crie o commit manualmente quando desejar e publique o repositório no GitHub/GitLab/Bitbucket. Confira a branch com `git branch --show-current` e selecione na Vercel a branch que contiver a entrega; não presuma `master` ou `main`. Inclua `evidence/etapa8/`, os assets e as otimizações; não envie `node_modules`, `dist`, `.env` privados, `.vercel`, logs ou diretórios de relatórios temporários. Nenhum commit/push foi executado pelo agente.
 2. Na Vercel, abra **Add New → Project → Import Git Repository**, conecte a conta do provedor Git e selecione esse repositório. A conexão e a autorização da conta precisam ser feitas por você.
 3. Use **Root Directory** `./` quando o repositório contiver `package.json`/`vercel.json` na raiz, como neste workspace; se publicar dentro de um monorepo, selecione a pasta `kurio`. Confira **Framework Preset** Vite, **Build Command** `npm run build:demo`, **Output Directory** `dist` e **Install Command** `npm ci`, já definidos no arquivo versionado. Use Node **24.x**, compatível com o ambiente validado ([versões suportadas](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)).
 4. Em **Environment Variables**, mantenha os valores da tabela tanto para **Preview** quanto para **Production**; não copie variáveis locais de outro projeto. `VITE_ENABLE_MOCKS=true` pode ser cadastrado explicitamente ou vir de `.env.demo`; REST/socket podem ficar ausentes.
@@ -172,10 +293,10 @@ Em navegador sem dados anteriores, abra diretamente `/nfts/emerald-ape-042` e at
 
 Entre com `ana@kurio.test` / `KurioDemo!123`, recarregue e confira a sessão. Adicione NFT, abra diretamente `/carrinho`, atualize e siga para `/pagamento`; selecione MetaMask, conecte a carteira simulada, revise e confirme. O recibo só deve aparecer com `confirmed`; copie `/pedidos/:id` e abra/atualize na mesma origem. Teste também `/login`, `/cadastro`, `/favoritos`, `/pagamento` sem login e uma rota inexistente. Em **Cenários de demonstração**, altere o NFT para conferir `nft.updated`; use `pending` e desconexão/refresh para retomar o pedido, e `timeout` para recuperar a mesma compra sem duplicar. **Restaurar cenário** volta às fixtures.
 
-Os mesmos testes podem executar contra uma URL externa: `E2E_BASE_URL` dispensa o servidor local. Eles usam contextos isolados e resetam somente a simulação do navegador, sem depender de API real. No PowerShell, substitua a URL abaixo pela URL emitida no deploy:
+Os mesmos testes podem executar contra uma URL externa: `E2E_BASE_URL` dispensa o servidor local. Eles usam contextos isolados e resetam somente a simulação do navegador, sem depender de API real. No PowerShell, use a URL pública atual abaixo; ajuste-a se o domínio da publicação mudar:
 
 ```powershell
-$env:E2E_BASE_URL='https://SEU-PROJETO.vercel.app'
+$env:E2E_BASE_URL='https://kurio-frontend-challenge.vercel.app/'
 $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/publicacao'
 npx.cmd playwright test deploy.spec.ts --output=test-results/publicacao
 $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/publicacao-fluxos'
@@ -197,9 +318,9 @@ O segundo comando também compara pagamento/recibo com as baselines existentes; 
 | Inspeção de `dist`, lockfile e regras de ignore | Sem arquivos de ambiente, temporários, referências de design ou dependências privadas no artefato; sem origem localhost/exemplo incorporada |
 | `git diff --check` | Aprovado |
 
-Relatório: [playwright-report/etapa5a/index.html](playwright-report/etapa5a/index.html). Os 54 testes incluem 48 execuções anteriores e seis novas, em 390/768/1440px. Cobrem catálogo/detalhe, URL/histórico, login/refresh/logout, isolamento, favoritos otimistas/rollback, carrinho persistente/merge/cupom/precisão, checkout confirmado/recusado, timeout idempotente, retomada pending e Socket.IO público/privado com reconexão e descarte de duplicatas. As 12 comparações de início, detalhe, pagamento e recibo passaram com as baselines existentes; as capturas de pagamento/recibo também estão anexadas ao relatório. Não há testes ignorados ou flaky.
+Relatório: playwright-report/etapa5a/index.html (local: `playwright-report/etapa5a/index.html`). Os 54 testes incluem 48 execuções anteriores e seis novas, em 390/768/1440px. Cobrem catálogo/detalhe, URL/histórico, login/refresh/logout, isolamento, favoritos otimistas/rollback, carrinho persistente/merge/cupom/precisão, checkout confirmado/recusado, timeout idempotente, retomada pending e Socket.IO público/privado com reconexão e descarte de duplicatas. As 12 comparações de início, detalhe, pagamento e recibo passaram com as baselines existentes; as capturas de pagamento/recibo também estão anexadas ao relatório. Não há testes ignorados ou flaky.
 
-Ao encerrar a Etapa 5A, permanecia o aviso de chunk principal de 518,71 kB (166,71 kB gzip), sem impedir o build. Nenhuma URL havia sido publicada/testada pelo agente; posteriormente o usuário confirmou publicação validada com seis testes. Aquela etapa não criou commits, perfil ou filtros. Alterações da Etapa 5B precisam de nova publicação.
+Ao encerrar a Etapa 5A, permanecia o aviso de chunk principal de 518,71 kB (166,71 kB gzip), sem impedir o build. Nenhuma URL havia sido publicada/testada pelo agente; posteriormente o usuário confirmou publicação validada com seis testes. Aquela etapa não criou commits, perfil ou filtros. O aviso de tamanho foi resolvido na Etapa 8; os resultados daquela etapa estão no início deste documento.
 
 ## Checkout, carteiras e pedidos · Etapa 4
 
@@ -228,13 +349,13 @@ Arquivos principais: `features/checkout/{page,order-page,wallet-panel,quote-summ
 
 São 18 cenários novos nos três viewports: fluxo completo, cadastro/validação de carteiras, conexão recusada, cotação alterada/vencida, estoque esgotado, duplo clique, resposta perdida após criar, conflito de chave/payload, refresh/reconexão, versões de eventos, isolamento Ana/Bruno, recusa/rollback, preservação de alterações posteriores no carrinho, concorrência e expiração da sessão. A suíte anterior mantém autenticação, favoritos, merge, cupons, precisão ETH, catálogo, URL e Socket.IO público. As correções finais associam erros de carteira aos campos com `aria-describedby`; o teste concorrente usa duas páginas reais.
 
-Relatórios: [suíte completa](playwright-report/index.html) e [verificação final](playwright-report/etapa4-final/index.html). O segundo contém seis anexos sem máscaras, de pagamento e recibo. As baselines mascaram apenas identificadores variáveis; foram revistas e depois comparadas sem atualização. As capturas abaixo são da aplicação executada, não imagens usadas na implementação.
+Relatórios: suíte completa (local: `playwright-report/index.html`) e verificação final (local: `playwright-report/etapa4-final/index.html`). O segundo contém seis anexos sem máscaras, de pagamento e recibo. As baselines mascaram apenas identificadores variáveis; foram revistas e depois comparadas sem atualização. As capturas abaixo são da aplicação executada, não imagens usadas na implementação.
 
 | Largura | Pagamento sem máscara | Recibo sem máscara |
 | --- | --- | --- |
-| 390px | [Captura](playwright-report/etapa4-final/data/bdab1c79f47e3a3fda71cab511e551cbae087b3b.png) | [Captura](playwright-report/etapa4-final/data/5421522ff8f7b38c2a41a07f6af55cc5fcb9f3d2.png) |
-| 768px | [Captura](playwright-report/etapa4-final/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png) | [Captura](playwright-report/etapa4-final/data/063f518dab2c4482b1c654222ab4905494c12899.png) |
-| 1440px | [Captura](playwright-report/etapa4-final/data/02dcafc50257ceb331490a173ec825495a9439f8.png) | [Captura](playwright-report/etapa4-final/data/5f05b80deecb85203078a7d24f09d26ea4e6331a.png) |
+| 390px | Captura (local: `playwright-report/etapa4-final/data/bdab1c79f47e3a3fda71cab511e551cbae087b3b.png`) | Captura (local: `playwright-report/etapa4-final/data/5421522ff8f7b38c2a41a07f6af55cc5fcb9f3d2.png`) |
+| 768px | Captura (local: `playwright-report/etapa4-final/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png`) | Captura (local: `playwright-report/etapa4-final/data/063f518dab2c4482b1c654222ab4905494c12899.png`) |
+| 1440px | Captura (local: `playwright-report/etapa4-final/data/02dcafc50257ceb331490a173ec825495a9439f8.png`) | Captura (local: `playwright-report/etapa4-final/data/5f05b80deecb85203078a7d24f09d26ea4e6331a.png`) |
 
 Reprodução adicional: clique duas vezes em **Confirmar compra** para verificar uma única tentativa; reenvie o POST com a mesma chave para recuperar o mesmo pedido. Para acesso indevido, abra como Bruno a URL de um pedido criado por Ana: a API responde 403. Os detalhes dos payloads e controles estão em CONTRACTS.md. Reset permite repetir os cenários com as fixtures originais.
 
@@ -275,7 +396,7 @@ Revisão visual local identificou e corrigiu o deslocamento das colunas/espaço 
 
 São 45 execuções novas (15 cenários de carrinho/cotação/autofill × 3 viewports) e 39 execuções anteriores. Incluem adição/listagem/detalhe, edições, alteração/remoção, validação de estoque na UI/REST, refresh, merge limitado e idempotente, isolamento Ana/Bruno/visitante, cupons, 18 casas e arredondamento em wei, paridade REST/UI, cotação vencida/desatualizada, sessão expirada com retorno ao carrinho, Socket.IO/versões/duplicatas/payload inválido, edição esgotada, falha de rede/503 e recuperação, resposta privada atrasada, skeleton, foco, overflow e regressão visual. Autofill é verificado via pseudo-classe real do Chromium forçada por CDP, incluindo foco, fundo e texto dos tokens. A suíte anterior preserva autenticação/favoritos, catálogo, URL/histórico e reconexão Socket.IO.
 
-Rodadas iniciais detectaram o atalho mobile ausente e o overflow com ETH longo; ambos foram corrigidos antes da execução final. O helper de logout foi ajustado à navegação real pelo mercado. Baselines foram atualizadas intencionalmente e revisadas; a última execução comparou todas sem regeneração. Relatório final: [playwright-report/index.html](playwright-report/index.html). Sem testes desabilitados, novas dependências, commits automáticos ou avanço para checkout/carteiras/pedidos.
+Rodadas iniciais detectaram o atalho mobile ausente e o overflow com ETH longo; ambos foram corrigidos antes da execução final. O helper de logout foi ajustado à navegação real pelo mercado. Baselines foram atualizadas intencionalmente e revisadas; a última execução comparou todas sem regeneração. Relatório final: playwright-report/index.html (local: `playwright-report/index.html`). Sem testes desabilitados, novas dependências, commits automáticos ou avanço para checkout/carteiras/pedidos.
 
 ## Instalação e comandos
 
@@ -317,18 +438,18 @@ Veja `.env.example`. `VITE_ENABLE_MOCKS=true` habilita MSW e seus controles. Em 
 
 Busca, ordenação e página pertencem à URL. Exemplo direto: `/nfts/emerald-ape-042`; identificadores inexistentes mostram o erro da API. O contrato completo e controles HTTP estão em [CONTRACTS.md](./CONTRACTS.md).
 
-## Auditorias futuras
+## Comando Lighthouse
 
 ```sh
 npm run build:demo
 npm run audit
 ```
 
-Para desktop no PowerShell: `$env:LH_PROFILE='desktop'` antes de `npm run audit`; remova a variável para mobile. Requer Chrome disponível (ou `CHROME_PATH`). A configuração versionada executa três medições em início e detalhe no preview otimizado, agrega a mediana e salva HTML/JSON em `.lighthouseci/`. Metas: performance/SEO 90, acessibilidade/boas práticas 95. Nesta etapa a auditoria foi preparada; nenhuma pontuação é declarada.
+O comando executa as 12 medições (início/detalhe × desktop/mobile × três), agrega medianas e salva HTML/JSON em `.lighthouseci/final/`, com índice em `.lighthouseci/index.html`. `LH_PROFILE=desktop|mobile` limita um perfil; variável ausente mede ambos. Requer Chromium do Playwright ou `CHROME_PATH`. Metodologia, comparativo real, versões e limitações estão na seção Etapa 8 acima.
 
-## Publicação futura e limites
+## Publicação e limites
 
-Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. O usuário confirmou o deploy da Etapa 5A; a versão da Etapa 5B ainda requer publicação.
+Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. Existe uma demonstração pública confirmada pelo usuário; alterações locais não chegam a ela sem um novo deploy. A coleta Lighthouse da Etapa 8 e sua regressão correspondem ao preview local de produção. Nenhuma publicação foi feita neste fechamento.
 
 Tokens são aproximações das capturas. A família real ainda não foi identificada: `--font-kurio` usa Consolas/Liberation Mono/Courier New/monospace. O conector Figma negou leitura por falta de acesso de edição na Etapa 1; as capturas locais foram usadas conforme o kit. Não há alegação de fidelidade final.
 
@@ -405,4 +526,4 @@ Arquivos principais: `features/auth/{session,lifecycle,page,validation}`, `featu
 
 São 27 execuções novas de auth/favoritos e 12 da regressão existente, em 390/768/1440px. Cobrem cadastro/validação/conflito, login incorreto e falha 503 recuperável, retorno ao detalhe, persistência, logout/401, autorização 403 entre contas, troca de usuários sem refresh, consulta cancelada, mutation atrasada com barreira de conclusão, rollback de inclusão/remoção no catálogo/detalhe/lista, duplo clique com somente uma requisição, expiração e logout entre abas. A regressão mantém catálogo, REST/MSW, busca/paginação/histórico, reduced motion, eventos Socket.IO reais, versões antigas e reconexão.
 
-O relatório completo foi preservado em [playwright-report/index.html](playwright-report/index.html). A verificação final de detalhe usou `PLAYWRIGHT_HTML_OUTPUT_DIR=playwright-report/detail` e `--output=test-results/detail`, com relatório em [playwright-report/detail/index.html](playwright-report/detail/index.html). Os testes não manipulam cache/hooks para simular sucesso. Nenhum teste foi desabilitado.
+O relatório completo foi preservado em playwright-report/index.html (local: `playwright-report/index.html`). A verificação final de detalhe usou `PLAYWRIGHT_HTML_OUTPUT_DIR=playwright-report/detail` e `--output=test-results/detail`, com relatório em playwright-report/detail/index.html (local: `playwright-report/detail/index.html`). Os testes não manipulam cache/hooks para simular sucesso. Nenhum teste foi desabilitado.

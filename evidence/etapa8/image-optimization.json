@@ -1,0 +1,49 @@
+{
+  "pillow": "11.1.0",
+  "images": [
+    {
+      "source": "public\\assets\\nfts\\emerald-ape.png",
+      "optimized": "public\\assets\\nfts\\emerald-ape.webp",
+      "size": [
+        500,
+        500
+      ],
+      "before": 401408,
+      "after": 214474,
+      "pixelsIdentical": true
+    },
+    {
+      "source": "public\\assets\\nfts\\golden-beat.png",
+      "optimized": "public\\assets\\nfts\\golden-beat.webp",
+      "size": [
+        500,
+        500
+      ],
+      "before": 411078,
+      "after": 226544,
+      "pixelsIdentical": true
+    },
+    {
+      "source": "public\\assets\\nfts\\ivory-baron.png",
+      "optimized": "public\\assets\\nfts\\ivory-baron.webp",
+      "size": [
+        500,
+        500
+      ],
+      "before": 383422,
+      "after": 211166,
+      "pixelsIdentical": true
+    },
+    {
+      "source": "public\\assets\\nfts\\violet-nomad.png",
+      "optimized": "public\\assets\\nfts\\violet-nomad.webp",
+      "size": [
+        500,
+        500
+      ],
+      "before": 386828,
+      "after": 217272,
+      "pixelsIdentical": true
+    }
+  ]
+}

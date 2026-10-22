@@ -40,7 +40,7 @@ export function Shell() {
   const router = useRouter()
   const [accountOpen, setAccountOpen] = useState(false)
   const [logoutError, setLogoutError] = useState('')
-  function login() { void router.navigate({ to: '/login', search: { redirect: router.state.location.href, reason: '' } }) }
+  function login() { if (!['/login', '/cadastro'].includes(router.state.location.pathname)) void router.navigate({ to: '/login', search: { redirect: router.state.location.href, reason: '' } }) }
   async function logout() {
     setAccountOpen(false)
     setLogoutError('')

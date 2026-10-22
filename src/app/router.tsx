@@ -1,18 +1,19 @@
-import { createRootRoute, createRoute, createRouter, Link, redirect, stripSearchParams } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter, lazyRouteComponent, Link, redirect, stripSearchParams } from '@tanstack/react-router'
 import { catalogDefaults, normalizeCatalogSearch } from '@/features/catalog/search'
 import { CatalogPage } from '@/features/catalog/page'
 import { NftDetailPage } from '@/features/catalog/detail-page'
 import { Shell } from './shell'
-import { AuthPage } from '@/features/auth/page'
 import { auth } from '@/features/auth/session'
 import { safeReturnTo } from '@/features/auth/validation'
-import { FavoritesPage } from '@/features/favorites/page'
-import { CartPage } from '@/features/cart/page'
-import { CheckoutPage } from '@/features/checkout/page'
-import { OrderPage } from '@/features/checkout/order-page'
-import { ProfilePage } from '@/features/profile/page'
-import { WalletsPage } from '@/features/profile/wallets-page'
 import { parseAppSearch, stringifyAppSearch } from './search'
+
+const AuthPage = lazyRouteComponent(() => import('@/features/auth/page'), 'AuthPage')
+const FavoritesPage = lazyRouteComponent(() => import('@/features/favorites/page'), 'FavoritesPage')
+const CartPage = lazyRouteComponent(() => import('@/features/cart/page'), 'CartPage')
+const CheckoutPage = lazyRouteComponent(() => import('@/features/checkout/page'), 'CheckoutPage')
+const OrderPage = lazyRouteComponent(() => import('@/features/checkout/order-page'), 'OrderPage')
+const ProfilePage = lazyRouteComponent(() => import('@/features/profile/page'), 'ProfilePage')
+const WalletsPage = lazyRouteComponent(() => import('@/features/profile/wallets-page'), 'WalletsPage')
 
 const rootRoute = createRootRoute({
   component: Shell,

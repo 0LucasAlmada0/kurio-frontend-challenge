@@ -7,12 +7,14 @@ import { NftGallery } from '@/components/nft-gallery'
 import { Icon } from '@/components/icon'
 import { RelatedNfts } from './related-nfts'
 import { PurchaseControls } from '@/features/cart/purchase-controls'
+import { usePageMetadata } from '@/lib/page-metadata'
 
 export function NftDetailPage({ nftId: suppliedId }: { nftId?: string } = {}) {
   const params = useParams({ strict: false })
   const nftId = suppliedId ?? params.nftId ?? ''
   const result = useQuery(nftOptions(nftId))
   const nft = result.data
+  usePageMetadata(nft ? `${nft.name} | Kurio` : 'Detalhes do NFT | Kurio', nft ? `${nft.description} Consulte edições, disponibilidade e preço em ETH na Kurio.` : 'Consulte os detalhes, edições, disponibilidade e preço em ETH de um NFT da Kurio.')
   return <>
     <nav className="breadcrumb" aria-label="Localização"><Link to="/" search={{ q: '', page: 1, sort: 'name' }}>Início / Mercado</Link><span aria-hidden="true"> / </span><span>Detalhe</span></nav>
     {result.isPending ? <DetailLoading /> : result.isError ? <ErrorState error={result.error} retry={() => { void result.refetch() }} /> : nft && <>

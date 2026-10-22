@@ -1,0 +1,105 @@
+{
+  "environment": {
+    "node": "v24.14.1",
+    "lighthouse": "12.6.1",
+    "lhci": "0.15.1",
+    "playwright": "1.64.1",
+    "os": "Windows_NT 10.0.26200 x64",
+    "cpu": "Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz",
+    "cores": 12,
+    "totalMemoryGiB": 16,
+    "chromePath": "C:\\Users\\Lucas\\AppData\\Local\\ms-playwright\\chromium-1248\\chrome-win64\\chrome.exe",
+    "profiles": [
+      "desktop",
+      "mobile"
+    ],
+    "runsPerCombination": 3,
+    "conditions": "Fresh Chromium profile per run; cold cache/storage; localhost HTTP Vite production preview; Lighthouse simulate throttling; normal MSW scenario; Socket.IO enabled. Post-run verification is outside the measurement."
+  },
+  "medians": [
+    {
+      "profile": "desktop",
+      "url": "http://127.0.0.1:4174/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 99,
+        "best-practices": 96,
+        "seo": 92
+      },
+      "metrics": {
+        "largest-contentful-paint": 735.9268,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 23
+      },
+      "targets": {
+        "performance": true,
+        "accessibility": true,
+        "best-practices": true,
+        "seo": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "scores": {
+        "performance": 99,
+        "accessibility": 99,
+        "best-practices": 96,
+        "seo": 92
+      },
+      "metrics": {
+        "largest-contentful-paint": 745.176,
+        "cumulative-layout-shift": 0.06061514145448717,
+        "total-blocking-time": 14.5
+      },
+      "targets": {
+        "performance": true,
+        "accessibility": true,
+        "best-practices": true,
+        "seo": true
+      }
+    },
+    {
+      "profile": "mobile",
+      "url": "http://127.0.0.1:4174/",
+      "scores": {
+        "performance": 90,
+        "accessibility": 99,
+        "best-practices": 93,
+        "seo": 92
+      },
+      "metrics": {
+        "largest-contentful-paint": 2695.3956,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 286.0056000000002
+      },
+      "targets": {
+        "performance": true,
+        "accessibility": true,
+        "best-practices": false,
+        "seo": true
+      }
+    },
+    {
+      "profile": "mobile",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "scores": {
+        "performance": 89,
+        "accessibility": 99,
+        "best-practices": 96,
+        "seo": 92
+      },
+      "metrics": {
+        "largest-contentful-paint": 2944.393,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 252
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "best-practices": true,
+        "seo": true
+      }
+    }
+  ]
+}

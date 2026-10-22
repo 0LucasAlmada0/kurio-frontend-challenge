@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1 a 7
+# Arquitetura · Etapas 1 a 8
 
 ## Estrutura
 
@@ -39,6 +39,18 @@ Sidebar e drawer reutilizam `FilterGroup`/`FilterOption`, formulário de preço 
 Consultas consomem AbortSignal; mudanças de chave apresentam skeleton em vez de exibir resultados/contadores do filtro anterior. Revalidação da mesma chave preserva os cards e anuncia atualização em segundo plano. Metadados/erros têm recuperação própria; lista trata HTTP/offline/retry. O provedor Socket.IO existente invalida/reconcilia com REST e continua descartando duplicatas/versões antigas. Chaves privadas, autenticação, carrinho, checkout e perfil não foram substituídos.
 
 Diferenças visuais intencionais: coleções/raridades/disponibilidade reais no lugar de categorias/redes ilustrativas sem dados, inputs de preço precisos e contador mobile. Cinco baselines foram comparadas antes de atualizar: catálogo em três larguras e fundo da sidebar no login/autofill desktop/tablet. Detalhe, cadastro, carrinho, pagamento, recibo e login mobile conservaram suas baselines. Fonte/cores provisórias, dados/ordem ilustrativos e ausência do frame desktop isolado permanecem para o polimento autorizado posteriormente.
+
+## Auditoria e otimização · Etapa 8
+
+`npm run audit -- before|final` usa `scripts/lighthouse.mjs` e as URLs, categorias, número de execuções e metas de `lighthouserc.cjs`. Lighthouse/chrome-launcher/puppeteer-core vêm da instalação LHCI existente, sem dependências novas. Vite preview serve apenas `build:demo`; cada medição lança um perfil Chromium descartável, com cache/storage frios, presets desktop/mobile padrão do Lighthouse e rede/CPU simuladas. Não se substitui o socket nem se desliga MSW. Depois da janela medida, a mesma aba verifica REST via service worker, fixture original, fontes/imagens e um evento real pelo Socket.IO Client. HTML/JSON completos, configuração efetiva e evidências ficam em `.lighthouseci/`; `npm run audit -- report` recompõe o índice a partir dos JSONs, sem medir novamente.
+
+Rotas de autenticação, favoritos, carrinho, checkout, pedido, perfil e carteiras usam `lazyRouteComponent` do Router. Guards, query keys e contratos são os anteriores. O header ignora uma solicitação redundante de login quando a localização atual já é login/cadastro, preservando o redirect durante o carregamento do chunk. Bootstrap mantém a ordem original: importar/montar a aplicação somente depois de `worker.start`. Antecipar a avaliação do cliente Socket.IO pode capturar WebSocket antes do interceptor; essa tentativa foi descartada. Modulepreload também foi descartado após comparação, sem mudar flags do Lighthouse para favorecer resultados.
+
+Cards montam PurchaseControls na primeira abertura do details e o mantêm após fechar, preservando edição/quantidade. Controles de demonstração seguem a mesma política: todas as ações continuam acessíveis ao expandir. Isso reduz DOM e observadores de mutations antes de interação. O skeleton do detalhe reserva também informações/relacionados para impedir que o rodapé apareça e se desloque quando os dados chegam; shimmer e reduced motion permanecem.
+
+WebP lossless mantém dimensões e pixels RGBA dos quatro PNGs originais, preservados como src e contrato REST. `nftImageSrcSet` seleciona apenas variantes locais conhecidas; não reescreve imagens arbitrárias nem dados persistidos. Hero/galeria dão prioridade à imagem principal, e a imagem secundária oculta do hero é lazy. Favicon deriva do asset original; robots.txt deixa de receber HTML pelo fallback SPA. Metadados de início/detalhe são atualizados no cliente e restaurados ao desmontar. Alt e nome acessível dos cards incluem contexto sem redundância e incluem o badge visível.
+
+Notas e métricas reais, limites da simulação Lantern com respostas passando pelo MSW, rodadas intermediárias e regressões estão documentados no README. Lighthouse Best Practices não constitui uma auditoria completa de segurança. Deploy e revisão geral não fazem parte desta etapa.
 
 ## Responsividade e slider · Etapa 7
 
@@ -150,14 +162,14 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 
 ## Limitações e pendências
 
-- Sem auditorias Lighthouse executadas ou integração com backend real. O usuário informou deploy público validado com seis testes após a Etapa 5A; a Etapa 5B é validada localmente e precisa de nova publicação para atualizar esse ambiente.
+- Lighthouse foi executado na Etapa 8 em preview local de produção. Não há backend real. O usuário informou deploy público validado após a Etapa 5A; alterações locais posteriores exigem publicação manual para chegar ao ambiente público.
 - A ferramenta Browser integrada falhou ao inicializar por erro de infraestrutura (`sandboxPolicy` ausente). Verificação executável e screenshots usam os testes Playwright do projeto.
 - Mock apenas do namespace padrão e eventos JSON de texto. Rooms, namespaces privados, binários, acknowledgements e polling não foram implementados nem validados. Não é servidor Socket.IO de produção.
 - REST lê o snapshot compartilhado, mas broadcasts Socket.IO entre páginas distintas não foram implementados. Sessão/favoritos têm logout compartilhado; escritas de conta/comércio usam Web Locks quando disponível. Não há transação distribuída entre dispositivos nem backend real.
 - A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
 - Expiração remota é detectada por REST/foco e timer local, sem evento específico de expiração. Pedidos têm evento privado e recuperação REST. Encerrar a página durante cadastro pode deixar a conta criada, mesmo sem a resposta; novo cadastro retorna conflito e permite login.
 - Perfil e gestão dedicada de carteiras foram implementados na Etapa 5B; checkout e snapshots anteriores permanecem preservados. Senhas alteradas não encerram outros tokens válidos; eles mantêm sua expiração original na simulação.
-- Catálogo/filtros combinados estão implementados na Etapa 6; metadados específicos de cada rota, Lighthouse e polimento/auditoria final permanecem para etapas autorizadas posteriormente.
+- Catálogo/filtros combinados estão implementados na Etapa 6; metadados de início/detalhe e Lighthouse foram tratados na Etapa 8. Revisão final geral permanece condicionada a autorização.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
 
