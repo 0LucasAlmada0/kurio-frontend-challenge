@@ -1,20 +1,14 @@
 import type { ApiError, Cart, CartItemInput, Quote, QuoteLine } from '@/api/contracts'
 import { ethToWei, weiToEth } from '@/lib/eth'
 import { store } from './store'
+import { readCommerce, writeCommerce } from './commerce-db'
 
-const key = 'kurio:mock-carts:v1'
-type Data = { carts: Record<string, Cart>; consumed: string[] }
-let memory: Data = { carts: {}, consumed: [] }
-function read(): Data {
-  try { return JSON.parse(localStorage.getItem(key) || 'null') as Data || memory } catch { return memory }
-}
-function write(data: Data) {
-  memory = data
-  try { localStorage.setItem(key, JSON.stringify(data)) } catch { /* The mock remains usable in memory. */ }
-}
+type Data = ReturnType<typeof readCommerce>
+const read = readCommerce
+const write = writeCommerce
 export class CartError extends Error {
-  constructor(public status: number, public code: string, message: string) { super(message) }
-  body(): ApiError { return { code: this.code, message: this.message } }
+  constructor(public status: number, public code: string, message: string, public fields?: Record<string, string>) { super(message) }
+  body(): ApiError { return { code: this.code, message: this.message, ...(this.fields ? { fields: this.fields } : {}) } }
 }
 function cart(data: Data, ownerId: string): Cart {
   if (data.consumed.includes(ownerId)) throw new CartError(410, 'GUEST_MERGED', 'Este carrinho visitante já foi reconciliado. Atualize a página.')
@@ -33,7 +27,7 @@ function coupon(code: string) {
 }
 
 export const cartStore = {
-  reset() { write({ carts: {}, consumed: [] }) },
+  reset() { const data = read(); data.carts = {}; data.consumed = []; write(data) },
   get(ownerId: string) { return structuredClone(cart(read(), ownerId)) },
   change(ownerId: string, input: CartItemInput) {
     const data = read()
@@ -44,7 +38,7 @@ export const cartStore = {
     const quantity = input.operation === 'add' ? (existing?.quantity ?? 0) + input.quantity : input.quantity
     if (quantity > selected.available) throw new CartError(409, 'STOCK_LIMIT', selected.available ? `Apenas ${selected.available} unidades disponíveis nesta edição.` : 'Esta edição está esgotada.')
     if (existing) existing.quantity = quantity
-    else current.items.push({ nftId: input.nftId, editionId: input.editionId, quantity })
+    else current.items.push({ nftId: input.nftId, editionId: input.editionId, quantity, lineId: crypto.randomUUID() })
     current.version += 1
     current.notices = []
     write(data)
@@ -95,6 +89,7 @@ export const cartStore = {
   },
   async quote(ownerId: string): Promise<Quote> {
     const current = this.get(ownerId)
+    if (current.coupon) coupon(current.coupon)
     const lines: QuoteLine[] = current.items.map((item) => {
       const { nft, selected } = edition(item.nftId, item.editionId)
       return { ...item, nft, edition: selected, unitPriceEth: nft.priceEth, totalEth: weiToEth(ethToWei(nft.priceEth) * BigInt(item.quantity)), issue: item.quantity > selected.available ? (selected.available ? `Estoque reduzido: ${selected.available} disponíveis.` : 'Edição esgotada. Remova este item.') : null }
@@ -103,7 +98,7 @@ export const cartStore = {
     const discount = current.coupon === 'KURIO10' ? subtotal * 10n / 100n : 0n
     const fee = lines.length ? ethToWei('0.016') : 0n
     const expiresAt = new Date((Math.floor(Date.now() / 300_000) + 1) * 300_000).toISOString()
-    const fingerprint = JSON.stringify({ ownerId, cart: current.version, resources: lines.map((line) => [line.nftId, line.editionId, line.nft.version, line.quantity]), coupon: current.coupon, policy: 1, expiresAt })
+    const fingerprint = JSON.stringify({ ownerId, cart: current.version, resources: lines.map((line) => [line.nftId, line.editionId, line.nft.version, line.quantity]), coupon: current.coupon, policy: 1, epoch: read().quoteEpoch, expiresAt })
     const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(fingerprint))
     const version = Array.from(new Uint8Array(digest), (value) => value.toString(16).padStart(2, '0')).join('')
     return { id: `quote-${version}`, version, ownerId, cartVersion: current.version, expiresAt, lines, coupon: current.coupon, subtotalEth: weiToEth(subtotal), discountEth: weiToEth(discount), networkFeeEth: weiToEth(fee), totalEth: weiToEth(subtotal - discount + fee), valid: lines.length > 0 && lines.every((line) => !line.issue) }

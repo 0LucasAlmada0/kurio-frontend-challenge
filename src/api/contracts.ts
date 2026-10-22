@@ -16,7 +16,7 @@ export interface Nft {
 }
 
 export interface NftEdition { id: string; label: string; available: number }
-export interface CartItem { nftId: string; editionId: string; quantity: number }
+export interface CartItem { nftId: string; editionId: string; quantity: number; lineId?: string }
 export interface Cart { ownerId: string; version: number; items: CartItem[]; coupon: string | null; notices: string[] }
 export interface CartItemInput extends CartItem { operation?: 'add' | 'set' }
 export interface QuoteLine extends CartItem {
@@ -66,6 +66,36 @@ export interface LoginInput { email: string; password: string }
 export interface RegisterInput extends LoginInput { name: string; confirmPassword: string }
 export interface Favorites { userId: string; sessionId: string; nftIds: string[] }
 
+export type NetworkId = 'ethereum' | 'polygon'
+export type WalletProvider = 'WalletConnect' | 'MetaMask' | 'Coinbase Wallet'
+export interface WalletInput { label: string; address: string; networkId: NetworkId; kind: 'primary' | 'secondary' }
+export interface Wallet extends WalletInput { id: string; userId: string }
+export interface WalletConnection { walletId: string; provider: WalletProvider; sessionId: string; userId: string }
+export interface Wallets {
+  userId: string
+  items: Wallet[]
+  connection: WalletConnection | null
+  networks: { id: NetworkId; label: string }[]
+  providers: WalletProvider[]
+}
+export interface Collector { displayName: string; username: string; profileName: string; email: string; ens: string; referralCode: string; note: string }
+export interface OrderInput { quoteId: string; walletId: string; networkId: NetworkId; collector: Collector }
+export interface Order {
+  id: string
+  userId: string
+  idempotencyKey: string
+  createdAt: string
+  updatedAt: string
+  version: number
+  status: 'pending' | 'confirmed' | 'refused'
+  transactionId: string | null
+  quote: Quote
+  wallet: Wallet
+  provider: WalletProvider
+  collector: Collector
+  reason: string | null
+}
+
 export interface NftUpdated {
   eventId: string
   scope: 'public'
@@ -87,4 +117,9 @@ export interface OrderUpdated {
 export interface ServerEvents {
   'nft.updated': (event: NftUpdated) => void
   'order.updated': (event: OrderUpdated) => void
+  'session.ready': (event: { userId: string; sessionId: string }) => void
+}
+export interface ClientEvents {
+  'session.subscribe': (input: { token: string; sessionId: string }) => void
+  'session.unsubscribe': () => void
 }

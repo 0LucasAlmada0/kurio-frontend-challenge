@@ -2,6 +2,8 @@ import { delay, http, HttpResponse } from 'msw'
 import type { Cart, CartItemInput, Quote } from '@/api/contracts'
 import { authStore } from './auth-store'
 import { cartStore, CartError } from './cart-store'
+import { commerceTransaction } from './commerce-db'
+import { settleOrders } from './order-store'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 type Scenario = { failure: 'none' | 'network' | 'server'; delay: number }
@@ -29,9 +31,13 @@ async function handle<T extends Cart | Quote>(request: Request, action: (ownerId
     if (request.signal.aborted) return HttpResponse.error()
     if (scenario.failure === 'network') return HttpResponse.error()
     if (scenario.failure === 'server') throw new CartError(503, 'CART_UNAVAILABLE', 'Carrinho indisponível. Seus itens foram preservados. Tente novamente.')
-    const result = await action(owner(request))
-    owner(request)
-    return HttpResponse.json(result)
+    return await commerceTransaction(async () => {
+      if (request.signal.aborted) return HttpResponse.error()
+      settleOrders()
+      const result = await action(owner(request))
+      owner(request)
+      return HttpResponse.json(result)
+    })
   } catch (error) {
     if (error instanceof CartError) return HttpResponse.json(error.body(), { status: error.status })
     return HttpResponse.json({ code: 'INVALID_INPUT', message: 'Dados do carrinho inválidos.' }, { status: 422 })

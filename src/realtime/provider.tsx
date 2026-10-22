@@ -1,19 +1,24 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import type { Nft, NftList } from '@/api/contracts'
+import type { Nft, NftList, Order } from '@/api/contracts'
 import { nftKeys } from '@/features/catalog/queries'
 import { createSocket } from './client'
-import { isNftUpdated } from './events'
+import { isNftUpdated, isOrderUpdated } from './events'
 import { isCartQuery } from '@/features/cart/queries'
+import { auth } from '@/features/auth/session'
+import { useAuth } from '@/features/auth/use-auth'
 
-const LiveContext = createContext({ connected: false, message: '', received: 0 })
+const LiveContext = createContext({ connected: false, message: '', received: 0, orderReceived: 0, orderMessage: '' })
 
 export function LiveUpdatesProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient()
-  const [state, setState] = useState({ connected: false, message: '', received: 0 })
+  const [state, setState] = useState({ connected: false, message: '', received: 0, orderReceived: 0, orderMessage: '', orderSessionId: '' })
+  const socketRef = useRef<ReturnType<typeof createSocket> | null>(null)
+  const session = useAuth().session
 
   useEffect(() => {
     const socket = createSocket()
+    socketRef.current = socket
     const versions = new Map<string, number>()
     let active = true
     socket.on('connect', () => {
@@ -45,10 +50,34 @@ export function LiveUpdatesProvider({ children }: { children: ReactNode }) {
       active = false
       socket.removeAllListeners()
       socket.disconnect()
+      socketRef.current = null
     }
   }, [queryClient])
 
-  return <LiveContext.Provider value={state}>{children}</LiveContext.Provider>
+  useEffect(() => {
+    const socket = socketRef.current
+    if (!socket || !session) return
+    let active = true
+    const versions = new Map<string, number>()
+    const key = ['private', session.user.id, session.id, 'orders']
+    const subscribe = () => { if (auth.isCurrent(session)) { socket.emit('session.subscribe', { token: session.token, sessionId: session.id }); void queryClient.invalidateQueries({ queryKey: key }) } }
+    const updated = async (event: unknown) => {
+      if (!active || !auth.isCurrent(session) || !isOrderUpdated(event) || event.userId !== session.user.id || event.sessionId !== session.id) return
+      const previous = queryClient.getQueryData<Order>([...key, event.resourceId])
+      if ((previous && previous.status !== 'pending') || event.version <= Math.max(previous?.version ?? 0, versions.get(event.resourceId) ?? 0)) return
+      versions.set(event.resourceId, event.version)
+      await queryClient.cancelQueries({ queryKey: key })
+      if (!active || !auth.isCurrent(session) || versions.get(event.resourceId) !== event.version) return
+      setState((previousState) => ({ ...previousState, orderSessionId: session.id, orderReceived: previousState.orderSessionId === session.id ? previousState.orderReceived + 1 : 1, orderMessage: `Pedido atualizado: ${event.status} (v${event.version}).` }))
+      await Promise.all([queryClient.invalidateQueries({ queryKey: key }), queryClient.invalidateQueries({ predicate: isCartQuery })])
+    }
+    socket.on('connect', subscribe)
+    socket.on('order.updated', updated)
+    if (socket.connected) subscribe()
+    return () => { active = false; socket.off('connect', subscribe); socket.off('order.updated', updated); socket.emit('session.unsubscribe') }
+  }, [session, queryClient])
+
+  return <LiveContext.Provider value={{ ...state, orderReceived: state.orderSessionId === session?.id ? state.orderReceived : 0, orderMessage: state.orderSessionId === session?.id ? state.orderMessage : '' }}>{children}</LiveContext.Provider>
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

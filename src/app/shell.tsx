@@ -20,6 +20,7 @@ function LiveStatus() {
 export function Shell() {
   const isDetail = useRouterState({ select: (state) => state.location.pathname.startsWith('/nfts/') || (['/login', '/cadastro'].includes(state.location.pathname) && typeof state.location.search.redirect === 'string' && state.location.search.redirect.startsWith('/nfts/')) })
   const isCart = useRouterState({ select: (state) => state.location.pathname === '/carrinho' })
+  const isPurchase = useRouterState({ select: (state) => state.location.pathname === '/pagamento' || state.location.pathname.startsWith('/pedidos/') })
   const isAuth = useRouterState({ select: (state) => ['/login', '/cadastro'].includes(state.location.pathname) })
   const state = useAuth()
   const router = useRouter()
@@ -33,11 +34,11 @@ export function Shell() {
   }
   return <LiveUpdatesProvider>
     <AuthLifecycle />
-    <div className={`app-shell${isDetail ? ' is-detail' : ''}${isAuth ? ' is-auth' : ''}`}>
+    <div className={`app-shell${isDetail ? ' is-detail' : ''}${isAuth ? ' is-auth' : ''}${isPurchase ? ' is-purchase' : ''}`}>
     <a className="skip-link" href="#main">Pular para conteúdo</a>
     <header className="site-header page-width">
       <Link className="brand" to="/" search={{ q: '', page: 1, sort: 'name' }} activeProps={{ className: '' }}>KURIO</Link>
-      <nav aria-label="Navegação principal"><Link to="/" search={{ q: '', page: 1, sort: 'name' }} activeProps={{ className: '' }} className={!isDetail && !isCart ? 'active' : ''}>Início</Link><Link to="/" hash="catalog" search={{ q: '', page: 1, sort: 'name' }} activeProps={{ className: '' }} className={isDetail || isCart ? 'active' : ''}>Mercado</Link><button disabled title="Criadores · em breve">Criadores</button><button disabled title="Aprenda · em breve">Aprenda</button></nav>
+      <nav aria-label="Navegação principal"><Link to="/" search={{ q: '', page: 1, sort: 'name' }} activeProps={{ className: '' }} className={!isDetail && !isCart && !isPurchase ? 'active' : ''}>Início</Link><Link to="/" hash="catalog" search={{ q: '', page: 1, sort: 'name' }} activeProps={{ className: '' }} className={isDetail || isCart || isPurchase ? 'active' : ''}>Mercado</Link><button disabled title="Criadores · em breve">Criadores</button><button disabled title="Aprenda · em breve">Aprenda</button></nav>
       <div className="header-actions"><Link to="/" hash="search" search={(previous) => ({ q: previous.q ?? '', page: previous.page ?? 1, sort: previous.sort ?? 'name' })} aria-label="Ir para busca de NFTs" className="icon-button"><Icon name="search" /></Link><Link to="/favoritos" aria-label="Seus favoritos" className="icon-button"><Icon name="heart" /></Link><CartLink />{state.session ? <div className="account-actions"><Link to="/favoritos" aria-label={`Favoritos de ${state.session.user.name}`}><span>{state.session.user.name}</span></Link><button onClick={() => { void logout() }}>Sair</button></div> : <Button id="auth-trigger" className="login-button" disabled={state.status === 'loading'} onClick={login}><Icon name="login" />Entrar</Button>}</div>
     </header>
     <main id="main" className="page-width">{state.status === 'error' && <div className="session-error" role="alert">Não foi possível recuperar sua sessão. <Button variant="outline" onClick={() => { void auth.restore() }}>Tentar novamente</Button></div>}{logoutError && <p role="alert">{logoutError}</p>}<Outlet /><LiveStatus />{mocksEnabled && <Suspense><MockControls /></Suspense>}</main>

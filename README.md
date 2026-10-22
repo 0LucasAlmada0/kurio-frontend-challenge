@@ -1,20 +1,59 @@
-# Kurio · Etapas 1, 1.5, 2 e 3
+# Kurio · Etapas 1, 1.5, 2, 3 e 4
 
-Marketplace com catálogo/detalhe, autenticação simulada, sessão persistida, isolamento por usuário, favoritos otimistas e carrinho com cupons e cotação precisa. REST é interceptado por MSW e preços/disponibilidade são atualizados via Socket.IO. Checkout, carteiras e pedidos permanecem fora desta etapa.
+Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, carteiras simuladas e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. A Etapa 4 mantém a arquitetura existente e não integra blockchain, extensões ou gateways reais.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
 
-## Carrinho e cotação
+## Checkout, carteiras e pedidos · Etapa 4
+
+Em `/carrinho`, **Continuar ao checkout** abre `/pagamento`, com autenticação e retorno ao fluxo. Revise os dados do colecionador, selecione carteira/rede e provedor, conecte a carteira simulada e marque a revisão dos itens/valores/taxas. O servidor revalida a cotação na criação. Se houver mudança ou vencimento, a compra não é criada e exige nova revisão. ENS, indicação e observação são opcionais; nenhum endereço ENS é resolvido em rede real.
+
+Ana e Bruno possuem carteiras principal Ethereum e reserva Polygon distintas nas fixtures; contas novas podem cadastrar suas carteiras no checkout. Validação aceita endereço `0x` com 40 dígitos hexadecimais ou ENS `.eth`, rede suportada e apelido. Conexão é vinculada à sessão e deve ser refeita após novo login. A política financeira de demonstração continua na cotação da Etapa 3, inclusive a taxa estimada de `0.016` ETH nas redes simuladas.
+
+Cada tentativa salva seu payload e chave por usuário antes de enviar. Após falha/timeout, **Recuperar pedido** consulta/reenvia a mesma chave; eventos podem iniciar essa recuperação por REST automaticamente. O checkout não interpreta timeout como pagamento recusado. `/pedidos/:id` mostra pending/refused ou o recibo confirmado. **Iniciar nova tentativa** após recusa gera outra chave. O recibo usa o snapshot imutável do pedido; IDs de transação são simulados e não apontam para exploradores reais.
+
+A fonte MSW migra catálogo/carrinhos anteriores para `kurio:mock-commerce:v1`. Estoque, pedidos, carteiras, conexões e carrinhos compartilham um snapshot persistido; criação/reserva e resolução/efeitos são commits únicos, serializados por Web Locks. Sem Web Locks, a fila protege somente a página atual. Não há servidor de produção; dados/tokens locais são inspecionáveis, e ausência de storage limita recuperação ao ciclo da página. Fechar o navegador suspende timers; consultas de carrinho/pedido reconciliam resoluções vencidas ao retomar.
+
+Em **Cenários de demonstração → Checkout e pedidos**: `success`, `refused`, `pending`, `timeout`, `connection-refused`, `stale`, `price`, `sold-out`, `disconnect` e `session-expired`. Os botões **Confirmar pendentes** e **Recusar pendentes** resolvem pedidos retidos. Reset apaga pedidos/reservas, carteiras criadas, conexões, tentativas, drafts e cenários e restaura as fixtures; o botão da UI também encerra a sessão e recarrega.
+
+Arquivos principais: `features/checkout/{page,order-page,wallet-panel,quote-summary,queries,attempt,validation}`, `mocks/{commerce-db,order-store,checkout-handlers,checkout-scenarios}`, contratos, router/shell, CTA do carrinho, wrappers transacionais e transporte privado Socket.IO. Testes: `tests/e2e/checkout.spec.ts`; a asserção do CTA no teste anterior de carrinho foi adaptada à ação agora disponível. Sem novas dependências ou commits automáticos. Contratos e decisões estão em [CONTRACTS.md](CONTRACTS.md) e [ARCHITECTURE.md](ARCHITECTURE.md).
+
+### Validação final da Etapa 4
+
+| Comando executado no PowerShell | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado |
+| `npm.cmd run lint` | Aprovado |
+| `npm.cmd run build:demo` | Aprovado; aviso de chunk principal de 518,71 kB (166,71 kB gzip) |
+| `$env:E2E_PREVIEW='true'; npx.cmd playwright test --update-snapshots` | **138 aprovados em 8,8min**, incluindo os 84 anteriores; nenhuma falha, teste ignorado ou flaky |
+| `$env:E2E_PREVIEW='true'; $env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/etapa4-final'; npx.cmd playwright test --grep 'catálogo →\|carteiras: validação\|reserva e pedido são atômicos\|layout responsivo\|catálogo: REST' --output=test-results/etapa4-final` | **15 aprovados**, sem regenerar snapshots; revisão final de acessibilidade, reserva concorrente entre duas abas e 15 comparações visuais |
+| `git diff --check` | Aprovado |
+
+São 18 cenários novos nos três viewports: fluxo completo, cadastro/validação de carteiras, conexão recusada, cotação alterada/vencida, estoque esgotado, duplo clique, resposta perdida após criar, conflito de chave/payload, refresh/reconexão, versões de eventos, isolamento Ana/Bruno, recusa/rollback, preservação de alterações posteriores no carrinho, concorrência e expiração da sessão. A suíte anterior mantém autenticação, favoritos, merge, cupons, precisão ETH, catálogo, URL e Socket.IO público. As correções finais associam erros de carteira aos campos com `aria-describedby`; o teste concorrente usa duas páginas reais.
+
+Relatórios: [suíte completa](playwright-report/index.html) e [verificação final](playwright-report/etapa4-final/index.html). O segundo contém seis anexos sem máscaras, de pagamento e recibo. As baselines mascaram apenas identificadores variáveis; foram revistas e depois comparadas sem atualização. As capturas abaixo são da aplicação executada, não imagens usadas na implementação.
+
+| Largura | Pagamento sem máscara | Recibo sem máscara |
+| --- | --- | --- |
+| 390px | [Captura](playwright-report/etapa4-final/data/bdab1c79f47e3a3fda71cab511e551cbae087b3b.png) | [Captura](playwright-report/etapa4-final/data/5421522ff8f7b38c2a41a07f6af55cc5fcb9f3d2.png) |
+| 768px | [Captura](playwright-report/etapa4-final/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png) | [Captura](playwright-report/etapa4-final/data/063f518dab2c4482b1c654222ab4905494c12899.png) |
+| 1440px | [Captura](playwright-report/etapa4-final/data/02dcafc50257ceb331490a173ec825495a9439f8.png) | [Captura](playwright-report/etapa4-final/data/5f05b80deecb85203078a7d24f09d26ea4e6331a.png) |
+
+Reprodução adicional: clique duas vezes em **Confirmar compra** para verificar uma única tentativa; reenvie o POST com a mesma chave para recuperar o mesmo pedido. Para acesso indevido, abra como Bruno a URL de um pedido criado por Ana: a API responde 403. Os detalhes dos payloads e controles estão em CONTRACTS.md. Reset permite repetir os cenários com as fixtures originais.
+
+Diferenças visuais remanescentes: fonte/cores provisórias, envelope SVG existente no lugar do asset “THANK YOU” ausente e formulário/revisão completos abaixo dos cards no mobile, pois esses dados obrigatórios não aparecem no frame mobile fornecido. Limites técnicos: simulação local, ausência de broadcast entre abas, fallback de lock restrito à página e recuperação de timers por REST após fechar o navegador. O aviso de tamanho do bundle permanece; Lighthouse, backend e deploy não foram executados nesta etapa. Tela dedicada de carteiras e perfil ficam para etapa posterior, mediante autorização.
+
+## Carrinho e cotação · Etapa 3
 
 Cards permitem abrir **Escolher edição**; detalhe permite selecionar edição/quantidade e adicionar. `/carrinho` funciona com visitante e conta. Carrinho, edições e cupons persistem via fonte MSW compartilhada; login combina o visitante à conta uma única vez. Logout/troca/expiração isolam os dados privados. O resumo é integralmente fornecido pela cotação REST, com precisão de 18 casas e validação de versão. Preço/estoque mudam pelo Socket.IO existente.
 
-Cupom demonstrável: `KURIO10` (10%); `EXPIRADO` exercita expiração; outros códigos são inválidos. **Cenários de demonstração → Carrinho e cotação** permite falha de rede/503, latência, timeout e recuperação. **Alterar Emerald Ape** atualiza a cotação com o carrinho aberto. Nenhuma alteração reserva estoque ou executa compra. **Continuar ao checkout** fica explicitamente inativo até autorização da próxima etapa.
+Cupom demonstrável: `KURIO10` (10%); `EXPIRADO` exercita expiração; outros códigos são inválidos. **Cenários de demonstração → Carrinho e cotação** permite falha de rede/503, latência, timeout e recuperação. **Alterar Emerald Ape** atualiza a cotação com o carrinho aberto. Alterações do carrinho/cotação não reservam estoque; a Etapa 4 ativa o checkout e reserva somente na criação do pedido.
 
 As referências locais de carrinho orientam tabela/resumo desktop e cards/resumo mobile. Foram mantidos os assets, tokens e rodapé existentes; os blocos editoriais/newsletter/carteiras do frame não pertencem ao escopo. A ausência de fonte original e as cores provisórias continuam sendo limitações visuais documentadas.
 
 Arquivos da Etapa 3: `src/features/cart/{identity,queries,purchase-controls,cart-link,page}`, `src/mocks/{cart-store,cart-handlers}`, contratos/fixtures/store/handlers, merge nos handlers de autenticação e cancelamento na sessão, router/shell, integração nos cards/detalhe, validação e reconciliação Socket.IO, helper ETH, ícone de remoção e CSS responsivo/autofill. Testes em `tests/e2e/cart.spec.ts`, asserções de ações atualizadas em `foundation.spec.ts` e baselines nas três pastas `*.spec.ts-snapshots`. Contratos e decisões completos em [CONTRACTS.md](CONTRACTS.md#carrinho-e-cotação--etapa-3) e [ARCHITECTURE.md](ARCHITECTURE.md#carrinho-e-cotação). Nenhuma dependência foi adicionada.
 
-Limitações específicas: mocks persistem no navegador e não garantem transações entre abas/dispositivos; cotação não reserva estoque e usa taxa estimada fixa. O catálogo anterior migra para a fixture com edições, preservando o armazenamento de contas/favoritos. A navegação inferior mobile existente é mantida no carrinho; em capturas de página inteira, sua posição fixa corresponde ao viewport inicial. Fonte, dados e conteúdo inferior diferem do frame. O checkout futuro deverá validar a cotação no commit da operação, reservar estoque e tratar idempotência/pagamento/pedidos; nenhuma dessas ações foi implementada.
+Limitações ao encerrar a Etapa 3: mocks persistiam no navegador sem transações entre abas/dispositivos; cotação não reservava estoque e usava taxa estimada fixa. O catálogo anterior migrou para a fixture com edições, preservando contas/favoritos. A navegação inferior mobile foi mantida no carrinho; em capturas de página inteira, sua posição fixa corresponde ao viewport inicial. Fonte, dados e conteúdo inferior diferem do frame. Validação no commit, reserva e idempotência foram implementadas posteriormente na Etapa 4, conforme a seção acima.
 
 ### Evidências visuais da Etapa 3
 

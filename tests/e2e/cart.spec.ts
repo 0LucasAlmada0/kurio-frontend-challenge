@@ -284,7 +284,7 @@ test('layout responsivo, navegação acessível e skeleton do carrinho', async (
   await expect(row(page)).toBeVisible()
   await settled(page)
   await control(page, 'cart/scenario', { delay: 150 })
-  await expect(page.getByRole('button', { name: 'Continuar ao checkout' })).toBeDisabled()
+  await expect(page.getByRole('link', { name: 'Continuar ao checkout' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await expect(page).toHaveScreenshot('cart.png', { fullPage: true })
   await row(page).getByRole('spinbutton').focus()

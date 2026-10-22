@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1, 1.5, 2 e 3
+# Arquitetura · Etapas 1, 1.5, 2, 3 e 4
 
 ## Estrutura
 
@@ -10,6 +10,7 @@ src/
   features/auth/       sessão, ciclo de vida, validação e formulário compartilhado
   features/favorites/  queries privadas, mutations otimistas, botões e lista protegida
   features/cart/       identidade visitante, consultas/mutations, seleção e carrinho
+  features/checkout/   carteira compartilhável, revisão, tentativa persistida e recibo
   components/          card, loading, erro e primitives shadcn/ui
   realtime/            socket.io-client, validação e ciclo de vida
   mocks/               fixtures, armazenamento, rede e controles
@@ -26,15 +27,31 @@ O README oficial exige React/TypeScript, Router, Query, Axios/REST, Socket.IO, T
 
 Decisões do agente: rotas declaradas em código, sem gerador; Tailwind v4; primitives shadcn/ui locais com Slot/CVA; catálogo paginado em 8 itens com 12 fixtures derivadas das quatro imagens; persistência local versionada; eventos com snapshot completo; invalidação de listas após evento em vez de tentar recalcular ordenação/paginação no cliente. Nenhum serviço privado, backend separado, nova imagem ou fonte externa foi usado.
 
+## Checkout e consistência · Etapa 4
+
+`commerce-db.ts` migra as chaves anteriores de catálogo/carrinhos sem apagar contas/favoritos. Um documento `kurio:mock-commerce:v1` contém NFTs, carrinhos, carteiras, conexões por sessão, pedidos, fingerprints de idempotência e versão de invalidação de cotação. Escritas de comércio passam por `commerceTransaction`: Web Locks serializa inclusive documentos da mesma origem; fallback é uma fila da página. Leitura/validação final e escrita ficam no mesmo lock, inclusive durante SHA-256 assíncrono. Cada commit financeiro grava reserva+pedido, ou estado terminal+estoque/carrinho, em um único `localStorage.setItem`. Não existe intervalo com estoque reservado sem pedido persistido.
+
+Idempotência tem escopo de usuário. O payload normalizado inclui cotação, carteira, rede e todos os dados do colecionador. Uma chave válida fica vinculada a esse conteúdo, mesmo se a cotação for recusada; outro conteúdo retorna conflito. Pedido existente com a mesma chave/payload é devolvido antes de revalidar a cotação: sua própria reserva pode ter alterado disponibilidade/versões, mas isso não representa outra compra. A UI guarda a tentativa antes do POST, cancela requests privados na mudança de sessão e permite consulta/reenvio após resposta perdida. Uma recusa terminal só vira nova tentativa por ação explícita, com chave nova.
+
+Criação revalida toda a cotação e sua validade, sessão, carteira/usuário, conexão da sessão e rede. O snapshot original é copiado para o pedido antes de debitar estoque disponível. Pendentes reservam as quantidades; confirmação conserva esse débito, recusa o devolve. Timers usam prazo/resultado persistidos, recuperados por REST após refresh; não são um backend em segundo plano quando a página está fechada. Estados confirmed/refused nunca mudam. Efeitos de resolução só são aplicados na transição de pending.
+
+Linhas de carrinho recebem `lineId`. Na confirmação, somente linhas com a identidade capturada são reduzidas pelas quantidades compradas; acréscimos e outros NFTs continuam. Remover/recriar o mesmo SKU gera outra identidade e preserva a nova linha. Linhas legadas recebem identidade ao criar o pedido. Cupom e demais modificações atuais do carrinho são preservados.
+
+Carteiras e provedores vêm de REST; fixtures ficam nos mocks. `WalletPanel`/`WalletForm` estão preparados para a futura página dedicada, sem criá-la nesta etapa. Adicionar uma principal reclassifica a anterior como secundária no mesmo commit. Conexões simuladas pertencem à sessão; não há extensão EIP-1193 nem resolução ENS real. A política de taxa da cotação anterior é reutilizada, sem cálculo financeiro na UI.
+
+O socket público é preservado. Um listener privado por sessão envia `session.subscribe`; o MSW autentica o token e valida user/session antes de emitir `order.updated`. Logout/troca remove listener e assinatura; o servidor também recusa token revogado/expirado. Eventos têm versão monotônica e identidade estável; duplicatas, eventos antigos, outra sessão e regressão terminal são descartados. O evento invalida consultas e o recibo só aparece depois de REST retornar confirmed. Reconexão invalida pedidos ativos; polling de pendentes e consulta manual recuperam eventos perdidos. Cache usa `['private', userId, sessionId, 'orders'|'wallets', ...]` e mantém proteção de identidade/AbortSignal existente. Respostas atrasadas da mutation não substituem estado terminal já conhecido.
+
+Layout: formulário à esquerda e itens/valores/carteiras/ação à direita no desktop; mobile prioriza os cards de carteira/provedor e empilha dados/revisão obrigatórios, ausentes do frame mobile. Recibo centralizado segue a referência desktop, com meta em duas colunas no mobile. Campos de indicação/ENS são opcionais para não impedir colecionadores sem esses dados; sua sintaxe continua validada quando preenchidos. O ícone de envelope reutiliza o sistema SVG existente porque o asset “THANK YOU” não foi fornecido. Fonte/cores provisórias e footer reduzido permanecem; não há seções editoriais ou exploração fictícia de blockchain.
+
 ## Carrinho e cotação
 
-`mocks/cart-store.ts` é a fonte compartilhada de carrinhos, merge, estoque e cotação; `cart-handlers.ts` aplica autorização, latência e falhas. Persistência mock em `kurio:mock-carts:v1`, catálogo com edições em `kurio:mocks:v2`. A migração de catálogo reinicia apenas a fixture pública anterior; usuários e favoritos permanecem nos seus armazenamentos existentes.
+`mocks/cart-store.ts` é a fonte compartilhada de carrinhos, merge, estoque e cotação; `cart-handlers.ts` aplica autorização, latência e falhas. Na Etapa 3, os armazenamentos eram `kurio:mock-carts:v1` e `kurio:mocks:v2`; a Etapa 4 os migra para o documento de comércio descrito acima. Usuários/favoritos permanecem no armazenamento existente.
 
 Componentes recebem dados REST e enviam intenções; não calculam subtotal, desconto ou total. `PurchaseControls` compartilha seleção entre cards/detalhe. `useCart` usa Axios/TanStack Query e mutations pessimistas: mantém os itens anteriores em falhas e serializa alterações por identidade, com bloqueio compartilhado entre componentes. O servidor é responsável pelos limites de estoque. As chaves são `['private', userId, sessionId, 'cart', ...]` e `['visitor', guestId, 'cart', ...]`; quote acrescenta revisão do carrinho. Placeholder de cotação só pode reutilizar dados do mesmo proprietário.
 
 Sessão anterior é cancelada/limpa como nos favoritos; carrinhos visitantes também são cancelados/limpos na transição. Requisições verificam identidade antes/depois, combinam AbortSignals e capturam credencial de origem. O MSW reautoriza após a latência e rejeita capacidades visitantes consumidas pelo merge. Troca de conta nunca transforma um carrinho privado em visitante. Carrinhos persistidos da conta só voltam com autenticação dessa conta.
 
-Eventos aceitos pelo provedor Socket.IO invalidam carrinho/cotação e catálogo; reconexão também reconsulta REST. Versões/duplicatas continuam filtradas pelo pipeline público existente. Cotação tem fingerprint/validade e validação REST para futura reutilização; BigInt/wei garante precisão financeira. Estoque não é reservado nesta etapa. A persistência local é uma simulação no navegador, sem transações entre abas/dispositivos nem segurança de backend real; concorrência de produção precisará de armazenamento servidor, revisão condicional e idempotência transacional.
+Eventos aceitos pelo provedor Socket.IO invalidam carrinho/cotação e catálogo; reconexão também reconsulta REST. Versões/duplicatas continuam filtradas pelo pipeline público existente. Cotação tem fingerprint/validade e validação REST; BigInt/wei garante precisão financeira. Consultar/alterar carrinho não reserva estoque; a criação do pedido na Etapa 4 faz a reserva. Persistência permanece simulada no navegador; Web Locks protege comércio entre abas suportadas, mas produção precisa de transações e segurança em um backend real, inclusive entre dispositivos.
 
 Correção de autofill: campos transparentes deixavam aparecer o preenchimento interno de autofill do Chromium (regras UA com `!important`). A regra localizada `:autofill`/`:-webkit-autofill` pinta um inset com o token de fundo da apresentação e preserva texto/caret, sem desativar autocomplete. Referência: [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:autofill). Playwright força a pseudo-classe pelo CDP para verificar o estado e capturar a aparência; não armazena senhas reais no navegador.
 
@@ -54,9 +71,9 @@ O teste de tempo real observa conexão, recibo acessível do listener, preço re
 
 Dados públicos usam `['public', 'nfts', ...]`, com parâmetros completos na chave das listas. Stale time 30s, coleta após 5min, revalidação ao foco e à reconexão. Uma tentativa adicional para falhas transitórias; erros HTTP 4xx não repetem. Mutations não repetem automaticamente. Requests obsoletos recebem AbortSignal. Nenhum cálculo monetário usa ponto flutuante: preços são strings e ordenação converte para wei com BigInt.
 
-O catálogo simulado persiste em `localStorage` sob `kurio:mocks:v1`; cenário de rede e conexões ficam em memória. Reset integral restaura as fixtures e o cenário e, pela UI, recarrega a página. Cada teste tem contexto de navegador/armazenamento próprio e executa o reset via HTTP interceptado por MSW. O store permanece em memória se armazenamento estiver indisponível.
+Catálogo e comércio persistem no documento `kurio:mock-commerce:v1`; as chaves anteriores são apenas origem de migração. Cenários de autenticação/carrinho/checkout usam sessionStorage; sockets/timers ficam na página. Reset integral restaura fixtures e cenários e, pela UI, recarrega a página. Cada teste tem contexto de navegador/armazenamento próprio e executa reset via HTTP MSW. Storage indisponível limita persistência ao ciclo da página.
 
-A Etapa 2 usa `['private', userId, sessionId, 'favorites']`. Dados públicos continuam nas chaves anteriores. `order.updated` permanece somente como contrato reservado: não há listeners privados nesta etapa. O socket público permanece conectado nas mudanças de conta; seus listeners não capturam identidade privada.
+A Etapa 2 usa `['private', userId, sessionId, 'favorites']`. Dados públicos continuam nas chaves anteriores. A Etapa 4 implementa o contrato antes reservado de `order.updated`, com assinatura por sessão. O socket público permanece conectado nas mudanças de conta.
 
 ## Sessão e isolamento · Etapa 2
 
@@ -97,12 +114,12 @@ As seis capturas revisadas estão em `tests/e2e/foundation.spec.ts-snapshots/`, 
 - Sem auditorias Lighthouse executadas, deploy ou integração com backend real. Configurações iniciais estão prontas; pontuações e metas finais ainda precisam ser medidas.
 - A ferramenta Browser integrada falhou ao inicializar por erro de infraestrutura (`sandboxPolicy` ausente). Verificação executável e screenshots usam os testes Playwright do projeto.
 - Mock apenas do namespace padrão e eventos JSON de texto. Rooms, namespaces privados, binários, acknowledgements e polling não foram implementados nem validados. Não é servidor Socket.IO de produção.
-- Persistência do catálogo é consistente na página e no refresh; sincronização de alterações públicas entre abas não foi implementada. Sessão e favoritos são persistidos, com logout compartilhado validado em duas abas. Escritas simultâneas entre abas não têm transações de backend.
+- REST lê o snapshot compartilhado, mas broadcasts Socket.IO entre páginas distintas não foram implementados. Sessão/favoritos têm logout compartilhado; suas escritas anteriores continuam sem transações multiaba. Comércio usa Web Locks quando disponível; não há transação distribuída entre dispositivos nem backend real.
 - A autenticação é simulação no navegador: storage e tokens são inspecionáveis pelo usuário local, sem cookie HttpOnly, backend seguro, recuperação de senha ou serviço social. PBKDF2 evita persistência de senha clara e não transforma o MSW em fronteira de segurança de produção. Storage indisponível limita persistência ao ciclo da página.
-- Expiração remota é detectada por REST/foco e pelo timer local; não há push privado ou listeners de pedidos. Encerrar a página durante um cadastro pode deixar uma conta criada na simulação, mesmo se a resposta não chegou ao cliente; novo cadastro retorna conflito e permite login.
-- Checkout, pedidos idempotentes, perfil, carteiras e respectivos cenários permanecem para etapas autorizadas posteriores. Carrinho e cotações foram implementados na Etapa 3.
+- Expiração remota é detectada por REST/foco e timer local, sem evento específico de expiração. Pedidos têm evento privado e recuperação REST. Encerrar a página durante cadastro pode deixar a conta criada, mesmo sem a resposta; novo cadastro retorna conflito e permite login.
+- Perfil e tela dedicada de carteiras permanecem para etapa posterior; checkout, base de carteiras e pedidos idempotentes foram implementados na Etapa 4.
 - Filtros combinados e controles mais completos, regressões visuais das telas futuras, metadados específicos de cada rota e auditoria de acessibilidade final permanecem pendentes.
 - Captura desktop de início isolada ausente; acesso pelo conector Figma negado. Cores, família tipográfica e fidelidade final dependem de inspeção posterior.
 - Dependências transitivas do LHCI incluem pacotes com avisos de depreciação na instalação. Não se tentou substituir a stack de auditoria exigida nesta etapa.
 
-Próxima etapa depende de autorização. Checkout, carteiras e pedidos não foram implementados. Não foram criados commits automaticamente.
+Próxima etapa depende de autorização. Não foram criados commits automaticamente. Blockchain, extensões e gateways reais não fazem parte da simulação.

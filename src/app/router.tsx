@@ -8,6 +8,8 @@ import { auth } from '@/features/auth/session'
 import { safeReturnTo } from '@/features/auth/validation'
 import { FavoritesPage } from '@/features/favorites/page'
 import { CartPage } from '@/features/cart/page'
+import { CheckoutPage } from '@/features/checkout/page'
+import { OrderPage } from '@/features/checkout/order-page'
 
 const rootRoute = createRootRoute({
   component: Shell,
@@ -31,18 +33,21 @@ const cartRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carrinh
 const authSearch = (search: Record<string, unknown>) => ({ redirect: safeReturnTo(search.redirect), reason: search.reason === 'expired' ? 'expired' : '' })
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', validateSearch: authSearch, component: () => <AuthPage key="login" /> })
 const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/cadastro', validateSearch: authSearch, component: () => <AuthPage key="register" /> })
+const requireAuth = async ({ location }: { location: { href: string } }) => {
+  await auth.ready()
+  const state = auth.getSnapshot()
+  if (state.status === 'anonymous') throw redirect({ to: '/login', search: { redirect: location.href, reason: state.reason ?? '' }, replace: true })
+}
+const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/pagamento', beforeLoad: requireAuth, component: CheckoutPage })
+const orderRoute = createRoute({ getParentRoute: () => rootRoute, path: '/pedidos/$orderId', beforeLoad: requireAuth, component: OrderPage })
 const favoritesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/favoritos',
-  beforeLoad: async ({ location }) => {
-    await auth.ready()
-    const state = auth.getSnapshot()
-    if (state.status === 'anonymous') throw redirect({ to: '/login', search: { redirect: location.href, reason: state.reason ?? '' }, replace: true })
-  },
+  beforeLoad: requireAuth,
   component: FavoritesPage,
 })
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute]), defaultPreload: 'intent' })
+export const router = createRouter({ routeTree: rootRoute.addChildren([catalogRoute, detailRoute, loginRoute, registerRoute, favoritesRoute, cartRoute, checkoutRoute, orderRoute]), defaultPreload: 'intent' })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }

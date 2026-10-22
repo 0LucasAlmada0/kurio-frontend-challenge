@@ -1,4 +1,4 @@
-# Contratos · Etapas 1, 2 e 3
+# Contratos · Etapas 1, 2, 3 e 4
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
@@ -6,7 +6,7 @@ Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulaç
 
 `Nft`: `id`, `name`, `image` (caminho local), `collection`, `creator`, `rarity` (`comum|raro|lendário`), `priceEth` (string decimal de até 18 casas), `available` (inteiro >= 0), `version` (inteiro monotônico > 0), `description`, `editions` (IDs, rótulos e estoques).
 
-Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação usam wei/BigInt. A cotação inclui taxa de rede simulada; checkout não faz parte desta etapa.
+Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação usam wei/BigInt. A cotação inclui taxa de rede simulada e é revalidada dentro da criação do pedido.
 
 | Método / rota | Entrada | Saída |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação
 
 Busca ignora maiúsculas e consulta nome/coleção; sort é estável por ID no empate de preços. Página além da última retorna lista vazia mantendo `total`. Router normaliza busca inválida para string vazia, página 1 e ordenação `name`; a UI limita busca a 120 caracteres. Mudança de busca/ordenação reinicia página. AbortSignal cancela chamadas obsoletas.
 
-Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão/favoritos abaixo; demais recursos e idempotência de pedidos permanecem pendentes.
+Erros: `{ code: string, message: string, fields?: Record<string,string> }`. `NOT_FOUND` (404), `UNAVAILABLE` (503). Rede indisponível/timeout geram erros de transporte, sem JSON de sucesso. Recursos de sessão, favoritos, carrinho, carteiras e pedidos estão documentados abaixo; perfil e edição dedicada de carteiras permanecem para etapa posterior.
 
 ## Autenticação e favoritos
 
@@ -53,7 +53,7 @@ Todas as rotas abaixo usam o mesmo proprietário: `Authorization: Bearer <token>
 
 | Método / rota sob `/api` | Contrato |
 | --- | --- |
-| GET `/cart` | `Cart {ownerId, version, items: [{nftId, editionId, quantity}], coupon: string|null, notices: string[]}` |
+| GET `/cart` | `Cart {ownerId, version, items: [{nftId, editionId, quantity,lineId?}], coupon: string|null, notices: string[]}`; lineId gerado pelo servidor identifica a linha para limpeza após compra |
 | PUT `/cart/items` | `{nftId, editionId, quantity, operation?: 'add'|'set'}`; `set` é padrão, `add` soma; retorna Cart. Quantidade inteira 1–10000; 422 para inválida, 404 edição ausente, 409 estoque insuficiente/esgotado |
 | DELETE `/cart/items/:nftId/:editionId` | Remove uma linha, retorna Cart; repetição mantém ausência |
 | PUT `/cart/coupon` | `{code}`; normaliza espaços/caixa. `KURIO10`: desconto de 10%. `EXPIRADO`: 422 `COUPON_EXPIRED`; demais: 422 `COUPON_INVALID`. Falha preserva cupom anterior |
@@ -72,6 +72,39 @@ Login/cadastro recebem também `X-Guest-Cart`: após validar credenciais, o MSW 
 `POST /api/__mock/cart/scenario` aceita `{failure?: 'none'|'network'|'server', delay?: number}` (0–9000ms; padrão none/150). Falhas ocorrem antes de alterar a fonte de dados; `server` retorna 503 e `network` simula falha de transporte. Cenário em sessionStorage sobrevive ao refresh; reset geral limpa carrinhos/cenários. UI: **Carrinho e cotação** oferece recuperação, falha, latência e timeout.
 
 O controle `POST /api/__mock/nfts/:id/update` também aceita `{priceEth?, editionId?, available?}`. Preço precisa ser decimal não negativo com até 18 casas; disponibilidade inteira não negativa. Atualiza fonte compartilhada e versão antes de emitir Socket.IO, sem chamar setters React. Sem body, mantém a alternância de preço e reduz a primeira edição com estoque.
+
+## Carteiras, checkout e pedidos · Etapa 4
+
+Todas as rotas abaixo exigem Bearer válido; 401 sem sessão válida e 403 para acesso a recurso de outro usuário. O servidor determina o proprietário, sem aceitar userId do body. Sessão é revalidada após latência e imediatamente antes do commit do pedido.
+
+`WalletInput = {label, address, networkId:'ethereum'|'polygon', kind:'primary'|'secondary'}`. Label 2–60, endereço `0x` + 40 hexadecimais ou ENS `.eth` até 120 caracteres. `Wallet` acrescenta `id`/`userId`. Uma principal nova transforma as anteriores do usuário em secundárias. Endereço+rede repetidos para a mesma conta retornam 409. Redes/provedores disponíveis vêm na resposta `Wallets`.
+
+| Método / rota sob `/api` | Resultado |
+| --- | --- |
+| GET `/wallets` | `{userId,items:Wallet[],connection:WalletConnection|null,networks:[{id,label}],providers:WalletProvider[]}` |
+| POST `/wallets` | WalletInput → Wallets; 422 validação/fields, 409 duplicata |
+| POST `/wallets/connection` | `{walletId,provider}` → Wallets; provedores `WalletConnect`, `MetaMask`, `Coinbase Wallet`; 403 carteira alheia, 422 provedor inválido, 409 recusa simulada |
+| DELETE `/wallets/connection` | Desconecta exclusivamente a sessão atual; retorna Wallets |
+| POST `/orders` | Header `Idempotency-Key`; OrderInput → Order, 200 tanto na criação quanto recuperação idempotente |
+| GET `/orders` | `{userId,items:Order[]}` do usuário atual |
+| GET `/orders/:id` | Order ou 404/403 |
+| GET `/orders/by-key/:key` | Recupera o pedido da tentativa do usuário; 404 se ainda não criado |
+
+`Collector = {displayName,username,profileName,email,ens,referralCode,note}`. Os três nomes têm 2–60 caracteres; username aceita letras/números/ponto/hífen/sublinhado. E-mail válido até 254. ENS/indicação/observação são opcionais: ENS termina em `.eth`, indicação até 32 alfanuméricos/hífen/sublinhado, observação até 500. `OrderInput = {quoteId,walletId,networkId,collector}`.
+
+`Order = {id,userId,idempotencyKey,createdAt,updatedAt,version,status,transactionId,quote,wallet,provider,collector,reason}`. `quote` e `wallet` são cópias imutáveis aceitas no commit. `status` é pending/confirmed/refused, versão inicial 1, resolução terminal 2. A referência de transação simulada só existe em confirmed. Recibos nunca consultam preços atuais para recalcular valores. Compra pode resolver após o vencimento da cotação original, pois a autorização/reserva ocorreu enquanto ela era válida.
+
+Chave: 8–128 caracteres alfanuméricos, hífen ou sublinhado, sensível à caixa, com escopo por usuário. O fingerprint inclui os campos tipados normalizados, cotação, carteira e rede. Outra carga na mesma chave retorna 409 `IDEMPOTENCY_CONFLICT`, inclusive após recusa prévia de cotação; a UI usa nova chave após nova revisão. Mesmo payload recupera o mesmo pedido antes de revalidar a cotação, evitando conflito com a própria reserva. Sem chave válida: 422. Falhas de disponibilidade/cotação: 409 `STOCK_LIMIT`/`QUOTE_STALE`; falta de conexão/rede compatível: 409 `WALLET_DISCONNECTED`.
+
+Criação reexecuta a cotação oficial, confere ID/validade/disponibilidade e a conexão carteira+rede da sessão. Dentro de um lock, debita estoque e persiste pedido pending em um único snapshot. Confirmação remove apenas quantidades compradas de linhas com `lineId` correspondente; linhas recriadas e acréscimos são preservados. Recusa libera a reserva uma única vez e conserva o carrinho. Efeitos não são reaplicados em replay/consulta/refresh. UI `/pagamento` e `/pedidos/:orderId` exige autenticação; pending/refused nunca renderizam recibo confirmado.
+
+### Controles de checkout
+
+`POST /api/__mock/checkout/scenario` aceita `{preset?}` ou campos parciais `{payment:'confirmed'|'refused'|'pending',settlementDelay:0..60000,timeoutAfterCreate,connectionRefused,disconnectPending,beforeCreate:'none'|'price'|'sold-out'|'expired'|'session-expired'}`. Padrão: confirmed após 1200ms; demais flags false/none. Presets: success/refused/pending/timeout/connection-refused/stale/price/sold-out/disconnect/session-expired. Persistem em sessionStorage. `stale` invalida a versão da cotação dentro da criação; vencimento real também é verificado e testado com relógio controlado.
+
+`timeout` grava o pedido e perde a resposta após 9000ms, ultrapassando o timeout Axios de 8000ms; repetir a mesma chave recupera sem nova reserva. Essa espera ocorre fora do lock. `disconnect` interrompe o Socket.IO após criar pending. `pending` não agenda resolução automática. `price`/`sold-out` alteram a fonte e emitem nft.updated entre a revalidação inicial da UI e a validação do commit. `session-expired` revoga a sessão nesse ponto, sem reservar estoque.
+
+`POST /api/__mock/orders/:id/resolve {status:'confirmed'|'refused'}` resolve pending; terminais são devolvidos intactos. `/api/__mock/checkout/resolve-pending` resolve todos os pendentes do cenário. `/api/__mock/orders/replay` reemite OrderUpdated somente para uma assinatura autorizada que corresponda ao userId/sessionId. Reset cancela timers e limpa todo o documento de comércio, tentativas/drafts locais, cenários e dados de autenticação pelas rotinas existentes.
 
 ## Evento `nft.updated`
 
@@ -101,9 +134,11 @@ Servidor simulado → `socket.io-client` pelo WebSocket Socket.IO:
 
 `resourceId` e `version` devem coincidir com o snapshot. Versão menor ou igual à conhecida é ignorada. Cada alteração lógica aumenta a versão; duplicatas preservam evento/versão. Reconexão reconsulta REST. Eventos públicos não carregam identidade de usuário.
 
-## Contrato reservado `order.updated`
+## Evento privado `order.updated`
 
-`{ eventId, scope: 'private', userId, sessionId, resourceId, version, status: 'pending'|'confirmed'|'refused' }`. Apenas tipado; não é emitido, assinado nem aplicado. A etapa de pedidos deverá validar a sessão atual, estados terminais e idempotência, além de recuperar o recurso por REST.
+`{eventId,scope:'private',userId,sessionId,resourceId,version,status:'pending'|'confirmed'|'refused'}`. `eventId = orderId:vN` é estável; sessionId corresponde ao destinatário autenticado. O cliente envia `session.subscribe {token,sessionId}` pelo Socket.IO; o MSW valida a sessão e responde `session.ready {userId,sessionId}`. `session.unsubscribe` remove a assinatura. O servidor valida novamente o token antes de enviar cada evento. Somente o usuário dono recebe o pedido.
+
+O cliente valida identidade/versão e rejeita sessão anterior, duplicatas, versões antigas e qualquer regressão terminal. Eventos invalidam queries; os detalhes e o sucesso vêm de REST. Na reconexão, o cliente reassina e reconsulta; pending também usa polling de 1s e consulta manual. A UI não depende exclusivamente do evento e nunca produz confirmação diretamente do payload Socket.IO.
 
 ## Controles da simulação
 

@@ -5,11 +5,14 @@ import { disconnectClients, emitNftUpdated, socketHandler } from './socket'
 import { getScenario, latency, setScenario } from './scenarios'
 import { authHandlers, resetAuthMocks } from './auth-handlers'
 import { cartHandlers, resetCartMocks } from './cart-handlers'
+import { checkoutHandlers, resetCheckoutMocks } from './checkout-handlers'
+import { commerceTransaction } from './commerce-db'
 
 const base = import.meta.env.VITE_API_BASE_URL || '/api'
 export const handlers = [
   ...authHandlers,
   ...cartHandlers,
+  ...checkoutHandlers,
   http.get(`${base}/nfts`, async ({ request }) => {
     const params = new URL(request.url).searchParams
     const q = params.get('q')?.trim().toLowerCase() || ''
@@ -34,13 +37,13 @@ export const handlers = [
     const nft = store.get(String(params.id))
     return nft ? HttpResponse.json(nft) : HttpResponse.json({ code: 'NOT_FOUND', message: 'NFT não encontrado.' }, { status: 404 })
   }),
-  http.post(`${base}/__mock/reset`, () => {
-    store.reset()
+  http.post(`${base}/__mock/reset`, () => commerceTransaction(() => {
+    resetCheckoutMocks()
     resetAuthMocks()
     resetCartMocks()
     setScenario('success')
     return HttpResponse.json({ ok: true })
-  }),
+  })),
   http.post(`${base}/__mock/scenario`, async ({ request }) => {
     const body = await request.json() as { scenario?: unknown }
     return setScenario(body.scenario) ? HttpResponse.json({ ok: true }) : HttpResponse.json({ code: 'INVALID_SCENARIO' }, { status: 400 })
@@ -48,10 +51,12 @@ export const handlers = [
   http.post(`${base}/__mock/nfts/:id/update`, async ({ params, request }) => {
     const change = await request.json().catch(() => ({})) as { priceEth?: string; editionId?: string; available?: number }
     if ((change.priceEth !== undefined && !/^\d+\.\d{1,18}$/.test(change.priceEth)) || (change.available !== undefined && (!Number.isSafeInteger(change.available) || change.available < 0))) return HttpResponse.json({ code: 'INVALID_INPUT' }, { status: 422 })
-    const event = store.update(String(params.id), change as Parameters<typeof store.update>[1])
-    if (!event) return HttpResponse.json({ code: 'NOT_FOUND' }, { status: 404 })
-    emitNftUpdated(event)
-    return HttpResponse.json(event)
+    return commerceTransaction(() => {
+      const event = store.update(String(params.id), change as Parameters<typeof store.update>[1])
+      if (!event) return HttpResponse.json({ code: 'NOT_FOUND' }, { status: 404 })
+      emitNftUpdated(event)
+      return HttpResponse.json(event)
+    })
   }),
   http.post(`${base}/__mock/events/replay`, async ({ request }) => {
     const event = await request.json()
