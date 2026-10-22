@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { openCheckoutReview } from './checkout-ui'
 
 test('produção: MSW antes das consultas, imagens sem perda, metadados e refresh interno', async ({ page, request }) => {
   const apiResponses: boolean[] = []
@@ -48,8 +49,10 @@ test('rotas carregadas sob demanda preservam autenticação, carteiras, carrinho
   expect(await page.evaluate(async () => (await fetch('/api/cart/items', { method: 'PUT', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('kurio:session-token')}` }, body: JSON.stringify({ nftId: 'emerald-ape-042', editionId: 'standard', quantity: 1, operation: 'add' }) })).status)).toBe(200)
   await page.goto('/pagamento')
   await expect(page.getByRole('heading', { name: 'Pagamento com carteira', exact: true })).toBeVisible()
+  await openCheckoutReview(page)
   await expect(page.getByRole('textbox', { name: 'Nome de exibição', exact: true })).toHaveValue('Ana')
   await page.reload()
+  await openCheckoutReview(page)
   await expect(page.getByRole('textbox', { name: 'Nome de exibição', exact: true })).toHaveValue('Ana')
   await page.goto('/carrinho')
   await expect(page.getByTestId('cart-emerald-ape-042-standard')).toBeVisible()

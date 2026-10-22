@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import type { Cart, Collector, Nft, Order, OrderInput, Quote, Session, Wallets } from '../../src/api/contracts'
+import { openCheckoutReview } from './checkout-ui'
 
 const nftId = 'emerald-ape-042'
 async function control(page: Page, path: string, body: unknown = {}) {
@@ -16,9 +17,10 @@ async function api<T>(page: Page, path: string, method = 'GET', body?: unknown, 
     return { status: response.status, data: await response.json() }
   }, { path, method, body, key, token }) as Promise<{ status: number; data: T }>
 }
-async function login(page: Page, user = 'ana') {
+async function login(page: Page, user = 'ana', open = false) {
   const dialog = page.getByRole('dialog')
-  if (!await dialog.isVisible()) await page.getByRole('button', { name: 'Entrar', exact: true }).filter({ visible: true }).click()
+  if (open) await page.getByRole('button', { name: 'Entrar', exact: true }).filter({ visible: true }).click()
+  await expect(dialog).toBeVisible()
   await dialog.getByLabel('E-mail', { exact: true }).fill(`${user}@kurio.test`)
   await dialog.getByLabel('Senha', { exact: true }).fill('KurioDemo!123')
   await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
@@ -31,14 +33,17 @@ async function prepare(page: Page, quantity = 1, editionId = 'standard') {
   await login(page)
   await expect(page).toHaveURL(/\/pagamento$/)
   await expect(page.getByTestId('checkout-total')).toBeVisible()
+  await openCheckoutReview(page)
 }
 async function connect(page: Page, wallet = 'Principal', provider = 'MetaMask') {
   await page.getByRole('radio', { name: new RegExp(`^${wallet}`) }).check()
   await page.getByRole('radio', { name: provider, exact: true }).check()
   await page.getByRole('button', { name: 'Conectar carteira simulada', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Carteira conectada', exact: true })).toBeVisible()
   await expect(page.getByText('Carteira conectada nesta sessão.', { exact: true })).toBeVisible()
 }
 async function submit(page: Page) {
+  await openCheckoutReview(page)
   await page.getByRole('checkbox', { name: /Revisei os itens/ }).check()
   const response = page.waitForResponse((response) => response.url().endsWith('/api/orders') && response.request().method() === 'POST')
   await page.getByRole('button', { name: 'Confirmar compra', exact: true }).click()
@@ -87,6 +92,7 @@ test('catálogo → carrinho → login → checkout → recibo imutável e layou
   await page.getByRole('link', { name: 'Continuar ao checkout' }).click()
   await login(page)
   await connect(page)
+  await openCheckoutReview(page)
   await page.getByLabel('Nome de exibição', { exact: false }).fill('A')
   await page.getByRole('checkbox', { name: /Revisei os itens/ }).check()
   await page.getByRole('button', { name: 'Confirmar compra', exact: true }).click()
@@ -120,7 +126,7 @@ test('carteiras: validação, cadastro, principal/secundária, rede e persistên
   await page.getByRole('radio', { name: /^Reserva/ }).check()
   await expect(page.getByLabel('Rede', { exact: true })).toHaveValue('polygon')
   await connect(page, 'Reserva', 'Coinbase Wallet')
-  await page.getByRole('button', { name: 'Desconectar carteira' }).click()
+  await page.getByRole('button', { name: (page.viewportSize()?.width ?? 1440) <= 600 ? 'Trocar carteira' : 'Desconectar carteira' }).click()
   await expect(page.getByText('Carteira conectada nesta sessão.')).not.toBeVisible()
   await page.getByText('Cadastrar carteira', { exact: true }).click()
   await page.getByRole('button', { name: 'Salvar carteira' }).click()
@@ -139,10 +145,137 @@ test('carteiras: validação, cadastro, principal/secundária, rede e persistên
   await connect(page, 'Minha nova', 'WalletConnect')
   await page.reload()
   await expect(page.getByRole('radio', { name: /^Minha nova/ })).toBeChecked()
+  await openCheckoutReview(page)
   await expect(page.getByLabel('Rede', { exact: true })).toHaveValue('polygon')
   const wallets = (await api<Wallets>(page, '/wallets')).data
   expect(wallets.items.filter((wallet) => wallet.kind === 'primary')).toHaveLength(1)
   expect(wallets.connection?.provider).toBe('WalletConnect')
+})
+
+test('pagamento compacto exige revisão e mantém carteira, rede e ETH precisos', async ({ page }, testInfo) => {
+  await prepare(page)
+  await connect(page)
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Carteira conectada', exact: true })).toBeVisible()
+  const mobile = (page.viewportSize()?.width ?? 1440) <= 600
+  if (mobile) {
+    for (const [width, height] of [[414, 896], [390, 844], [390, 500]]) {
+      await page.setViewportSize({ width: width!, height: height! })
+      await expect(page.locator('.checkout-review')).not.toHaveAttribute('open', '')
+      await expect(page.getByLabel('Nome de exibição', { exact: false })).not.toBeVisible()
+      const reviewAction = page.getByRole('button', { name: 'Revisar compra', exact: true })
+      await expect(reviewAction).toHaveAttribute('type', 'button')
+      await expect(reviewAction).not.toHaveAttribute('form', /./)
+      await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).not.toBeVisible()
+      await reviewAction.scrollIntoViewIfNeeded()
+      await expect(reviewAction).toBeInViewport()
+      const bounds = await reviewAction.boundingBox()
+      expect(bounds?.width).toBe(width! - 56)
+      expect(bounds?.height).toBe(60)
+      expect(await reviewAction.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      if (width === 414) {
+        await page.evaluate(() => document.fonts.ready)
+        await testInfo.attach('pagamento-completo-mobile', { body: await page.screenshot(), contentType: 'image/png' })
+      }
+    }
+    const disconnected = page.waitForResponse((response) => response.url().endsWith('/api/wallets/connection') && response.request().method() === 'DELETE')
+    await page.getByRole('button', { name: 'Trocar carteira', exact: true }).click()
+    expect((await disconnected).status()).toBe(200)
+    expect((await api<Wallets>(page, '/wallets')).data.connection).toBeNull()
+    await expect(page.getByRole('heading', { name: 'Selecione uma carteira', exact: true })).toBeVisible()
+    await connect(page, 'Reserva', 'Coinbase Wallet')
+  }
+  await control(page, `nfts/${nftId}/update`, { priceEth: '1.123456789012345678' })
+  await expect(page.getByTestId('checkout-total')).toHaveText('1.139456789012345678 ETH')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  if (mobile) {
+    await page.getByRole('button', { name: 'Revisar compra', exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('.checkout-review')).toHaveAttribute('open', '')
+    await expect(page.getByRole('heading', { name: 'Perfil do colecionador', exact: true })).toBeFocused()
+    await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toHaveAttribute('type', 'submit')
+    await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toHaveAttribute('form', 'collector-form')
+    await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toBeDisabled()
+  }
+  expect((await api<{ items: Order[] }>(page, '/orders')).data.items).toHaveLength(0)
+  await openCheckoutReview(page)
+  const quote = (await api<Quote>(page, '/cart/quote')).data
+  await expect(page.getByTestId(mobile ? 'checkout-review-total' : 'checkout-total')).toHaveText(`${quote.totalEth} ETH`)
+  await page.getByRole('checkbox', { name: /Revisei os itens/ }).focus()
+  await page.keyboard.press('Space')
+  await control(page, 'checkout/scenario', { preset: 'pending' })
+  const posted = await submit(page)
+  expect(posted.status).toBe(200)
+  expect(posted.order.quote.totalEth).toBe(quote.totalEth)
+  expect(posted.order.wallet.networkId).toBe(mobile ? 'polygon' : 'ethereum')
+  await control(page, `orders/${posted.order.id}/resolve`, { status: 'confirmed' })
+  await receipt(page)
+})
+
+test('pagamento sem carteira oferece cadastro real e exige conexão', async ({ page }, testInfo) => {
+  expect((await api(page, '/cart/items', 'PUT', { nftId, editionId: 'standard', quantity: 1, operation: 'add' })).status).toBe(200)
+  await page.goto('/cadastro?redirect=%2Fpagamento')
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('Nome de usuário').fill('Nova Colecionadora')
+  await dialog.getByLabel('E-mail', { exact: true }).fill('nova.carteira@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill('KurioDemo!123')
+  await dialog.getByLabel('Confirmar senha').fill('KurioDemo!123')
+  await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+  await expect(page.getByText('Nenhuma carteira cadastrada.', { exact: true })).toBeVisible()
+  expect((await api<Wallets>(page, '/wallets')).data.items).toHaveLength(0)
+  await testInfo.attach(`pagamento-sem-carteira-${testInfo.project.name}`, { body: await page.screenshot({ fullPage: true }), contentType: 'image/png' })
+  const registration = page.locator('.wallet-panel .wallet-registration')
+  if (!await registration.evaluate((element: HTMLDetailsElement) => element.open)) await registration.locator('summary').click()
+  await registration.getByLabel('Apelido da carteira').fill('Minha carteira')
+  await registration.getByLabel('Endereço da carteira', { exact: true }).fill(`0x${'7'.repeat(40)}`)
+  await registration.getByLabel('Rede da nova carteira').selectOption('polygon')
+  await registration.getByLabel('Tipo da carteira').selectOption('primary')
+  const saved = page.waitForResponse((response) => response.url().endsWith('/api/wallets') && response.request().method() === 'POST')
+  await registration.getByRole('button', { name: 'Salvar carteira', exact: true }).click()
+  expect((await saved).status()).toBe(200)
+  await expect(page.getByRole('radio', { name: /^Minha carteira/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Selecione uma carteira', exact: true })).toBeVisible()
+  await openCheckoutReview(page)
+  await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toBeDisabled()
+  expect((await api<{ items: Order[] }>(page, '/orders')).data.items).toHaveLength(0)
+  await connect(page, 'Minha carteira')
+  await submit(page)
+  await receipt(page)
+})
+
+test('dados incompletos abrem correção acessível sem enviar pedido', async ({ page }, testInfo) => {
+  await prepare(page)
+  await connect(page)
+  const name = page.getByLabel('Nome de exibição', { exact: false })
+  await name.fill('')
+  await page.getByLabel('Nome de usuário', { exact: false }).fill('nome com espaço')
+  await page.getByLabel('Nome do perfil', { exact: false }).fill('')
+  await page.getByLabel('E-mail', { exact: false }).fill('invalido')
+  const mobile = (page.viewportSize()?.width ?? 1440) <= 600
+  if (mobile) {
+    await page.setViewportSize({ width: 390, height: 500 })
+    await page.locator('.checkout-review > summary').click()
+    await page.getByRole('button', { name: 'Revisar compra', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toBeDisabled()
+    await expect(name).toBeFocused()
+    await expect(name).toBeInViewport()
+  } else {
+    await page.getByRole('checkbox', { name: /Revisei os itens/ }).check()
+    await page.getByRole('button', { name: 'Confirmar compra', exact: true }).click()
+  }
+  for (const label of ['Nome de exibição', 'Nome de usuário', 'Nome do perfil', 'E-mail']) await expect(page.getByLabel(label, { exact: false })).toHaveAttribute('aria-invalid', 'true')
+  await testInfo.attach(`pagamento-dados-incompletos-${testInfo.project.name}`, { body: await page.screenshot({ fullPage: true }), contentType: 'image/png' })
+  expect((await api<{ items: Order[] }>(page, '/orders')).data.items).toHaveLength(0)
+  await name.fill('Ana Colecionadora')
+  await page.getByLabel('Nome de usuário', { exact: false }).fill('ana.colecionadora')
+  await page.getByLabel('Nome do perfil', { exact: false }).fill('Coleção Ana')
+  await page.getByLabel('E-mail', { exact: false }).fill('ana@kurio.test')
+  const result = await submit(page)
+  expect(result.order.collector.ens).toBe('')
+  expect(result.order.collector.referralCode).toBe('')
+  expect(result.order.collector.note).toBe('')
+  await receipt(page)
 })
 
 test('recusa de conexão bloqueia compra e permite recuperação', async ({ page }) => {
@@ -299,7 +432,7 @@ test('pedidos e carteiras isolados entre Ana e Bruno após troca de sessão', as
   const ana = await pending(page)
   const oldSession = (await api<Session>(page, '/session')).data
   await logout(page)
-  await login(page, 'bruno')
+  await login(page, 'bruno', true)
   await page.goto(`/pedidos/${ana.order.id}`)
   await expect(page.getByRole('alert')).toContainText('Este pedido pertence a outro usuário')
   expect((await api<Order>(page, `/orders/${ana.order.id}`)).status).toBe(403)
@@ -384,6 +517,7 @@ test('sessão expirada no checkout preserva dados e retoma após autenticar', as
   await expect(page).toHaveURL(/\/login\?.*redirect=.*pagamento/)
   await login(page)
   await page.getByRole('button', { name: 'Recuperar pedido' }).click()
+  await openCheckoutReview(page)
   await expect(page.getByLabel('Nome de exibição', { exact: false })).toHaveValue('Ana Retomada')
   await connect(page)
   await submit(page)

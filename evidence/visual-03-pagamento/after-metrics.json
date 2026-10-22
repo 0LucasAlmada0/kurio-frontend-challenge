@@ -1,0 +1,854 @@
+{
+  "390": {
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "Pagamento com carteira",
+        "rect": {
+          "x": 28,
+          "y": 28,
+          "width": 334,
+          "height": 44,
+          "top": 28,
+          "right": 362,
+          "bottom": 72,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Carteira conectada",
+        "rect": {
+          "x": 28,
+          "y": 88,
+          "width": 172.828125,
+          "height": 24,
+          "top": 88,
+          "right": 200.828125,
+          "bottom": 112,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 28,
+          "y": 124,
+          "width": 334,
+          "height": 93,
+          "top": 124,
+          "right": 362,
+          "bottom": 217,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 28,
+          "y": 237,
+          "width": 334,
+          "height": 93,
+          "top": 237,
+          "right": 362,
+          "bottom": 330,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 28,
+          "y": 378,
+          "width": 334,
+          "height": 65,
+          "top": 378,
+          "right": 362,
+          "bottom": 443,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 28,
+          "y": 459,
+          "width": 334,
+          "height": 65,
+          "top": 459,
+          "right": 362,
+          "bottom": 524,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Coinbase Wallet",
+        "rect": {
+          "x": 28,
+          "y": 540,
+          "width": 334,
+          "height": 65,
+          "top": 540,
+          "right": 362,
+          "bottom": 605,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "STRONG",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 264.765625,
+          "y": 617,
+          "width": 97.234375,
+          "height": 27,
+          "top": 617,
+          "right": 362,
+          "bottom": 644,
+          "left": 264.765625
+        },
+        "font": "900 18px / 27px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 28,
+          "y": 752,
+          "width": 334,
+          "height": 60,
+          "top": 752,
+          "right": 362,
+          "bottom": 812,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "414": {
+    "width": 414,
+    "height": 896,
+    "scrollWidth": 414,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "Pagamento com carteira",
+        "rect": {
+          "x": 28,
+          "y": 28,
+          "width": 358,
+          "height": 44,
+          "top": 28,
+          "right": 386,
+          "bottom": 72,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Carteira conectada",
+        "rect": {
+          "x": 28,
+          "y": 88,
+          "width": 172.828125,
+          "height": 24,
+          "top": 88,
+          "right": 200.828125,
+          "bottom": 112,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 28,
+          "y": 124,
+          "width": 358,
+          "height": 93,
+          "top": 124,
+          "right": 386,
+          "bottom": 217,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 28,
+          "y": 237,
+          "width": 358,
+          "height": 93,
+          "top": 237,
+          "right": 386,
+          "bottom": 330,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 28,
+          "y": 378,
+          "width": 358,
+          "height": 65,
+          "top": 378,
+          "right": 386,
+          "bottom": 443,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 28,
+          "y": 459,
+          "width": 358,
+          "height": 65,
+          "top": 459,
+          "right": 386,
+          "bottom": 524,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Coinbase Wallet",
+        "rect": {
+          "x": 28,
+          "y": 540,
+          "width": 358,
+          "height": 65,
+          "top": 540,
+          "right": 386,
+          "bottom": 605,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "STRONG",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 288.765625,
+          "y": 617,
+          "width": 97.234375,
+          "height": 27,
+          "top": 617,
+          "right": 386,
+          "bottom": 644,
+          "left": 288.765625
+        },
+        "font": "900 18px / 27px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 28,
+          "y": 804,
+          "width": 358,
+          "height": 60,
+          "top": 804,
+          "right": 386,
+          "bottom": 864,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "short": {
+    "width": 390,
+    "height": 500,
+    "scrollWidth": 390,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "Pagamento com carteira",
+        "rect": {
+          "x": 28,
+          "y": 28,
+          "width": 334,
+          "height": 44,
+          "top": 28,
+          "right": 362,
+          "bottom": 72,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Carteira conectada",
+        "rect": {
+          "x": 28,
+          "y": 88,
+          "width": 172.828125,
+          "height": 24,
+          "top": 88,
+          "right": 200.828125,
+          "bottom": 112,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 28,
+          "y": 124,
+          "width": 334,
+          "height": 93,
+          "top": 124,
+          "right": 362,
+          "bottom": 217,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 28,
+          "y": 237,
+          "width": 334,
+          "height": 93,
+          "top": 237,
+          "right": 362,
+          "bottom": 330,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 28,
+          "y": 378,
+          "width": 334,
+          "height": 65,
+          "top": 378,
+          "right": 362,
+          "bottom": 443,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 28,
+          "y": 459,
+          "width": 334,
+          "height": 65,
+          "top": 459,
+          "right": 362,
+          "bottom": 524,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Coinbase Wallet",
+        "rect": {
+          "x": 28,
+          "y": 540,
+          "width": 334,
+          "height": 65,
+          "top": 540,
+          "right": 362,
+          "bottom": 605,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "STRONG",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 264.765625,
+          "y": 617,
+          "width": 97.234375,
+          "height": 27,
+          "top": 617,
+          "right": 362,
+          "bottom": 644,
+          "left": 264.765625
+        },
+        "font": "900 18px / 27px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 28,
+          "y": 724,
+          "width": 334,
+          "height": 60,
+          "top": 724,
+          "right": 362,
+          "bottom": 784,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "desktop": {
+    "width": 1440,
+    "height": 1000,
+    "scrollWidth": 1440,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "‹Pagamento com carteira",
+        "rect": {
+          "x": 120,
+          "y": 131,
+          "width": 1200,
+          "height": 0,
+          "top": 131,
+          "right": 1320,
+          "bottom": 131,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "DD",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 1230.90625,
+          "y": 460,
+          "width": 89.078125,
+          "height": 27,
+          "top": 460,
+          "right": 1319.984375,
+          "bottom": 487,
+          "left": 1230.90625
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Carteira conectada",
+        "rect": {
+          "x": 917.234375,
+          "y": 521,
+          "width": 402.75,
+          "height": 27,
+          "top": 521,
+          "right": 1319.984375,
+          "bottom": 548,
+          "left": 917.234375
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 917.234375,
+          "y": 590,
+          "width": 196.375,
+          "height": 123.390625,
+          "top": 590,
+          "right": 1113.609375,
+          "bottom": 713.390625,
+          "left": 917.234375
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 1123.609375,
+          "y": 590,
+          "width": 196.375,
+          "height": 123.390625,
+          "top": 590,
+          "right": 1319.984375,
+          "bottom": 713.390625,
+          "left": 1123.609375
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 917.234375,
+          "y": 770.390625,
+          "width": 402.75,
+          "height": 46,
+          "top": 770.390625,
+          "right": 1319.984375,
+          "bottom": 816.390625,
+          "left": 917.234375
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 917.234375,
+          "y": 828.390625,
+          "width": 402.75,
+          "height": 46,
+          "top": 828.390625,
+          "right": 1319.984375,
+          "bottom": 874.390625,
+          "left": 917.234375
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "CCoinbase Wallet",
+        "rect": {
+          "x": 917.234375,
+          "y": 886.390625,
+          "width": 402.75,
+          "height": 46,
+          "top": 886.390625,
+          "right": 1319.984375,
+          "bottom": 932.390625,
+          "left": 917.234375
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 917.234375,
+          "y": 1157.390625,
+          "width": 402.75,
+          "height": 46,
+          "top": 1157.390625,
+          "right": 1319.984375,
+          "bottom": 1203.390625,
+          "left": 917.234375
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "tablet": {
+    "width": 768,
+    "height": 1024,
+    "scrollWidth": 768,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "‹Pagamento com carteira",
+        "rect": {
+          "x": 32,
+          "y": 131,
+          "width": 704,
+          "height": 0,
+          "top": 131,
+          "right": 736,
+          "bottom": 131,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "DD",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 646.921875,
+          "y": 464,
+          "width": 89.078125,
+          "height": 27,
+          "top": 464,
+          "right": 736,
+          "bottom": 491,
+          "left": 646.921875
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Carteira conectada",
+        "rect": {
+          "x": 396,
+          "y": 527,
+          "width": 340,
+          "height": 27,
+          "top": 527,
+          "right": 736,
+          "bottom": 554,
+          "left": 396
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 396,
+          "y": 596,
+          "width": 340,
+          "height": 105.390625,
+          "top": 596,
+          "right": 736,
+          "bottom": 701.390625,
+          "left": 396
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 396,
+          "y": 711.390625,
+          "width": 340,
+          "height": 105.390625,
+          "top": 711.390625,
+          "right": 736,
+          "bottom": 816.78125,
+          "left": 396
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 396,
+          "y": 873.78125,
+          "width": 340,
+          "height": 46,
+          "top": 873.78125,
+          "right": 736,
+          "bottom": 919.78125,
+          "left": 396
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 396,
+          "y": 931.78125,
+          "width": 340,
+          "height": 46,
+          "top": 931.78125,
+          "right": 736,
+          "bottom": 977.78125,
+          "left": 396
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "CCoinbase Wallet",
+        "rect": {
+          "x": 396,
+          "y": 989.78125,
+          "width": 340,
+          "height": 46,
+          "top": 989.78125,
+          "right": 736,
+          "bottom": 1035.78125,
+          "left": 396
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 396,
+          "y": 1280.78125,
+          "width": 340,
+          "height": 46,
+          "top": 1280.78125,
+          "right": 736,
+          "bottom": 1326.78125,
+          "left": 396
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "disconnected": {
+    "width": 414,
+    "height": 896,
+    "scrollWidth": 414,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "Pagamento com carteira",
+        "rect": {
+          "x": 28,
+          "y": 28,
+          "width": 358,
+          "height": 44,
+          "top": 28,
+          "right": 386,
+          "bottom": 72,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "H2",
+        "text": "Selecione uma carteira",
+        "rect": {
+          "x": 28,
+          "y": 88,
+          "width": 211.234375,
+          "height": 24,
+          "top": 88,
+          "right": 239.234375,
+          "bottom": 112,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Principal0x11111111111111111111111111111111111111110x1111…1111Rede principal EthereumPrincipal",
+        "rect": {
+          "x": 28,
+          "y": 124,
+          "width": 358,
+          "height": 93,
+          "top": 124,
+          "right": 386,
+          "bottom": 217,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Reservaana.kurio.ethana.kurio.ethPolygonSecundária",
+        "rect": {
+          "x": 28,
+          "y": 237,
+          "width": 358,
+          "height": 93,
+          "top": 237,
+          "right": 386,
+          "bottom": 330,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "WWalletConnect",
+        "rect": {
+          "x": 28,
+          "y": 378,
+          "width": 358,
+          "height": 65,
+          "top": 378,
+          "right": 386,
+          "bottom": 443,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "MMetaMask",
+        "rect": {
+          "x": 28,
+          "y": 459,
+          "width": 358,
+          "height": 65,
+          "top": 459,
+          "right": 386,
+          "bottom": 524,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "LABEL",
+        "text": "Coinbase Wallet",
+        "rect": {
+          "x": 28,
+          "y": 540,
+          "width": 358,
+          "height": 65,
+          "top": 540,
+          "right": 386,
+          "bottom": 605,
+          "left": 28
+        },
+        "font": "14px / 22px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "STRONG",
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 288.765625,
+          "y": 677,
+          "width": 97.234375,
+          "height": 27,
+          "top": 677,
+          "right": 386,
+          "bottom": 704,
+          "left": 288.765625
+        },
+        "font": "900 18px / 27px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Confirmar compra",
+        "rect": {
+          "x": 28,
+          "y": 804,
+          "width": 358,
+          "height": 60,
+          "top": 804,
+          "right": 386,
+          "bottom": 864,
+          "left": 28
+        },
+        "font": "700 16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  }
+}

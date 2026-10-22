@@ -1,6 +1,8 @@
 import type { ComponentProps } from 'react'
 
 const paths = {
+  more: <><circle cx="12" cy="5" r="1" fill="currentColor" /><circle cx="12" cy="12" r="1" fill="currentColor" /><circle cx="12" cy="19" r="1" fill="currentColor" /></>,
+  wallet: <><path d="M20 8V6a3 3 0 0 0-3-3H7a5 5 0 0 0-5 5v9a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V9a1 1 0 0 0-1-1H7M22 11h-5a3 3 0 0 0 0 6h5" /><path d="M17 14h.01M7 7h3" /></>,
   pin: <><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
   warning: <><path d="m12 3 10 18H2Z" /><path d="M12 9v5m0 3v.01" /></>,
   eye: <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>,

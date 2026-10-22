@@ -63,6 +63,7 @@ test('cadastro validado, conflito REST e login com retorno à rota original', as
   await expect(dialog.getByRole('button', { name: 'Continuar com Google' })).toBeDisabled()
   await expect(page).toHaveScreenshot('login.png')
   await dialog.getByRole('link', { name: /^(Criar conta|Crie uma conta)$/ }).click()
+  await page.evaluate(() => document.fonts.ready)
   await expect(page).toHaveScreenshot('register.png')
   await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
   await expect(dialog.getByText('Informe um e-mail válido.')).toBeVisible()
@@ -88,6 +89,182 @@ test('cadastro validado, conflito REST e login com retorno à rota original', as
   await expect(dialog.getByRole('alert')).toContainText('E-mail ou senha incorretos')
   await dialog.getByLabel('Senha', { exact: true }).fill(password)
   await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
+})
+
+test('cadastro: composição mobile, campos acessíveis, rolagem e retorno', async ({ page }, testInfo) => {
+  const mobile = page.viewportSize()!.width <= 600
+  for (const [width, height] of mobile ? [[414, 896], [390, 844], [390, 500]] : [[page.viewportSize()!.width, page.viewportSize()!.height]]) {
+    await page.setViewportSize({ width: width!, height: height! })
+    await page.goto(`/cadastro?redirect=${encodeURIComponent(`/nfts/${nftId}`)}`)
+    const dialog = page.getByRole('dialog', { name: 'Criar perfil de colecionador' })
+    const name = dialog.getByLabel('Nome de usuário')
+    await expect(name).toBeFocused()
+    await expect(dialog.getByLabel('E-mail', { exact: true })).toHaveAttribute('placeholder', 'Digite seu e-mail')
+    for (const provider of ['Google', 'Facebook']) {
+      const button = dialog.getByRole('button', { name: `Continuar com ${provider}` })
+      await expect(button).toBeDisabled()
+      await expect(button).toHaveAccessibleDescription('Login social indisponível nesta demonstração.')
+    }
+    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+    if (mobile) {
+      await page.evaluate(() => document.fonts.ready)
+      await expect(name).toHaveCSS('text-align', 'center')
+      for (const image of await dialog.locator('.register-social-icon').all()) {
+        await expect(image).toBeVisible()
+        expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+      }
+      if (width === 414) {
+        const brand = (await dialog.locator('.auth-mobile-brand').boundingBox())!
+        expect([brand.width, brand.height]).toEqual([109, 42])
+        const submit = (await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).boundingBox())!
+        expect([submit.x, submit.y, submit.width, submit.height]).toEqual([28, 588, 358, 60])
+      }
+      await name.evaluate((element) => element.blur())
+      await dialog.evaluate((element) => { element.scrollTop = 0 })
+      await testInfo.attach(`cadastro-${width}x${height}`, { body: await page.screenshot(), contentType: 'image/png' })
+    }
+    await name.focus()
+    await page.keyboard.type('Colecionador')
+    if (mobile) await expect(name).toHaveCSS('text-align', 'start')
+    await page.keyboard.press('Tab')
+    await expect(dialog.getByLabel('E-mail', { exact: true })).toBeFocused()
+    const password = dialog.getByLabel('Senha', { exact: true })
+    await password.fill('KurioDemo!123')
+    await dialog.getByRole('button', { name: 'Mostrar senha', exact: true }).click()
+    await expect(password).toHaveAttribute('type', 'text')
+    const confirmation = dialog.getByLabel('Confirmar senha')
+    await confirmation.fill('OutraSenha!123')
+    if (mobile) {
+      await dialog.getByRole('button', { name: 'Mostrar confirmação de senha' }).focus()
+      await page.keyboard.press('Space')
+      await expect(confirmation).toHaveAttribute('type', 'text')
+    }
+    await dialog.getByRole('button', { name: 'Criar perfil', exact: true }).click()
+    await expect(confirmation).toHaveAttribute('aria-invalid', 'true')
+    await expect(confirmation).toHaveAccessibleDescription('As senhas não coincidem.')
+    const loginLink = dialog.getByRole('link', { name: 'Entre', exact: true }).filter({ visible: true })
+    if (mobile) {
+      await loginLink.focus()
+      await expect(loginLink).toBeInViewport()
+      await page.keyboard.press('Enter')
+    } else await dialog.getByRole('link', { name: 'Entrar', exact: true }).click()
+    await expect(page).toHaveURL(/\/login\?redirect=/)
+    await page.keyboard.press('Escape')
+    await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
+  }
+})
+
+test('Roboto Mono é local e compartilhada por login e cadastro sem fonte global', async ({ page, context }) => {
+  const fonts: { url: string, status: number }[] = []
+  page.on('response', (response) => { if (new URL(response.url()).pathname.endsWith('.woff2')) fonts.push({ url: response.url(), status: response.status() }) })
+  await page.goto('/')
+  await expect(page.getByTestId('socket-status')).toHaveText('● Ao vivo')
+  await page.evaluate(() => document.fonts.ready)
+  expect(fonts).toEqual([])
+  await page.goto('/login')
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await page.evaluate(() => document.fonts.ready)
+  if (page.viewportSize()!.width <= 600) {
+    await expect(page.getByRole('dialog')).toHaveCSS('font-family', /Roboto Mono/)
+    expect(fonts).toHaveLength(2)
+  } else {
+    await expect(page.getByRole('dialog')).not.toHaveCSS('font-family', /Roboto Mono/)
+    expect(fonts).toEqual([])
+  }
+  await page.getByRole('link', { name: /^(Criar conta|Crie uma conta)$/ }).filter({ visible: true }).click()
+  const dialog = page.getByRole('dialog', { name: 'Criar perfil de colecionador' })
+  await expect(dialog).toBeVisible()
+  await page.evaluate(() => document.fonts.ready)
+  if (page.viewportSize()!.width <= 600) {
+    await expect(dialog).toHaveCSS('font-family', /Roboto Mono/)
+    const loaded = await page.evaluate(() => [...document.fonts].filter((font) => font.family.includes('Roboto Mono') && font.status === 'loaded').map((font) => font.weight).sort())
+    expect(loaded).toEqual(['400', '700'])
+    expect(fonts).toHaveLength(2)
+    expect(fonts.every((font) => font.status === 200 && new URL(font.url).origin === new URL(page.url()).origin)).toBe(true)
+    await page.setViewportSize({ width: 390, height: 500 })
+    const name = dialog.getByLabel('Nome de usuário')
+    await name.fill('Colecionador')
+    await expect(name).toHaveCSS('font-size', '16px')
+    await expect(name).toHaveCSS('text-align', 'start')
+    await expect(name).toBeInViewport()
+    const cdp = await context.newCDPSession(page)
+    await cdp.send('DOM.enable')
+    await cdp.send('CSS.enable')
+    const { root } = await cdp.send('DOM.getDocument')
+    const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: '#auth-name' })
+    await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: ['autofill'] })
+    await expect(name).toHaveCSS('-webkit-text-fill-color', 'rgb(245, 241, 235)')
+    await expect(name).toHaveCSS('box-shadow', 'rgb(20, 13, 10) 0px 0px 0px 1000px inset')
+    await expect(name).toHaveCSS('text-align', 'start')
+    await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] })
+    await cdp.detach()
+  } else {
+    await expect(dialog).not.toHaveCSS('font-family', /Roboto Mono/)
+    expect(fonts).toEqual([])
+  }
+  await page.keyboard.press('Escape')
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByTestId('socket-status')).toHaveText('● Ao vivo')
+  await expect(page.locator('body')).not.toHaveCSS('font-family', /Roboto Mono/)
+})
+
+test('login: composição mobile, indisponibilidade acessível e retorno', async ({ page }, testInfo) => {
+  const mobile = page.viewportSize()!.width <= 600
+  const sizes = mobile ? [[414, 896], [390, 844], [390, 500]] : [[page.viewportSize()!.width, page.viewportSize()!.height]]
+  for (const [width, height] of sizes) {
+    await page.setViewportSize({ width: width!, height: height! })
+    await page.goto(`/login?redirect=${encodeURIComponent(`/nfts/${nftId}`)}`)
+    const dialog = page.getByRole('dialog', { name: 'Entrar', exact: true })
+    const email = dialog.getByLabel('E-mail', { exact: true })
+    const password = dialog.getByLabel('Senha', { exact: true })
+    await expect(email).toBeFocused()
+    await expect(email).toHaveValue('')
+    await expect(password).toHaveValue('')
+    const recovery = dialog.getByRole('button', { name: 'Esqueceu a senha?', exact: true })
+    await expect(recovery).toBeDisabled()
+    await expect(recovery).toHaveAccessibleDescription('Recuperação de senha indisponível nesta demonstração.')
+    for (const provider of ['Google', 'Facebook']) {
+      const social = dialog.getByRole('button', { name: `Continuar com ${provider}` })
+      await expect(social).toBeDisabled()
+      await expect(social).toHaveAccessibleDescription('Login social indisponível nesta demonstração.')
+    }
+    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+    if (mobile) {
+      await page.evaluate(() => document.fonts.ready)
+      await expect(dialog.locator('.forgot-password-suffix')).not.toBeVisible()
+      for (const image of await dialog.locator('.login-social-icon').all()) {
+        await expect(image).toBeVisible()
+        expect(await image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+      }
+      if (width === 414) {
+        const submit = (await dialog.getByRole('button', { name: 'Entrar', exact: true }).boundingBox())!
+        expect([submit.x, submit.y, submit.width, submit.height]).toEqual([28, 492, 358, 60])
+      }
+      await email.evaluate((element) => element.blur())
+      await dialog.evaluate((element) => { element.scrollTop = 0 })
+      await testInfo.attach(`login-${width}x${height}`, { body: await page.screenshot(), contentType: 'image/png' })
+    } else await expect(dialog.locator('.forgot-password-suffix')).toBeVisible()
+    await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+    await expect(email).toHaveAttribute('aria-invalid', 'true')
+    await expect(email).toHaveAccessibleDescription('Informe um e-mail válido.')
+    await password.focus()
+    await page.keyboard.press('Tab')
+    await expect(dialog.getByRole('button', { name: 'Mostrar senha', exact: true })).toBeFocused()
+    await page.keyboard.press('Space')
+    await expect(password).toHaveAttribute('type', 'text')
+    await page.keyboard.press('Space')
+    await expect(password).toHaveAttribute('type', 'password')
+    const signup = dialog.getByRole('link', { name: /^(Criar conta|Crie uma conta)$/ }).filter({ visible: true })
+    await signup.focus()
+    await expect(signup).toBeInViewport()
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('dialog', { name: 'Criar perfil de colecionador' })).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
+  }
+  await page.goto(`/login?redirect=${encodeURIComponent(`/nfts/${nftId}`)}`)
+  await page.getByRole('button', { name: 'Fechar autenticação' }).click()
   await expect(page).toHaveURL(new RegExp(`/nfts/${nftId}$`))
 })
 

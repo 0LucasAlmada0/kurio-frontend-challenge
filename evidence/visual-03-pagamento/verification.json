@@ -1,0 +1,21 @@
+{
+  "desktopPixelsIdentical": true,
+  "tabletPixelsIdentical": true,
+  "changedBaselines": [
+    "tests/e2e/checkout.spec.ts-snapshots/checkout-mobile-win32.png"
+  ],
+  "stateAttachments": [
+    "pagamento-completo-mobile",
+    "pagamento-dados-incompletos-mobile",
+    "pagamento-sem-carteira-mobile"
+  ],
+  "playwrightFinalStats": {
+    "total": 267,
+    "expected": 267,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "playwrightReport": "playwright-report/visual-03-final/index.html"
+}

@@ -13,6 +13,8 @@ import { NftDetailPage } from '@/features/catalog/detail-page'
 import { CartPage } from '@/features/cart/page'
 import { auth } from './session'
 import { safeReturnTo, validateCredentials } from './validation'
+import googleIcon from './assets/google.svg'
+import facebookIcon from './assets/facebook.svg'
 
 export function AuthPage() {
   const path = useRouterState({ select: (state) => state.location.pathname })
@@ -23,6 +25,7 @@ export function AuthPage() {
   const dialog = useRef<HTMLDialogElement>(null)
   const [fields, setFields] = useState<Record<string, string>>({})
   const [visible, setVisible] = useState(false)
+  const [confirmVisible, setConfirmVisible] = useState(false)
   const [values, setValues] = useState<RegisterInput>({ name: '', email: '', password: '', confirmPassword: '' })
   const active = useRef(true)
   const request = useRef(new AbortController())
@@ -62,11 +65,11 @@ export function AuthPage() {
   const match = /^\/nfts\/([^/]+)$/.exec(target.pathname)
   const backgroundSearch = normalizeCatalogSearch(Object.fromEntries(target.searchParams))
   function input(field: keyof RegisterInput, label: string, type: string, autocomplete: string) {
-    return <div className="auth-field"><label htmlFor={`auth-${field}`} className="sr-only">{label}</label><Input id={`auth-${field}`} name={field} type={type} autoComplete={autocomplete} placeholder={label} value={values[field]} aria-invalid={!!fields[field]} aria-describedby={fields[field] ? `error-${field}` : undefined} onChange={(event) => setValues({ ...values, [field]: event.target.value })} disabled={mutation.isPending} />{fields[field] && <p id={`error-${field}`} className="field-error">{fields[field]}</p>}</div>
+    return <div className="auth-field"><label htmlFor={`auth-${field}`} className="sr-only">{label}</label><Input id={`auth-${field}`} name={field} type={type} autoComplete={autocomplete} placeholder={register && field === 'email' ? 'Digite seu e-mail' : label} value={values[field]} aria-invalid={!!fields[field]} aria-describedby={fields[field] ? `error-${field}` : undefined} onChange={(event) => setValues({ ...values, [field]: event.target.value })} disabled={mutation.isPending} />{fields[field] && <p id={`error-${field}`} className="field-error">{fields[field]}</p>}</div>
   }
   return <>
     <div className="auth-background" aria-hidden="true" inert>{match ? <NftDetailPage nftId={decodeURIComponent(match[1]!)} /> : target.pathname === '/carrinho' ? <CartPage /> : <CatalogPage backgroundSearch={backgroundSearch} />}</div>
-    <dialog ref={dialog} className={`auth-dialog${register ? ' register-dialog' : ''}`} aria-labelledby="auth-heading" onCancel={(event) => { event.preventDefault(); if (!mutation.isPending) close() }}>
+    <dialog ref={dialog} className={`auth-dialog ${register ? 'register-dialog' : 'login-dialog'}`} aria-labelledby="auth-heading" onCancel={(event) => { event.preventDefault(); if (!mutation.isPending) close() }}>
       <button className="auth-close" aria-label="Fechar autenticação" disabled={mutation.isPending} onClick={close}>×</button>
       <div className="auth-mobile-brand" aria-hidden="true">KURIO</div>
       <div className="auth-tabs"><Link to="/login" search={{ redirect: returnTo, reason: search.reason ?? '' }} className={!register ? 'selected' : ''} activeProps={{ className: '' }}>Entrar</Link><span>|</span><Link to="/cadastro" search={{ redirect: returnTo, reason: search.reason ?? '' }} className={register ? 'selected' : ''} activeProps={{ className: '' }}>Criar conta</Link></div>
@@ -77,13 +80,13 @@ export function AuthPage() {
         {register && input('name', 'Nome de usuário', 'text', 'nickname')}
         {input('email', 'E-mail', 'email', 'email')}
         <div className="password-field">{input('password', 'Senha', visible ? 'text' : 'password', register ? 'new-password' : 'current-password')}<button type="button" aria-label={visible ? 'Ocultar senha' : 'Mostrar senha'} aria-pressed={visible} onClick={() => setVisible(!visible)} disabled={mutation.isPending}><Icon name={visible ? 'eye' : 'eyeOff'} /></button></div>
-        {register && input('confirmPassword', 'Confirmar senha', visible ? 'text' : 'password', 'new-password')}
-        {!register && <button type="button" className="forgot-password" disabled title="Recuperação de senha ainda não disponível">Esqueceu a senha? · em breve</button>}
+        {register && <div className="password-field register-confirm-field">{input('confirmPassword', 'Confirmar senha', confirmVisible ? 'text' : 'password', 'new-password')}<button type="button" className="register-confirm-toggle" aria-label={confirmVisible ? 'Ocultar confirmação de senha' : 'Mostrar confirmação de senha'} aria-pressed={confirmVisible} onClick={() => setConfirmVisible(!confirmVisible)} disabled={mutation.isPending}><Icon name={confirmVisible ? 'eye' : 'eyeOff'} /></button></div>}
+        {!register && <><button type="button" className="forgot-password" disabled aria-describedby="auth-recovery-unavailable" title="Recuperação de senha indisponível nesta demonstração">Esqueceu a senha?<span className="forgot-password-suffix" aria-hidden="true"> · em breve</span></button><span id="auth-recovery-unavailable" className="sr-only">Recuperação de senha indisponível nesta demonstração.</span></>}
         {mutation.isError && <p role="alert" className="auth-error">{errorMessage(mutation.error)}</p>}
         {Object.keys(fields).length > 0 && !mutation.isError && <p className="sr-only" role="alert">Revise os campos indicados.</p>}
         <Button type="submit" className="auth-submit" disabled={mutation.isPending}>{mutation.isPending ? 'Aguarde…' : register ? 'Criar perfil' : 'Entrar'}</Button>
       </form>
-      <div className="auth-divider">Ou continue com</div><div className="social-actions"><Button variant="outline" disabled>Continuar com Google</Button><Button variant="outline" disabled>Continuar com Facebook</Button><p>Login social indisponível nesta demonstração.</p></div>
+      <div className="auth-divider">Ou continue com</div><div className="social-actions"><Button variant="outline" disabled aria-describedby="auth-social-unavailable" title="Login social indisponível nesta demonstração"><img className={register ? 'register-social-icon' : 'login-social-icon'} src={googleIcon} width="20" height="20" alt="" />Continuar com Google</Button><Button variant="outline" disabled aria-describedby="auth-social-unavailable" title="Login social indisponível nesta demonstração"><img className={register ? 'register-social-icon' : 'login-social-icon'} src={facebookIcon} width="10" height="20" alt="" />Continuar com Facebook</Button><p id="auth-social-unavailable">Login social indisponível nesta demonstração.</p></div>
       <p className="auth-mobile-switch">{register ? 'Já tem uma conta? ' : 'Novo na Kurio? '}<Link to={register ? '/login' : '/cadastro'} search={{ redirect: returnTo, reason: search.reason ?? '' }}>{register ? 'Entre' : 'Crie uma conta'}</Link></p>
     </dialog>
   </>

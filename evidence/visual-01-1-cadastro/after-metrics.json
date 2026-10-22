@@ -1,0 +1,996 @@
+{
+  "390": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "scrollHeight": 896,
+    "clientHeight": 844,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "KURIO",
+        "placeholder": null,
+        "rect": {
+          "x": 140.5,
+          "y": 128,
+          "width": 109,
+          "height": 42,
+          "top": 128,
+          "right": 249.5,
+          "bottom": 170,
+          "left": 140.5
+        },
+        "font": "700 32px / 42px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "H1",
+        "text": "Criar perfil de colecionador",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 251,
+          "width": 334,
+          "height": 27,
+          "top": 251,
+          "right": 362,
+          "bottom": 278,
+          "left": 28
+        },
+        "font": "700 18px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Nome de usuário",
+        "rect": {
+          "x": 28,
+          "y": 312,
+          "width": 334,
+          "height": 50,
+          "top": 312,
+          "right": 362,
+          "bottom": 362,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Digite seu e-mail",
+        "rect": {
+          "x": 28,
+          "y": 374,
+          "width": 334,
+          "height": 50,
+          "top": 374,
+          "right": 362,
+          "bottom": 424,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Senha",
+        "rect": {
+          "x": 28,
+          "y": 436,
+          "width": 334,
+          "height": 50,
+          "top": 436,
+          "right": 362,
+          "bottom": 486,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Confirmar senha",
+        "rect": {
+          "x": 28,
+          "y": 498,
+          "width": 334,
+          "height": 50,
+          "top": 498,
+          "right": 362,
+          "bottom": 548,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Criar perfil",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 588,
+          "width": 334,
+          "height": 60,
+          "top": 588,
+          "right": 362,
+          "bottom": 648,
+          "left": 28
+        },
+        "font": "700 16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(20, 13, 10)",
+        "background": "rgb(210, 138, 76)"
+      },
+      {
+        "tag": "DIV",
+        "text": "Ou continue com",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 686,
+          "width": 334,
+          "height": 20,
+          "top": 686,
+          "right": 362,
+          "bottom": 706,
+          "left": 28
+        },
+        "font": "13px / 20px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Google",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 716,
+          "width": 334,
+          "height": 40,
+          "top": 716,
+          "right": 362,
+          "bottom": 756,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Facebook",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 772,
+          "width": 334,
+          "height": 40,
+          "top": 772,
+          "right": 362,
+          "bottom": 812,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "P",
+        "text": "Já tem uma conta? Entre",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 852,
+          "width": 334,
+          "height": 24,
+          "top": 852,
+          "right": 362,
+          "bottom": 876,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      }
+    ]
+  },
+  "414": {
+    "scrollWidth": 414,
+    "clientWidth": 414,
+    "scrollHeight": 896,
+    "clientHeight": 896,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "KURIO",
+        "placeholder": null,
+        "rect": {
+          "x": 152.5,
+          "y": 128,
+          "width": 109,
+          "height": 42,
+          "top": 128,
+          "right": 261.5,
+          "bottom": 170,
+          "left": 152.5
+        },
+        "font": "700 32px / 42px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "H1",
+        "text": "Criar perfil de colecionador",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 251,
+          "width": 358,
+          "height": 27,
+          "top": 251,
+          "right": 386,
+          "bottom": 278,
+          "left": 28
+        },
+        "font": "700 18px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Nome de usuário",
+        "rect": {
+          "x": 28,
+          "y": 312,
+          "width": 358,
+          "height": 50,
+          "top": 312,
+          "right": 386,
+          "bottom": 362,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Digite seu e-mail",
+        "rect": {
+          "x": 28,
+          "y": 374,
+          "width": 358,
+          "height": 50,
+          "top": 374,
+          "right": 386,
+          "bottom": 424,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Senha",
+        "rect": {
+          "x": 28,
+          "y": 436,
+          "width": 358,
+          "height": 50,
+          "top": 436,
+          "right": 386,
+          "bottom": 486,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Confirmar senha",
+        "rect": {
+          "x": 28,
+          "y": 498,
+          "width": 358,
+          "height": 50,
+          "top": 498,
+          "right": 386,
+          "bottom": 548,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Criar perfil",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 588,
+          "width": 358,
+          "height": 60,
+          "top": 588,
+          "right": 386,
+          "bottom": 648,
+          "left": 28
+        },
+        "font": "700 16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(20, 13, 10)",
+        "background": "rgb(210, 138, 76)"
+      },
+      {
+        "tag": "DIV",
+        "text": "Ou continue com",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 686,
+          "width": 358,
+          "height": 20,
+          "top": 686,
+          "right": 386,
+          "bottom": 706,
+          "left": 28
+        },
+        "font": "13px / 20px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Google",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 716,
+          "width": 358,
+          "height": 40,
+          "top": 716,
+          "right": 386,
+          "bottom": 756,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Facebook",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 772,
+          "width": 358,
+          "height": 40,
+          "top": 772,
+          "right": 386,
+          "bottom": 812,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "P",
+        "text": "Já tem uma conta? Entre",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 852,
+          "width": 358,
+          "height": 24,
+          "top": 852,
+          "right": 386,
+          "bottom": 876,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      }
+    ]
+  },
+  "short": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "scrollHeight": 896,
+    "clientHeight": 600,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "KURIO",
+        "placeholder": null,
+        "rect": {
+          "x": 140.5,
+          "y": 128,
+          "width": 109,
+          "height": 42,
+          "top": 128,
+          "right": 249.5,
+          "bottom": 170,
+          "left": 140.5
+        },
+        "font": "700 32px / 42px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "H1",
+        "text": "Criar perfil de colecionador",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 251,
+          "width": 334,
+          "height": 27,
+          "top": 251,
+          "right": 362,
+          "bottom": 278,
+          "left": 28
+        },
+        "font": "700 18px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Nome de usuário",
+        "rect": {
+          "x": 28,
+          "y": 312,
+          "width": 334,
+          "height": 50,
+          "top": 312,
+          "right": 362,
+          "bottom": 362,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Digite seu e-mail",
+        "rect": {
+          "x": 28,
+          "y": 374,
+          "width": 334,
+          "height": 50,
+          "top": 374,
+          "right": 362,
+          "bottom": 424,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Senha",
+        "rect": {
+          "x": 28,
+          "y": 436,
+          "width": 334,
+          "height": 50,
+          "top": 436,
+          "right": 362,
+          "bottom": 486,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Confirmar senha",
+        "rect": {
+          "x": 28,
+          "y": 498,
+          "width": 334,
+          "height": 50,
+          "top": 498,
+          "right": 362,
+          "bottom": 548,
+          "left": 28
+        },
+        "font": "16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Criar perfil",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 588,
+          "width": 334,
+          "height": 60,
+          "top": 588,
+          "right": 362,
+          "bottom": 648,
+          "left": 28
+        },
+        "font": "700 16px / 16px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(20, 13, 10)",
+        "background": "rgb(210, 138, 76)"
+      },
+      {
+        "tag": "DIV",
+        "text": "Ou continue com",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 686,
+          "width": 334,
+          "height": 20,
+          "top": 686,
+          "right": 362,
+          "bottom": 706,
+          "left": 28
+        },
+        "font": "13px / 20px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(245, 241, 235)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Google",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 716,
+          "width": 334,
+          "height": 40,
+          "top": 716,
+          "right": 362,
+          "bottom": 756,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Facebook",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 772,
+          "width": 334,
+          "height": 40,
+          "top": 772,
+          "right": 362,
+          "bottom": 812,
+          "left": 28
+        },
+        "font": "14px / 21px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "P",
+        "text": "Já tem uma conta? Entre",
+        "placeholder": null,
+        "rect": {
+          "x": 28,
+          "y": 852,
+          "width": 334,
+          "height": 24,
+          "top": 852,
+          "right": 362,
+          "bottom": 876,
+          "left": 28
+        },
+        "font": "16px / 24px \"Roboto Mono\", Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(201, 172, 134)",
+        "background": "rgba(0, 0, 0, 0)"
+      }
+    ]
+  },
+  "desktop": {
+    "scrollWidth": 500,
+    "clientWidth": 500,
+    "scrollHeight": 657,
+    "clientHeight": 657,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "KURIO",
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "H1",
+        "text": "Criar perfil de colecionador",
+        "placeholder": null,
+        "rect": {
+          "x": 539,
+          "y": 173,
+          "width": 1,
+          "height": 1,
+          "top": 173,
+          "right": 540,
+          "bottom": 174,
+          "left": 539
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Nome de usuário",
+        "rect": {
+          "x": 540,
+          "y": 248.1875,
+          "width": 360,
+          "height": 40,
+          "top": 248.1875,
+          "right": 900,
+          "bottom": 288.1875,
+          "left": 540
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Digite seu e-mail",
+        "rect": {
+          "x": 540,
+          "y": 300.1875,
+          "width": 360,
+          "height": 40,
+          "top": 300.1875,
+          "right": 900,
+          "bottom": 340.1875,
+          "left": 540
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Senha",
+        "rect": {
+          "x": 540,
+          "y": 352.1875,
+          "width": 360,
+          "height": 40,
+          "top": 352.1875,
+          "right": 900,
+          "bottom": 392.1875,
+          "left": 540
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Confirmar senha",
+        "rect": {
+          "x": 540,
+          "y": 404.1875,
+          "width": 360,
+          "height": 40,
+          "top": 404.1875,
+          "right": 900,
+          "bottom": 444.1875,
+          "left": 540
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Criar perfil",
+        "placeholder": null,
+        "rect": {
+          "x": 540,
+          "y": 472.1875,
+          "width": 360,
+          "height": 44,
+          "top": 472.1875,
+          "right": 900,
+          "bottom": 516.1875,
+          "left": 540
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(27, 16, 8)",
+        "background": "rgb(214, 141, 73)"
+      },
+      {
+        "tag": "DIV",
+        "text": "Ou continue com",
+        "placeholder": null,
+        "rect": {
+          "x": 470,
+          "y": 544.1875,
+          "width": 500,
+          "height": 18,
+          "top": 544.1875,
+          "right": 970,
+          "bottom": 562.1875,
+          "left": 470
+        },
+        "font": "12px / 18px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Google",
+        "placeholder": null,
+        "rect": {
+          "x": 540,
+          "y": 580.1875,
+          "width": 360,
+          "height": 40,
+          "top": 580.1875,
+          "right": 900,
+          "bottom": 620.1875,
+          "left": 540
+        },
+        "font": "13px / 19.5px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Facebook",
+        "placeholder": null,
+        "rect": {
+          "x": 540,
+          "y": 632.1875,
+          "width": 360,
+          "height": 40,
+          "top": 632.1875,
+          "right": 900,
+          "bottom": 672.1875,
+          "left": 540
+        },
+        "font": "13px / 19.5px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "P",
+        "text": "Já tem uma conta? Entre",
+        "placeholder": null,
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      }
+    ]
+  },
+  "login": {
+    "scrollWidth": 414,
+    "clientWidth": 414,
+    "scrollHeight": 896,
+    "clientHeight": 896,
+    "elements": [
+      {
+        "tag": "DIV",
+        "text": "KURIO",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 116,
+          "width": 362,
+          "height": 48,
+          "top": 116,
+          "right": 388,
+          "bottom": 164,
+          "left": 26
+        },
+        "font": "700 32px / 48px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "H1",
+        "text": "Entrar",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 236,
+          "width": 362,
+          "height": 30,
+          "top": 236,
+          "right": 388,
+          "bottom": 266,
+          "left": 26
+        },
+        "font": "700 20px / 30px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "E-mail",
+        "rect": {
+          "x": 26,
+          "y": 300,
+          "width": 362,
+          "height": 47,
+          "top": 300,
+          "right": 388,
+          "bottom": 347,
+          "left": 26
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "placeholder": "Senha",
+        "rect": {
+          "x": 26,
+          "y": 359,
+          "width": 362,
+          "height": 47,
+          "top": 359,
+          "right": 388,
+          "bottom": 406,
+          "left": 26
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Entrar",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 472,
+          "width": 362,
+          "height": 57,
+          "top": 472,
+          "right": 388,
+          "bottom": 529,
+          "left": 26
+        },
+        "font": "19px / 28.5px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(27, 16, 8)",
+        "background": "rgb(214, 141, 73)"
+      },
+      {
+        "tag": "DIV",
+        "text": "Ou continue com",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 567,
+          "width": 362,
+          "height": 19.5,
+          "top": 567,
+          "right": 388,
+          "bottom": 586.5,
+          "left": 26
+        },
+        "font": "13px / 19.5px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(242, 236, 227)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Google",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 600.5,
+          "width": 362,
+          "height": 40,
+          "top": 600.5,
+          "right": 388,
+          "bottom": 640.5,
+          "left": 26
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Continuar com Facebook",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 654.5,
+          "width": 362,
+          "height": 40,
+          "top": 654.5,
+          "right": 388,
+          "bottom": 694.5,
+          "left": 26
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "P",
+        "text": "Novo na Kurio? Crie uma conta",
+        "placeholder": null,
+        "rect": {
+          "x": 26,
+          "y": 769,
+          "width": 362,
+          "height": 21,
+          "top": 769,
+          "right": 388,
+          "bottom": 790,
+          "left": 26
+        },
+        "font": "14px / 21px Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "color": "rgb(193, 167, 131)",
+        "background": "rgba(0, 0, 0, 0)"
+      }
+    ]
+  }
+}

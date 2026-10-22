@@ -1,9 +1,11 @@
 import { useId, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import axios from 'axios'
 import type { ApiError, Session, Wallet, WalletInput, WalletProvider, Wallets } from '@/api/contracts'
 import { errorMessage } from '@/api/http'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Icon } from '@/components/icon'
 import { validateWallet } from './validation'
 import { useWallets } from './queries'
 
@@ -26,15 +28,15 @@ export function WalletForm({ data, state, wallet, expanded = false, kind = 'seco
     <Button type="submit" disabled={state.mutation.isPending}>{state.mutation.isPending ? 'Salvando…' : 'Salvar carteira'}</Button>
   </form>
 }
-export function WalletPanel({ state, selectedId, provider, onSelect, onProvider, locked }: { session: Session; state: WalletState; selectedId: string; provider: WalletProvider; onSelect: (id: string) => void; onProvider: (provider: WalletProvider) => void; locked: boolean }) {
+export function WalletPanel({ state, selectedId, provider, onSelect, onProvider, locked, compact = false }: { session: Session; state: WalletState; selectedId: string; provider: WalletProvider; onSelect: (id: string) => void; onProvider: (provider: WalletProvider) => void; locked: boolean; compact?: boolean }) {
   const data = state.query.data!
   const connected = data.connection?.walletId === selectedId && data.connection.provider === provider
-  return <section className="wallet-panel" aria-labelledby="wallet-heading"><h2 id="wallet-heading">{connected ? 'Carteira conectada' : 'Selecione uma carteira'}</h2><p className="simulation-note">Conexão e pagamento simulados.</p>
-    <fieldset disabled={locked || state.mutation.isPending} className="wallet-options"><legend className="sr-only">Carteiras cadastradas</legend>{data.items.map((wallet) => <label className="wallet-option" key={wallet.id}><input type="radio" name="wallet" value={wallet.id} checked={selectedId === wallet.id} onChange={() => onSelect(wallet.id)} /><span><strong>{wallet.label}</strong><span className="wallet-address" title={wallet.address}>{wallet.address}</span><span>{data.networks.find((network) => network.id === wallet.networkId)?.label}</span><small>{wallet.kind === 'primary' ? 'Principal' : 'Secundária'}</small></span></label>)}</fieldset>
+  return <section className="wallet-panel" aria-labelledby="wallet-heading" data-connected={!!connected}><div className="wallet-heading-row"><h2 id="wallet-heading">{connected ? 'Carteira conectada' : 'Selecione uma carteira'}</h2>{connected && <button className="wallet-switch" disabled={locked || state.mutation.isPending} onClick={() => state.mutation.mutate({ kind: 'disconnect' })}>Trocar carteira</button>}</div><p className="simulation-note">Conexão e pagamento simulados.</p>
+    <fieldset disabled={locked || state.mutation.isPending} className="wallet-options"><legend className="sr-only">Carteiras cadastradas</legend>{data.items.map((wallet) => <div className="wallet-choice" key={wallet.id}><label className="wallet-option"><input type="radio" name="wallet" value={wallet.id} checked={selectedId === wallet.id} onChange={() => onSelect(wallet.id)} /><span><strong>{wallet.label}</strong><span className="wallet-address" title={wallet.address}><span className="wallet-address-full">{wallet.address}</span><span className="wallet-address-short" aria-hidden="true">{wallet.address.length > 24 ? `${wallet.address.slice(0, 6)}…${wallet.address.slice(-4)}` : wallet.address}</span></span><span>{data.networks.find((network) => network.id === wallet.networkId)?.label}</span><small>{wallet.kind === 'primary' ? 'Principal' : 'Secundária'}</small></span></label><Link className="wallet-manage" to="/carteiras" aria-label={`Gerenciar carteira ${wallet.label}`}><Icon name="more" /></Link></div>)}</fieldset>
     {!data.items.length && <p>Nenhuma carteira cadastrada.</p>}
-    <fieldset disabled={locked || state.mutation.isPending} className="provider-options"><legend>Carteira e rede</legend>{data.providers.map((value) => <label key={value}><span aria-hidden="true" className="provider-symbol">{value[0]}</span><span>{value}</span><input type="radio" name="provider" checked={provider === value} onChange={() => onProvider(value)} /></label>)}</fieldset>
-    <Button variant="outline" disabled={!selectedId || locked || state.mutation.isPending} onClick={() => state.mutation.mutate(connected ? { kind: 'disconnect' } : { kind: 'connect', walletId: selectedId, provider })}>{state.mutation.isPending ? 'Aguarde…' : connected ? 'Desconectar carteira' : 'Conectar carteira simulada'}</Button>
-    {connected && <p role="status">Carteira conectada nesta sessão.</p>}{state.mutation.isError && <p role="alert">{errorMessage(state.mutation.error)}</p>}
-    <details className="wallet-registration"><summary>Cadastrar carteira</summary><WalletForm data={data} state={state} /></details>
+    <fieldset disabled={locked || state.mutation.isPending} className="provider-options"><legend>Carteira e rede</legend>{data.providers.map((value) => <label key={value}><span aria-hidden="true" className="provider-symbol">{value === 'Coinbase Wallet' && compact ? <Icon name="wallet" /> : value[0]}</span><span>{value}</span><input type="radio" name="provider" checked={provider === value} onChange={() => onProvider(value)} /></label>)}</fieldset>
+    <Button className="wallet-connect" variant="outline" disabled={!selectedId || locked || state.mutation.isPending} onClick={() => state.mutation.mutate(connected ? { kind: 'disconnect' } : { kind: 'connect', walletId: selectedId, provider })}>{state.mutation.isPending ? 'Aguarde…' : connected ? 'Desconectar carteira' : 'Conectar carteira simulada'}</Button>
+    {connected && <p className="wallet-connected-status" role="status">Carteira conectada nesta sessão.</p>}{state.mutation.isError && <p role="alert">{errorMessage(state.mutation.error)}</p>}
+    {(!compact || !data.items.length) && <details className="wallet-registration" open={compact && !data.items.length ? true : undefined}><summary>Cadastrar carteira</summary><WalletForm data={data} state={state} /></details>}
   </section>
 }

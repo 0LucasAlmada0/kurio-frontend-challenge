@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import type { Profile, Session, Wallets, Order, Quote } from '../../src/api/contracts'
+import { openCheckoutReview } from './checkout-ui'
 
 const profilePath = '/users/user-ana/profile'
 async function api<T>(page: Page, path: string, method = 'GET', body?: unknown, token?: string) {
@@ -180,6 +181,7 @@ test('carteira alterada atualiza checkout e desconecta endereço anterior', asyn
   await api(page, '/cart/items', 'PUT', { nftId: 'emerald-ape-042', editionId: 'standard', quantity: 1, operation: 'add' })
   await page.goto('/pagamento')
   await expect(page.getByRole('radio', { name: /^Compras Ana/ })).toBeChecked()
+  await openCheckoutReview(page)
   await expect(page.getByRole('textbox', { name: 'Endereço da carteira', exact: true })).toHaveValue(`0x${'4'.repeat(40)}`)
   await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toBeDisabled()
   await page.getByRole('radio', { name: 'MetaMask', exact: true }).check()

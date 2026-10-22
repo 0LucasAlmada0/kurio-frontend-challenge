@@ -1,0 +1,87 @@
+{
+  "390": {
+    "beforeLabel": "Confirmar compra",
+    "afterLabel": "Revisar compra",
+    "beforeRect": {
+      "x": 28,
+      "y": 752,
+      "width": 334,
+      "height": 60,
+      "top": 752,
+      "right": 362,
+      "bottom": 812,
+      "left": 28
+    },
+    "afterRect": {
+      "x": 28,
+      "y": 752,
+      "width": 334,
+      "height": 60,
+      "top": 752,
+      "right": 362,
+      "bottom": 812,
+      "left": 28
+    },
+    "sameRect": true,
+    "horizontalOverflow": false,
+    "pixelDifferenceBounds": [
+      118,
+      775,
+      272,
+      792
+    ]
+  },
+  "414": {
+    "beforeLabel": "Confirmar compra",
+    "afterLabel": "Revisar compra",
+    "beforeRect": {
+      "x": 28,
+      "y": 804,
+      "width": 358,
+      "height": 60,
+      "top": 804,
+      "right": 386,
+      "bottom": 864,
+      "left": 28
+    },
+    "afterRect": {
+      "x": 28,
+      "y": 804,
+      "width": 358,
+      "height": 60,
+      "top": 804,
+      "right": 386,
+      "bottom": 864,
+      "left": 28
+    },
+    "sameRect": true,
+    "horizontalOverflow": false,
+    "pixelDifferenceBounds": [
+      130,
+      827,
+      284,
+      844
+    ]
+  },
+  "baselines": {
+    "changed": [],
+    "added": [],
+    "removed": []
+  },
+  "playwright-direcionados": {
+    "total": 9,
+    "expected": 9,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "playwright-final": {
+    "total": 267,
+    "expected": 267,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  }
+}
