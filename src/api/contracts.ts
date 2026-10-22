@@ -51,7 +51,7 @@ export interface CatalogSearch {
   maxPrice?: Eth
   availability?: 'available' | 'sold-out'
 }
-export interface CatalogFacets { collections: string[]; rarities: Rarity[] }
+export interface CatalogFacets { collections: string[]; rarities: Rarity[]; priceRange: { min: Eth; max: Eth } }
 
 export interface NftList {
   items: Nft[]

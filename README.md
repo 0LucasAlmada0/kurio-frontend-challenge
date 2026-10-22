@@ -1,8 +1,64 @@
-# Kurio · Etapas 1 a 6
+# Kurio · Etapas 1 a 7
 
 Marketplace com catálogo/detalhe, autenticação simulada, favoritos, carrinho/cotação, perfil, gerenciamento de carteiras e compra até recibo. REST é interceptado por MSW; preços, disponibilidade e pedidos usam Socket.IO. Sem blockchain, extensões ou gateways reais.
 
 Referências: [enunciado oficial](https://github.com/junglegaming/frontend-challenge), [Figma](https://www.figma.com/design/Ff0SksUi7UFtPWUO8kyNtw/Frontend-Challenge?node-id=0-1) e `LEIA-ME.md`. O enunciado prevalece. Nenhuma implementação de outro candidato foi consultada.
+
+## Ajustes visuais e responsividade · Etapa 7
+
+Referências: terceira/quarta imagens identificadas pelo usuário como Figma e frames locais em `design-references/`. As outras imagens são exemplos dos problemas. Ajustes localizados em `src/styles.css`, `src/components/filter-group.tsx` e `src/app/shell.tsx`; `index.html` habilita `viewport-fit=cover` e CSS reserva também a área segura superior. Metadados tipados em `src/api/contracts.ts`/`src/mocks/handlers.ts` e cobertura em `tests/e2e/responsive.spec.ts`. Sem dependências, commits, deploy ou Lighthouse.
+
+No mobile, os cards do catálogo/favoritos deixam de deslocar a coluna par; imagens quadradas e espaço para títulos de duas linhas alinham preços/ações por linha. O coração recebe padding zero para não colapsar o SVG e o hover ilustrativo de zoom não permanece após touch. O Figma mantém colunas escalonadas; aqui prevalece a solicitação explícita de dimensões/alinhamento uniformes. Assets, cores, fontes e desktop existentes são preservados.
+
+A navegação inferior mantém a composição do Figma, com altura e espaço final que incluem `safe-area-inset-bottom`. Foco em controles do conteúdo mobile ajusta a rolagem acima da barra/scanner e considera o viewport visual; formulários podem ser percorridos até suas ações finais. Menu da conta tem largura/altura limitadas e rolagem. Títulos e ações de carteiras quebram linha sem overflow. A barra continua fixa: conteúdo fora da área visível é alcançado rolando; capturas de página inteira representam a barra na posição do viewport inicial.
+
+O painel de filtros separa header, corpo rolável e rodapé com **Ver resultados** sempre acessível. Mantém foco modal, Escape, retorno ao acionador e bloqueio de fundo. Redimensionamento/teclado virtual ajusta a altura ao `visualViewport`; ResizeObserver mantém o controle focado dentro do corpo rolável. A faixa usa dois ranges nativos sobrepostos, com thumb arrastável por touch/mouse, setas/Home/End e valores ETH anunciados. **Aplicar** continua sendo a confirmação para a URL/REST; campos exatos e validações anteriores permanecem.
+
+GET `/api/nfts/filters` acrescenta `priceRange:{min,max}` em strings ETH, derivado da fonte compartilhada. Não muda regras de filtragem, autenticação ou compra. O slider usa coordenadas inteiras e wei/BigInt: passo de 0,01 ETH para faixas até 100 ETH; acima disso, 1.000 posições; endpoint final exato e faixa abaixo de 0,01 ETH com endpoints. Valores digitados/recebidos com 18 casas não são arredondados por renderizar o slider. Extremos aplicados fora da faixa atual ampliam seu domínio; os controles não cruzam entre si. Number é usado apenas nas coordenadas limitadas de apresentação.
+
+### Baselines revisadas individualmente
+
+A comparação anterior à atualização executou 15 testes: dez passaram e cinco apontaram diferenças esperadas, revisadas pelas imagens atuais/diffs:
+
+| Baseline | Justificativa |
+| --- | --- |
+| `foundation.spec.ts-snapshots/catalog-desktop-win32.png` | Apenas slider/legenda na sidebar e deslocamento dos controles abaixo dele |
+| `foundation.spec.ts-snapshots/catalog-tablet-win32.png` | Mesmo slider na sidebar estreita; grid/hero preservados |
+| `foundation.spec.ts-snapshots/catalog-mobile-win32.png` | Cards alinhados, corações visíveis, hover touch removido e reserva inferior |
+| `cart.spec.ts-snapshots/login-autofill-tablet-win32.png` | Slider visível no fundo do catálogo; modal/autofill preservados |
+| `cart.spec.ts-snapshots/cart-mobile-win32.png` | Reserva inferior da navegação; linhas, valores e resumo preservados |
+
+As demais baselines não devem ser regeneradas. A altura dos títulos foi limitada ao catálogo/favoritos para preservar os cards relacionados do detalhe/carrinho. A primeira rodada nova passou em 14/15 verificações; o caso de viewport reduzido revelou um controle já focado fora do corpo visível, corrigido com o observador de tamanho e espera pela recomposição no teste.
+
+Diferenças remanescentes: fonte/cores continuam nos tokens provisórios existentes; nomes, preços, ordem e repetições de edições vêm da API, diferindo dos exemplos do Figma. Coleções/raridade/disponibilidade reais substituem categorias/redes sem contrato. Campos exatos de ETH, sort, contador e ações de compra continuam visíveis para preservar as funcionalidades. O escalonamento do Figma foi removido conforme a prioridade de alinhamento. Touch/teclado/resize foram exercitados no Chromium; teclado virtual e recorte físico em Safari/iOS ainda pedem conferência em aparelho real. O aviso de chunk principal acima de 500 kB continua fora do escopo de Lighthouse.
+
+### Validação e capturas da Etapa 7
+
+| Comando | Resultado |
+| --- | --- |
+| `npm.cmd run typecheck` | Aprovado; também executado pelo build final |
+| `npm.cmd run lint` | Aprovado após os últimos ajustes |
+| `npm.cmd run build:demo` | Aprovado; MSW/Socket.IO preservados; chunk principal 536,84 kB / 172,07 kB gzip, com aviso de tamanho |
+| `npx.cmd playwright test --grep 'drawer e sidebar\|layout de conta' --output=test-results/etapa7-antes` | **6 aprovados em 18,1s**, registro anterior às alterações |
+| `npx.cmd playwright test --grep 'catálogo: REST\|autofill mantém\|layout responsivo, navegação' --update-snapshots=changed --output=test-results/etapa7-baselines` | **9 aprovados em 30,4s**; somente as cinco baselines justificadas acima mudaram |
+| `npx.cmd playwright test --output=test-results/etapa7` | **240 aprovados em 8,9min**, sem atualizar snapshots; 228 anteriores + 12 novos (quatro cenários × três larguras) |
+| `npx.cmd playwright test responsive.spec.ts catalog.spec.ts foundation.spec.ts --grep 'cards alinhados\|slider duplo\|painel rolável\|formulários e conta\|drawer e sidebar\|catálogo: REST' --output=test-results/etapa7-final` | **18 aprovados em 35,0s**, após correções finais de largura dos links da conta, quebra de preços longos e safe area; sem atualizar snapshots |
+| `git diff --check` | Aprovado |
+
+Todos os testes usaram preview de produção local com `$env:E2E_PREVIEW='true'`. Cada rodada definiu `$env:PLAYWRIGHT_HTML_OUTPUT_DIR='playwright-report/NOME-DA-RODADA'`, conforme o nome em `--output`. Relatórios: [antes](playwright-report/etapa7-antes/index.html), [comparação sem atualização](playwright-report/etapa7-comparacao/index.html), [baselines revisadas](playwright-report/etapa7-baselines/index.html), [240 testes](playwright-report/etapa7/index.html) e [18 verificações finais](playwright-report/etapa7-final/index.html). Nenhum teste ignorado ou flaky nas duas últimas rodadas. A suite completa cobre filtros, REST/MSW, cache/URL, autenticação/isolamento, favoritos/rollback, perfil/carteiras, carrinho/cupons, checkout/pedidos idempotentes, sockets e acesso direto. A rodada final reforça mouse/touch/teclado, não cruzamento dos controles, 18 casas após refresh, preço longo sem overflow, foco, painel de 390×600, menu e comparação do catálogo/detalhe.
+
+Capturas comparativas com os mesmos dados de demonstração e, no catálogo, a mesma combinação aplicada (`collections=Kurio Studio`, mínimo 1,2 ETH). Inspeção visual comparou imagens atuais, diffs e os frames fornecidos; imagens de perfil/carteiras desktop e tablet permaneceram idênticas às anteriores. Artefatos locais ignorados pelo Git:
+
+| Tela | Antes | Depois |
+| --- | --- | --- |
+| Catálogo · 390px | [Captura](playwright-report/etapa7-antes/data/8b63d5d149eee201ada40629bc7e11719aaee4f4.png) | [Captura](playwright-report/etapa7-final/data/6ddbf3e1fa63edd08fe60389f515c58d6bc49c39.png) |
+| Catálogo · 768px | [Captura](playwright-report/etapa7-antes/data/1ba00197cb98e1642566589e1bced060d8a5bc16.png) | [Captura](playwright-report/etapa7-final/data/5a6fcfadb7e194c43723003251fa35de6405de15.png) |
+| Catálogo · 1440px | [Captura](playwright-report/etapa7-antes/data/6708fecee888fafa0a3242e3fff71c54d07d6736.png) | [Captura](playwright-report/etapa7-final/data/146ca075150dd12d2e3ce8edb1dd629e16a706b1.png) |
+| Painel · 390px | [Captura](playwright-report/etapa7-antes/data/bf37be358a2568be02ee62104d9bfda2445089d8.png) | [Captura](playwright-report/etapa7-final/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png) |
+| Perfil · 390px | [Captura](playwright-report/etapa7-antes/data/fc801f0169578509f09f27e203e61805a84ffa0a.png) | [Captura](playwright-report/etapa7-final/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png) |
+| Carteiras · 390px | [Captura](playwright-report/etapa7-antes/data/b515861c14bcfcd21e49d22b5ba3b63edc1bf362.png) | [Captura](playwright-report/etapa7-final/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png) |
+
+Capturas do viewport: [cards mobile sem filtros](playwright-report/etapa7-final/data/f17bffca1480f16ee762830c5895c4fd2faa3b46.png), [painel com ação inferior](playwright-report/etapa7-final/data/315f90b1cf00671068fd31f58d911b35a8537caa.png), [ações finais de carteiras acima da barra](playwright-report/etapa7-final/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png) e [menu da conta](playwright-report/etapa7-final/data/fddd097f16797d88fdca7143a362d2f391edae72.png). A publicação pública não foi alterada.
 
 ## Catálogo e filtros combinados · Etapa 6
 

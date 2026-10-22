@@ -1,4 +1,4 @@
-# Arquitetura · Etapas 1 a 6
+# Arquitetura · Etapas 1 a 7
 
 ## Estrutura
 
@@ -39,6 +39,16 @@ Sidebar e drawer reutilizam `FilterGroup`/`FilterOption`, formulário de preço 
 Consultas consomem AbortSignal; mudanças de chave apresentam skeleton em vez de exibir resultados/contadores do filtro anterior. Revalidação da mesma chave preserva os cards e anuncia atualização em segundo plano. Metadados/erros têm recuperação própria; lista trata HTTP/offline/retry. O provedor Socket.IO existente invalida/reconcilia com REST e continua descartando duplicatas/versões antigas. Chaves privadas, autenticação, carrinho, checkout e perfil não foram substituídos.
 
 Diferenças visuais intencionais: coleções/raridades/disponibilidade reais no lugar de categorias/redes ilustrativas sem dados, inputs de preço precisos e contador mobile. Cinco baselines foram comparadas antes de atualizar: catálogo em três larguras e fundo da sidebar no login/autofill desktop/tablet. Detalhe, cadastro, carrinho, pagamento, recibo e login mobile conservaram suas baselines. Fonte/cores provisórias, dados/ordem ilustrativos e ausência do frame desktop isolado permanecem para o polimento autorizado posteriormente.
+
+## Responsividade e slider · Etapa 7
+
+Ajustes CSS abaixo de 600px preservam o layout desktop, além da inclusão necessária do slider na sidebar compartilhada. Cards do catálogo/favoritos usam altura de título e flex para alinhar metadados/ações; relacionados não recebem essa alteração. Navegação fixa calcula altura/reserva com safe area. Um handler de foco no Shell revela controles do main acima da barra/scanner/viewport visual, ignorando dialogs e desktop. O menu da conta limita suas dimensões ao viewport.
+
+FilterDrawer conserva dialog nativo e foco; header/rodapé ficam fora do corpo com scroll. VisualViewport ajusta altura/topo ao teclado ou resize; ResizeObserver revela o foco dentro do corpo quando sua altura muda. Listeners/observer são removidos ao fechar, e overflow/foco anteriores são restaurados.
+
+PriceFilter compartilha drafts/validação anteriores com dois ranges nativos; sliders representam posições inteiras, nunca ETH como float. Domínio vem dos metadados públicos REST e de limites aplicados; cálculo monetário usa os helpers wei/BigInt existentes. Coordenadas em Number são limitadas a 10.000 posições. Passos de 0,01 ETH até 100 ETH (endpoints para domínio menor que um passo), ou 1.000 posições em domínios maiores. Campos continuam aceitando 18 casas sem arredondamento implícito. Aplicar é o único commit do preço à URL, à query key e à API; demais filtros seguem iguais. GET facets é invalidado pelo pipeline público existente após Socket.IO.
+
+Revisão de baselines, diferenças para o Figma e evidências ficam na seção Etapa 7 do README. Sem nova dependência ou alteração nas regras privadas/compra.
 
 ## Perfil e carteiras · Etapa 5B
 

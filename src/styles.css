@@ -122,18 +122,33 @@ img { display: block; max-width: 100%; }
 .filter-group legend { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
 .filter-option { display: flex; align-items: center; gap: 10px; min-height: 40px; color: var(--muted-foreground); font-size: 14px; }
 .filter-option input { width: 12px; height: 12px; accent-color: var(--primary); }
-.filter-group input[type="range"] { width: 100%; accent-color: var(--primary); opacity: .6; }
+.price-slider { position: relative; height: 44px; }
+.price-slider-track { position: absolute; inset: 21px 11px auto; height: 3px; background: var(--border); }
+.price-slider-track span { position: absolute; height: 100%; background: var(--primary); }
+.price-slider input { position: absolute; inset: 0; width: 100%; height: 44px; margin: 0; appearance: none; background: transparent; pointer-events: none; }
+.price-slider input::-webkit-slider-runnable-track { height: 3px; background: transparent; }
+.price-slider input::-moz-range-track { height: 3px; background: transparent; }
+.price-slider input::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; margin-top: -9.5px; border-radius: 50%; border: 2px solid var(--secondary); background: var(--primary); cursor: grab; pointer-events: auto; }
+.price-slider input::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--secondary); background: var(--primary); cursor: grab; pointer-events: auto; }
+.price-slider input:focus-visible { z-index: 1; border-radius: var(--radius); }
+.filter-price-value { font-size: 11px; overflow-wrap: anywhere; }
 .filter-price-fields { display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--muted-foreground); }
 .filter-price-fields input { width: 0; min-width: 0; flex: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; }
 .filter-apply { padding: 6px 12px; background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius); font-weight: 700; }
 .filter-heading > button { font-size: 11px; color: var(--primary); }
 .filter-heading > button:disabled { opacity: .5; }
 .filter-error { color: var(--primary-bright); font-size: 12px; margin-bottom: 10px; }
-.filter-dialog { position: fixed; inset: 0 0 0 auto; width: min(390px, 100%); height: 100dvh; max-height: 100dvh; max-width: 100%; margin: 0; padding: 40px 20px 30px; border: 0; background: var(--secondary); color: var(--foreground); overflow-y: auto; }
+.filter-dialog { position: fixed; inset: 0 0 0 auto; width: min(390px, 100%); height: 100dvh; max-height: 100dvh; max-width: 100%; margin: 0; padding: 0; border: 0; background: var(--secondary); color: var(--foreground); overflow: hidden; }
+.filter-dialog[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.filter-drawer-header { display: flex; justify-content: flex-end; padding: max(8px, env(safe-area-inset-top)) 16px 8px; }
+.filter-drawer-body { overflow-y: auto; overscroll-behavior: contain; padding: 8px 20px 20px; scroll-padding-block: 12px; }
+.filter-drawer-footer { padding: 12px 20px max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--border); }
+.filter-dialog .filter-group { margin-bottom: 24px; }
+.filter-dialog .filter-group legend { font-size: 16px; }
 .filter-dialog::backdrop { background: rgb(0 0 0 / .6); }
 .filter-dialog .catalog-sidebar { display: block; padding: 0; }
-.filter-close { position: absolute; right: 16px; top: 4px; width: 32px; height: 32px; line-height: 1; color: var(--primary); font-size: 26px; }
-.filter-results { width: 100%; margin-top: 16px; }
+.filter-close { width: 36px; height: 36px; line-height: 1; color: var(--primary); font-size: 26px; }
+.filter-results { width: 100%; }
 @media (min-width: 601px) { .filter-toggle { display: none !important; } }
 .filter-notice { display: flex; gap: 8px; align-items: center; }
 .filter-notice svg { width: 16px; height: 16px; }
@@ -270,6 +285,11 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .related-grid .nft-card:nth-child(n+4) { display: none; }
 }
 @media (max-width: 600px) {
+  :root { --mobile-nav-height: calc(88px + env(safe-area-inset-bottom)); --mobile-content-inset: calc(var(--mobile-nav-height) + 44px); }
+  body { padding-top: env(safe-area-inset-top); }
+  html { scroll-padding-bottom: var(--mobile-content-inset); }
+  .app-shell:not(.is-auth):not(.is-detail):not(.is-purchase) { padding-bottom: var(--mobile-content-inset); }
+  main :is(input, select, button, summary, a) { scroll-margin-block: 16px; }
   .auth-dialog { inset: 0; width: 100%; height: 100dvh; max-width: 100%; max-height: 100dvh; margin: 0; padding: 116px 26px 64px; border: 0; border-radius: 0; background: var(--background); }
   .auth-close { top: 24px; right: 24px; }
   .auth-mobile-brand { display: block; font-size: 32px; font-weight: 700; text-align: center; letter-spacing: 3px; margin-bottom: 72px; }
@@ -285,8 +305,9 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .social-actions button { height: 40px; font-size: 14px; border-radius: 6px; }
   .auth-mobile-switch { display: block; margin-top: 38px; text-align: center; font-size: 14px; color: var(--muted-foreground); }
   .auth-mobile-switch a { color: var(--primary); }
-  .mobile-account { position: absolute; right: 22px; bottom: 100%; display: grid; gap: 12px; min-width: 180px; padding: 16px; background: var(--secondary); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; }
+  .mobile-account { position: absolute; right: 22px; bottom: calc(100% + 12px); display: grid; gap: 12px; width: min(260px, calc(100vw - 44px)); max-height: calc(100dvh - var(--mobile-content-inset) - 24px); overflow-y: auto; padding: 16px; background: var(--secondary); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; overflow-wrap: anywhere; }
   .mobile-account a, .mobile-account button { color: var(--primary); text-align: left; }
+  .mobile-nav .mobile-account :is(a, button) { width: 100%; height: auto; min-height: 40px; justify-content: flex-start; }
   .is-auth .mobile-nav { display: none; }
   .page-width { width: calc(100% - 44px); }
   .site-header { display: none; }
@@ -325,17 +346,21 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .sort-control { margin-left: auto; margin-top: 10px; }
   .sort-control, .sort-control select { font-size: 11px; }
   .refresh-status { min-height: 10px; margin: 0; font-size: 10px; }
-  .nft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; padding-bottom: 30px; }
-  .nft-grid > :nth-child(even) { transform: translateY(30px); }
+  .nft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  .nft-grid .nft-card { display: flex; flex-direction: column; }
+  .nft-grid .nft-card > a { flex: 1; }
   .nft-art { padding: 11px 4px 18px; border-radius: 20px; }
   .nft-art img { border-radius: 15px; }
   .nft-card h3 { font-size: 14px; margin: 9px 7px 0; }
+  .nft-grid .nft-card h3 { min-height: 2.8em; }
   .card-meta { margin-left: 7px; }
+  .nft-grid .card-meta .price { overflow-wrap: anywhere; }
   .price { font-size: 17px; }
   .card-meta > span { font-size: 10px; }
   .rarity { top: 15px; font-size: 11px; padding: 5px 8px; }
-  .card-favorite { top: 12px; right: 10px; width: 28px; height: 28px; }
-  .card-favorite svg { width: 20px; height: 20px; }
+  .card-favorite { top: 12px; right: 10px; width: 32px; height: 32px; padding: 0; opacity: 1; }
+  .card-favorite svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .nft-card:hover .card-view, .nft-card:focus-within .card-view { display: none; }
   .pagination { gap: 10px; }
   .pagination button { padding-inline: 10px; font-size: 12px; }
   .pagination span { font-size: 10px; }
@@ -386,9 +411,9 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
   .related-grid .nft-card:nth-child(n+3) { display: none; }
   .is-detail .live-status, .is-detail .mock-controls { margin-inline: 22px; }
-  .site-footer { flex-wrap: wrap; margin-bottom: 100px; padding: 20px; }
+  .site-footer { flex-wrap: wrap; margin-bottom: 0; padding: 20px; }
   .site-footer > span:last-child { font-size: 10px; }
-  .mobile-nav { position: fixed; z-index: 5; bottom: 0; inset-inline: 0; display: flex; justify-content: space-between; align-items: center; height: 88px; border-radius: 30px 30px 0 0; background: var(--secondary); padding: 16px 28px max(16px, env(safe-area-inset-bottom)); color: var(--muted-foreground); }
+  .mobile-nav { position: fixed; z-index: 5; bottom: 0; inset-inline: 0; display: flex; justify-content: space-between; align-items: center; height: var(--mobile-nav-height); border-radius: 30px 30px 0 0; background: var(--secondary); padding: 16px 28px calc(16px + env(safe-area-inset-bottom)); color: var(--muted-foreground); }
   .mobile-nav a, .mobile-nav > button { display: flex; align-items: center; justify-content: center; width: 36px; height: 40px; }
   .mobile-nav svg { width: 23px; height: 23px; }
   .mobile-nav a { color: var(--primary); }
@@ -682,6 +707,9 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
   .account-form-grid { gap: 20px; }
   .account-content h1 { margin-bottom: 24px; }
   .account-title > button { font-size: 13px; }
+  .account-title { flex-wrap: wrap; }
+  .account-field > label, .account-field > span { overflow-wrap: anywhere; }
+  .account-content :is(button, p) { max-width: 100%; overflow-wrap: anywhere; }
   .account-description { margin-bottom: 24px; font-size: 12px; }
   .wallet-list-actions { display: grid; }
 }

@@ -1,4 +1,4 @@
-# Contratos · Etapas 1 a 6
+# Contratos · Etapas 1 a 7
 
 Tipos executáveis: `src/api/contracts.ts`. JSON UTF-8. Os endpoints da simulação são interceptados por MSW e não requerem servidor. `/api` é o prefixo padrão.
 
@@ -11,10 +11,12 @@ Preço nunca deve ser convertido a Number para cálculo. Ordenação e cotação
 | Método / rota | Entrada | Saída |
 | --- | --- | --- |
 | GET `/api/nfts` | `q`, `page`, `sort` e filtros abaixo | `{ items: Nft[], total, page, pageSize: 8 }` |
-| GET `/api/nfts/filters` | Sem parâmetros | `{collections:string[],rarities:Rarity[]}` distintos da fonte compartilhada, ordenados; 503 no cenário `error` |
+| GET `/api/nfts/filters` | Sem parâmetros | `{collections:string[],rarities:Rarity[],priceRange:{min:Eth,max:Eth}}` da fonte compartilhada; opções ordenadas, extremos por wei/BigInt (zero se vazia); 503 no cenário `error` |
 | GET `/api/nfts/:id` | Identificador estável | `Nft` ou 404 |
 
 ### Catálogo e URL · Etapa 6
+
+Etapa 7: `priceRange` informa o domínio visual do slider duplo. O limite inferior visual parte de zero para permitir ausência de restrição mínima; o superior inclui o maior preço da fonte e os limites já aplicados na URL. Arrastar prepara strings ETH exatas em wei, sem executar consultas até Aplicar. Campos de 18 casas, validações, URL, filtros REST e invalidação por Socket.IO mantêm os contratos abaixo. Ranges não cruzam e não arredondam valores digitados ao renderizar.
 
 | Parâmetro de URL/REST | Semântica |
 | --- | --- |

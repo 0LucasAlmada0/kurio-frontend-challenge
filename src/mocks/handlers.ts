@@ -1,5 +1,5 @@
 import { delay, http, HttpResponse } from 'msw'
-import { ethToWei } from '@/lib/eth'
+import { ethToWei, weiToEth } from '@/lib/eth'
 import { store } from './store'
 import { disconnectClients, emitNftUpdated, socketHandler } from './socket'
 import { getScenario, latency, setScenario } from './scenarios'
@@ -20,7 +20,8 @@ export const handlers = [
     await delay(120)
     if (getScenario() === 'error') return HttpResponse.json({ code: 'UNAVAILABLE', message: 'Filtros indisponíveis.' }, { status: 503 })
     const items = store.list()
-    return HttpResponse.json({ collections: [...new Set(items.map((nft) => nft.collection))].sort(), rarities: [...new Set(items.map((nft) => nft.rarity))].sort() })
+    const prices = items.map((nft) => ethToWei(nft.priceEth)).sort((a, b) => a < b ? -1 : a > b ? 1 : 0)
+    return HttpResponse.json({ collections: [...new Set(items.map((nft) => nft.collection))].sort(), rarities: [...new Set(items.map((nft) => nft.rarity))].sort(), priceRange: { min: weiToEth(prices[0] ?? 0n), max: weiToEth(prices.at(-1) ?? 0n) } })
   }),
   http.get(`${base}/nfts`, async ({ request }) => {
     const params = new URL(request.url).searchParams
