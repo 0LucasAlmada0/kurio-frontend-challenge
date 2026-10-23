@@ -52,8 +52,6 @@ export function AuthPage() {
       else document.getElementById('auth-trigger')?.focus()
     }
   }, [])
-  function close() { auth.dismissExpiry(); void navigate({ href: returnTo, replace: true }) }
-
   function submit(event: FormEvent) {
     event.preventDefault()
     if (mutation.isPending) return
@@ -64,6 +62,11 @@ export function AuthPage() {
   const target = new URL(returnTo, window.location.origin)
   const match = /^\/nfts\/([^/]+)$/.exec(target.pathname)
   const backgroundSearch = normalizeCatalogSearch(Object.fromEntries(target.searchParams))
+  function close() {
+    auth.dismissExpiry()
+    const publicReturnTo = target.pathname === '/' || target.pathname === '/carrinho' || match ? returnTo : target.pathname === '/pagamento' ? '/carrinho' : '/'
+    void navigate({ href: publicReturnTo, replace: true })
+  }
   function input(field: keyof RegisterInput, label: string, type: string, autocomplete: string) {
     return <div className="auth-field"><label htmlFor={`auth-${field}`} className="sr-only">{label}</label><Input id={`auth-${field}`} name={field} type={type} autoComplete={autocomplete} placeholder={register && field === 'email' ? 'Digite seu e-mail' : label} value={values[field]} aria-invalid={!!fields[field]} aria-describedby={fields[field] ? `error-${field}` : undefined} onChange={(event) => setValues({ ...values, [field]: event.target.value })} disabled={mutation.isPending} />{fields[field] && <p id={`error-${field}`} className="field-error">{fields[field]}</p>}</div>
   }
