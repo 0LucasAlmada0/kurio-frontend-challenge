@@ -13,4 +13,4 @@ Extraia somente `package/files/roboto-mono-latin-400-normal.woff2`, `package/fil
 | roboto-mono-latin-400-normal.woff2 | 12680 | e03013e0baa5690a803c188da2214d920c3245b25ad78421ecc8ae86cd842ae9 |
 | roboto-mono-latin-700-normal.woff2 | 12696 | 283fbef73f42c21722c5a3efc7a44b0c38aac1ada665602b2144c13ed58c0e99 |
 
-As declarações em `src/styles.css` usam `font-display: swap`. A família é compartilhada pelo cadastro, login e pagamento com viewport de até 600 px; a declaração não antecipa downloads nas demais telas. Não há chamadas a provedores externos em runtime, preload global, itálicos ou outros pesos/subsets.
+As declarações em `src/styles.css` usam `font-display: swap`. A família é compartilhada pelo cadastro, login, pagamento e carrinho com viewport de até 600 px; a declaração não antecipa downloads nas demais telas. Não há chamadas a provedores externos em runtime, preload global, itálicos ou outros pesos/subsets.

@@ -1,0 +1,674 @@
+{
+  "four-414": {
+    "width": 414,
+    "height": 896,
+    "scrollWidth": 414,
+    "elements": [
+      {
+        "text": "‹Carrinho de NFTs",
+        "rect": {
+          "x": 22,
+          "y": 38,
+          "width": 370,
+          "height": 34,
+          "top": 38,
+          "right": 392,
+          "bottom": 72,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Emerald Ape #042Edição: 1/501.19 ETHQuantidade de Emerald Ape #042, edição 1/501.19 ETH",
+        "rect": {
+          "x": 22,
+          "y": 92,
+          "width": 370,
+          "height": 103.59375,
+          "top": 92,
+          "right": 392,
+          "bottom": 195.59375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 92,
+          "width": 94,
+          "height": 103.59375,
+          "top": 92,
+          "right": 116,
+          "bottom": 195.59375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Violet Nomad #314Edição: 1/11.39 ETHQuantidade de Violet Nomad #314, edição 1/11.39 ETH",
+        "rect": {
+          "x": 22,
+          "y": 213.59375,
+          "width": 370,
+          "height": 103.59375,
+          "top": 213.59375,
+          "right": 392,
+          "bottom": 317.1875,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 213.59375,
+          "width": 94,
+          "height": 103.59375,
+          "top": 213.59375,
+          "right": 116,
+          "bottom": 317.1875,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Ivory Baron #088Edição: 1/101.79 ETHQuantidade de Ivory Baron #088, edição 1/103.58 ETH",
+        "rect": {
+          "x": 22,
+          "y": 335.1875,
+          "width": 370,
+          "height": 103.59375,
+          "top": 335.1875,
+          "right": 392,
+          "bottom": 438.78125,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 335.1875,
+          "width": 94,
+          "height": 103.59375,
+          "top": 335.1875,
+          "right": 116,
+          "bottom": 438.78125,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Golden Beat #207Edição: 1/500.99 ETHQuantidade de Golden Beat #207, edição 1/501.98 ETH",
+        "rect": {
+          "x": 22,
+          "y": 456.78125,
+          "width": 370,
+          "height": 103.59375,
+          "top": 456.78125,
+          "right": 392,
+          "bottom": 560.375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 456.78125,
+          "width": 94,
+          "height": 103.59375,
+          "top": 456.78125,
+          "right": 116,
+          "bottom": 560.375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Resumo da carteiraCódigo promocionalAplicarSubtotal8.14 ETHDesconto do lançamento(−) 0.0 ETHTaxa de rede0.016 ETHTaxa estimadaTotal8.156 ETHContinuar ao checkoutCompra e conexão de carteira simuladas.Continuar explorando",
+        "rect": {
+          "x": 0,
+          "y": 588.375,
+          "width": 414,
+          "height": 425.5,
+          "top": 588.375,
+          "right": 414,
+          "bottom": 1013.875,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Código promocionalAplicar",
+        "rect": {
+          "x": 22,
+          "y": 612.375,
+          "width": 370,
+          "height": 50,
+          "top": 612.375,
+          "right": 392,
+          "bottom": 662.375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "8.156 ETH",
+        "rect": {
+          "x": 293.03125,
+          "y": 821.375,
+          "width": 98.96875,
+          "height": 30,
+          "top": 821.375,
+          "right": 392,
+          "bottom": 851.375,
+          "left": 293.03125
+        },
+        "font": "700 20px / 30px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Continuar ao checkout",
+        "rect": {
+          "x": 22,
+          "y": 871.375,
+          "width": 370,
+          "height": 54,
+          "top": 871.375,
+          "right": 392,
+          "bottom": 925.375,
+          "left": 22
+        },
+        "font": "700 17px / 24.2857px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "one-414": {
+    "width": 414,
+    "height": 896,
+    "scrollWidth": 414,
+    "elements": [
+      {
+        "text": "‹Carrinho de NFTs",
+        "rect": {
+          "x": 22,
+          "y": 38,
+          "width": 370,
+          "height": 34,
+          "top": 38,
+          "right": 392,
+          "bottom": 72,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Emerald Ape #042Edição: 1/501.19 ETHQuantidade de Emerald Ape #042, edição 1/501.19 ETH",
+        "rect": {
+          "x": 22,
+          "y": 92,
+          "width": 370,
+          "height": 103.59375,
+          "top": 92,
+          "right": 392,
+          "bottom": 195.59375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 22,
+          "y": 92,
+          "width": 94,
+          "height": 103.59375,
+          "top": 92,
+          "right": 116,
+          "bottom": 195.59375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Resumo da carteiraCódigo promocionalAplicarSubtotal1.19 ETHDesconto do lançamento(−) 0.0 ETHTaxa de rede0.016 ETHTaxa estimadaTotal1.206 ETHContinuar ao checkoutCompra e conexão de carteira simuladas.Continuar explorando",
+        "rect": {
+          "x": 0,
+          "y": 223.59375,
+          "width": 414,
+          "height": 425.5,
+          "top": 223.59375,
+          "right": 414,
+          "bottom": 649.09375,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Código promocionalAplicar",
+        "rect": {
+          "x": 22,
+          "y": 247.59375,
+          "width": 370,
+          "height": 50,
+          "top": 247.59375,
+          "right": 392,
+          "bottom": 297.59375,
+          "left": 22
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "1.206 ETH",
+        "rect": {
+          "x": 293.03125,
+          "y": 456.59375,
+          "width": 98.96875,
+          "height": 30,
+          "top": 456.59375,
+          "right": 392,
+          "bottom": 486.59375,
+          "left": 293.03125
+        },
+        "font": "700 20px / 30px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Continuar ao checkout",
+        "rect": {
+          "x": 22,
+          "y": 506.59375,
+          "width": 370,
+          "height": 54,
+          "top": 506.59375,
+          "right": 392,
+          "bottom": 560.59375,
+          "left": 22
+        },
+        "font": "700 17px / 24.2857px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "desktop": {
+    "width": 1440,
+    "height": 1000,
+    "scrollWidth": 1440,
+    "elements": [
+      {
+        "text": "‹Carrinho de NFTs",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Emerald Ape #042Edição: 1/501.19 ETHQuantidade de Emerald Ape #042, edição 1/501.19 ETH",
+        "rect": {
+          "x": 120,
+          "y": 178,
+          "width": 782.859375,
+          "height": 70,
+          "top": 178,
+          "right": 902.859375,
+          "bottom": 248,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 120,
+          "y": 178,
+          "width": 70,
+          "height": 70,
+          "top": 178,
+          "right": 190,
+          "bottom": 248,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Violet Nomad #314Edição: 1/11.39 ETHQuantidade de Violet Nomad #314, edição 1/11.39 ETH",
+        "rect": {
+          "x": 120,
+          "y": 260,
+          "width": 782.859375,
+          "height": 70,
+          "top": 260,
+          "right": 902.859375,
+          "bottom": 330,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 120,
+          "y": 260,
+          "width": 70,
+          "height": 70,
+          "top": 260,
+          "right": 190,
+          "bottom": 330,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Ivory Baron #088Edição: 1/101.79 ETHQuantidade de Ivory Baron #088, edição 1/103.58 ETH",
+        "rect": {
+          "x": 120,
+          "y": 342,
+          "width": 782.859375,
+          "height": 70,
+          "top": 342,
+          "right": 902.859375,
+          "bottom": 412,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 120,
+          "y": 342,
+          "width": 70,
+          "height": 70,
+          "top": 342,
+          "right": 190,
+          "bottom": 412,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Golden Beat #207Edição: 1/500.99 ETHQuantidade de Golden Beat #207, edição 1/501.98 ETH",
+        "rect": {
+          "x": 120,
+          "y": 424,
+          "width": 782.859375,
+          "height": 70,
+          "top": 424,
+          "right": 902.859375,
+          "bottom": 494,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 120,
+          "y": 424,
+          "width": 70,
+          "height": 70,
+          "top": 424,
+          "right": 190,
+          "bottom": 494,
+          "left": 120
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Resumo da carteiraCódigo promocionalAplicarSubtotal8.14 ETHDesconto do lançamento(−) 0.0 ETHTaxa de rede0.016 ETHTaxa estimadaTotal8.156 ETHContinuar ao checkoutCompra e conexão de carteira simuladas.Continuar explorando",
+        "rect": {
+          "x": 986.859375,
+          "y": 131,
+          "width": 333.140625,
+          "height": 425.890625,
+          "top": 131,
+          "right": 1320,
+          "bottom": 556.890625,
+          "left": 986.859375
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Código promocionalAplicar",
+        "rect": {
+          "x": 986.859375,
+          "y": 179.390625,
+          "width": 333.140625,
+          "height": 71,
+          "top": 179.390625,
+          "right": 1320,
+          "bottom": 250.390625,
+          "left": 986.859375
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "8.156 ETH",
+        "rect": {
+          "x": 1230.921875,
+          "y": 409.390625,
+          "width": 89.078125,
+          "height": 27,
+          "top": 409.390625,
+          "right": 1320,
+          "bottom": 436.390625,
+          "left": 1230.921875
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Continuar ao checkout",
+        "rect": {
+          "x": 986.859375,
+          "y": 456.390625,
+          "width": 333.140625,
+          "height": 40,
+          "top": 456.390625,
+          "right": 1320,
+          "bottom": 496.390625,
+          "left": 986.859375
+        },
+        "font": "700 14px / 20px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  },
+  "tablet": {
+    "width": 768,
+    "height": 1024,
+    "scrollWidth": 768,
+    "elements": [
+      {
+        "text": "‹Carrinho de NFTs",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Emerald Ape #042Edição: 1/501.19 ETHQuantidade de Emerald Ape #042, edição 1/501.19 ETH",
+        "rect": {
+          "x": 32,
+          "y": 178,
+          "width": 704,
+          "height": 70,
+          "top": 178,
+          "right": 736,
+          "bottom": 248,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 32,
+          "y": 178,
+          "width": 70,
+          "height": 70,
+          "top": 178,
+          "right": 102,
+          "bottom": 248,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Violet Nomad #314Edição: 1/11.39 ETHQuantidade de Violet Nomad #314, edição 1/11.39 ETH",
+        "rect": {
+          "x": 32,
+          "y": 260,
+          "width": 704,
+          "height": 70,
+          "top": 260,
+          "right": 736,
+          "bottom": 330,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 32,
+          "y": 260,
+          "width": 70,
+          "height": 70,
+          "top": 260,
+          "right": 102,
+          "bottom": 330,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Ivory Baron #088Edição: 1/101.79 ETHQuantidade de Ivory Baron #088, edição 1/103.58 ETH",
+        "rect": {
+          "x": 32,
+          "y": 342,
+          "width": 704,
+          "height": 70,
+          "top": 342,
+          "right": 736,
+          "bottom": 412,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 32,
+          "y": 342,
+          "width": 70,
+          "height": 70,
+          "top": 342,
+          "right": 102,
+          "bottom": 412,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Golden Beat #207Edição: 1/500.99 ETHQuantidade de Golden Beat #207, edição 1/501.98 ETH",
+        "rect": {
+          "x": 32,
+          "y": 424,
+          "width": 704,
+          "height": 70,
+          "top": 424,
+          "right": 736,
+          "bottom": 494,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 32,
+          "y": 424,
+          "width": 70,
+          "height": 70,
+          "top": 424,
+          "right": 102,
+          "bottom": 494,
+          "left": 32
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Resumo da carteiraCódigo promocionalAplicarSubtotal8.14 ETHDesconto do lançamento(−) 0.0 ETHTaxa de rede0.016 ETHTaxa estimadaTotal8.156 ETHContinuar ao checkoutCompra e conexão de carteira simuladas.Continuar explorando",
+        "rect": {
+          "x": 276,
+          "y": 526,
+          "width": 460,
+          "height": 425.890625,
+          "top": 526,
+          "right": 736,
+          "bottom": 951.890625,
+          "left": 276
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Código promocionalAplicar",
+        "rect": {
+          "x": 276,
+          "y": 574.390625,
+          "width": 460,
+          "height": 71,
+          "top": 574.390625,
+          "right": 736,
+          "bottom": 645.390625,
+          "left": 276
+        },
+        "font": "16px / 24px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "8.156 ETH",
+        "rect": {
+          "x": 646.921875,
+          "y": 804.390625,
+          "width": 89.078125,
+          "height": 27,
+          "top": 804.390625,
+          "right": 736,
+          "bottom": 831.390625,
+          "left": 646.921875
+        },
+        "font": "700 18px / 27px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      },
+      {
+        "text": "Continuar ao checkout",
+        "rect": {
+          "x": 276,
+          "y": 851.390625,
+          "width": 460,
+          "height": 40,
+          "top": 851.390625,
+          "right": 736,
+          "bottom": 891.390625,
+          "left": 276
+        },
+        "font": "700 14px / 20px Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    ]
+  }
+}

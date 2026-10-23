@@ -36,12 +36,15 @@ async function openCart(page: Page) {
 function row(page: Page, id = emerald, edition = 'standard') { return page.getByTestId(`cart-${id}-${edition}`) }
 async function settled(page: Page) { await expect(page.getByRole('region', { name: 'Itens do carrinho' })).toHaveAttribute('aria-busy', 'false') }
 async function login(page: Page, user: 'ana' | 'bruno') {
+  const returnToCart = (page.viewportSize()?.width ?? 1440) <= 600 && new URL(page.url()).pathname === '/carrinho'
+  if (returnToCart) await page.getByRole('link', { name: 'Voltar ao mercado', exact: true }).click()
   await page.getByRole('button', { name: 'Entrar', exact: true }).filter({ visible: true }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('E-mail', { exact: true }).fill(`${user}@kurio.test`)
   await dialog.getByLabel('Senha', { exact: true }).fill('KurioDemo!123')
   await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
   await expect(dialog).not.toBeVisible()
+  if (returnToCart) await page.getByRole('link', { name: 'Carrinho de NFTs', exact: true }).filter({ visible: true }).click()
 }
 async function logout(page: Page) {
   if ((page.viewportSize()?.width ?? 1440) <= 600) {
@@ -267,6 +270,7 @@ test('resposta privada atrasada não reaparece em outra conta', async ({ page })
   await logout(page)
   await control(page, 'cart/scenario', { delay: 150 })
   await login(page, 'bruno')
+  await page.getByRole('link', { name: 'Carrinho de NFTs', exact: true }).filter({ visible: true }).click()
   await expect(page.getByText('Seu carrinho está vazio')).toBeVisible()
   await page.waitForTimeout(2200)
   await expect(row(page)).not.toBeVisible()
@@ -291,6 +295,101 @@ test('layout responsivo, navegação acessível e skeleton do carrinho', async (
   await expect(row(page).getByRole('spinbutton')).toBeFocused()
   await page.keyboard.press('Tab')
   await expect(row(page).getByRole('button', { name: /^Aumentar / })).toBeFocused()
+})
+
+test('quatro NFTs: composição mobile, cupom e continuidade até o pagamento', async ({ page }, testInfo) => {
+  await page.clock.install({ time: new Date('2026-10-21T12:01:00Z') })
+  await control(page, 'nfts/ivory-baron-088/update', { editionId: 'limited', available: 2 })
+  await control(page, 'nfts/golden-beat-207/update', { editionId: 'standard', available: 2 })
+  await expect(page.getByTestId('live-event')).toHaveAttribute('data-received', '2')
+  await add(page)
+  await add(page, violet, 1, '1/1')
+  await add(page, 'ivory-baron-088', 2, '1/10')
+  await add(page, 'golden-beat-207', 2)
+  await openCart(page)
+  await page.reload()
+  await expect(page.locator('.cart-item')).toHaveCount(4)
+  await settled(page)
+  await expect(page.getByTestId('quote-total')).toHaveText('8.156 ETH')
+  const mobile = (page.viewportSize()?.width ?? 1440) <= 600
+  if (mobile) {
+    for (const [width, height] of [[414, 896], [390, 844], [390, 500]]) {
+      await page.setViewportSize({ width: width!, height: height! })
+      await page.evaluate(() => document.fonts.ready)
+      await expect(page.getByRole('navigation', { name: 'Navegação mobile' })).not.toBeVisible()
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      for (const card of await page.locator('.cart-item').all()) {
+        const image = (await card.locator('img').boundingBox())!
+        expect(image.width).toBe(100)
+        expect(image.height).toBe(100)
+        for (const action of await card.getByRole('button').all()) {
+          const box = (await action.boundingBox())!
+          expect(box.width).toBeGreaterThanOrEqual(44)
+          expect(box.height).toBeGreaterThanOrEqual(44)
+        }
+      }
+      for (const action of [page.getByLabel('Código promocional', { exact: true }), page.getByRole('link', { name: 'Continuar ao checkout', exact: true })]) {
+        await action.focus()
+        await expect(action).toBeInViewport()
+        await expect.poll(() => action.evaluate((element) => {
+          const box = element.getBoundingClientRect()
+          const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)
+          return box.top >= 0 && box.bottom <= innerHeight && (hit === element || element.contains(hit))
+        })).toBe(true)
+      }
+      await testInfo.attach(`cart-four-${width}-${height}`, { body: await page.screenshot(), contentType: 'image/png' })
+    }
+  }
+  await page.getByLabel('Código promocional', { exact: true }).fill('KURIO10')
+  await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
+  await expect(page.getByText('KURIO10 aplicado', { exact: false })).toBeVisible()
+  await settled(page)
+  const discounted = (await rest<Quote>(page, '/cart/quote')).data
+  await expect(page.getByTestId('quote-total')).toHaveText(`${discounted.totalEth} ETH`)
+  await expect(page.getByTestId('quote-discount')).toHaveText('(−) 0.814 ETH')
+  await page.getByRole('button', { name: 'Remover cupom', exact: true }).click()
+  await expect(page.getByTestId('quote-total')).toHaveText('8.156 ETH')
+  await row(page).getByRole('button', { name: /^Aumentar / }).click()
+  await expect(row(page).getByRole('spinbutton')).toHaveValue('2')
+  await settled(page)
+  const quote = (await rest<Quote>(page, '/cart/quote')).data
+  await expect(page.getByTestId('quote-total')).toHaveText(`${quote.totalEth} ETH`)
+  await page.getByRole('link', { name: 'Continuar ao checkout', exact: true }).click()
+  await expect(page).toHaveURL(/\/login\?.*redirect=.*pagamento/)
+  const dialog = page.getByRole('dialog')
+  await dialog.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await dialog.getByLabel('Senha', { exact: true }).fill('KurioDemo!123')
+  await dialog.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL(/\/pagamento$/)
+  await expect(page.getByTestId('checkout-total')).toHaveText(`${quote.totalEth} ETH`)
+  expect((await rest(page)).data.items).toHaveLength(4)
+  if (mobile) await expect(page.getByRole('button', { name: 'Revisar compra', exact: true })).toBeVisible()
+})
+
+test('um item com nome longo e ETH preciso permanece acessível; remoção esvazia e restaura navegação', async ({ page }, testInfo) => {
+  const id = `${emerald}-edition-1`
+  await add(page, id)
+  await openCart(page)
+  const mobile = (page.viewportSize()?.width ?? 1440) <= 600
+  if (mobile) await page.setViewportSize({ width: 390, height: 500 })
+  await control(page, `nfts/${id}/update`, { priceEth: '1.123456789012345678' })
+  await expect(page.getByTestId('quote-total')).toHaveText('1.139456789012345678 ETH')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  if (mobile) {
+    const heading = (await row(page, id).getByRole('heading').boundingBox())!
+    const quantity = (await row(page, id).getByRole('button', { name: /^Aumentar / }).locator('svg').boundingBox())!
+    expect(heading.y + heading.height).toBeLessThanOrEqual(quantity.y)
+    await row(page, id).getByRole('button', { name: /^Remover / }).focus()
+    await expect(row(page, id).getByRole('button', { name: /^Remover / })).toBeInViewport()
+  }
+  await row(page, id).getByRole('button', { name: /^Remover / }).click()
+  await expect(page.getByRole('heading', { name: 'Seu carrinho está vazio' })).toBeVisible()
+  expect((await rest(page)).data.items).toEqual([])
+  await testInfo.attach(`cart-empty-${testInfo.project.name}`, { body: await page.screenshot(), contentType: 'image/png' })
+  await page.getByRole('link', { name: mobile ? 'Voltar ao mercado' : 'Continuar explorando', exact: true }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('heading', { name: 'Carrinho de NFTs' })).not.toBeVisible()
+  if (mobile) await expect(page.getByRole('navigation', { name: 'Navegação mobile' })).toBeVisible()
 })
 
 test('autofill mantém fundo e texto dos tokens no modal e mobile', async ({ page, context }) => {

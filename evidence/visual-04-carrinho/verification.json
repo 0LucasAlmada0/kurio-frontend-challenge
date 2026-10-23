@@ -1,0 +1,25 @@
+{
+  "desktopPixelsIdentical": true,
+  "tabletPixelsIdentical": true,
+  "changedBaselines": [
+    "tests/e2e/cart.spec.ts-snapshots/cart-mobile-win32.png"
+  ],
+  "playwright-direcionados": {
+    "total": 12,
+    "expected": 12,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "playwright-final": {
+    "total": 273,
+    "expected": 273,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "addedBaselines": [],
+  "removedBaselines": []
+}

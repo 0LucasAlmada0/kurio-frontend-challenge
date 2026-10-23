@@ -32,7 +32,7 @@ function CartContent({ state }: { state: ReturnType<typeof useCart> }) {
   const stale = quote.isFetching || quote.isError || !data || expiredId === data.id || data.cartVersion !== cart.data?.version || pending
   return <div className="cart-page">
     <nav className="breadcrumb" aria-label="Localização"><Link to="/" search={{ q: '', page: 1, sort: 'name' }}>Início / Mercado</Link><span> / Carrinho</span></nav>
-    <div className="cart-title"><Link to="/" search={{ q: '', page: 1, sort: 'name' }} aria-label="Voltar ao mercado">‹</Link><h1>Carrinho de NFTs</h1></div>
+    <div className="cart-title"><Link to="/" search={{ q: '', page: 1, sort: 'name' }} aria-label="Voltar ao mercado"><Icon name="back" /></Link><h1>Carrinho de NFTs</h1></div>
     {!enabled ? <p role="status">Recuperando sessão…</p> : cart.isPending || (cart.data?.items.length !== 0 && quote.isPending) ? <div role="status" aria-label="Carregando carrinho" className="cart-skeleton"><Skeleton /><Skeleton /><Skeleton /></div> : cart.isError && !cart.data ? <ErrorState error={cart.error} retry={() => { void cart.refetch() }} /> : !cart.data?.items.length ? <div className="state-panel"><h2>Seu carrinho está vazio</h2><p>Explore o mercado e escolha suas edições.</p><Link to="/" search={{ q: '', page: 1, sort: 'name' }}>Continuar explorando</Link></div> : <>
       <p className="cart-feedback" role="status">{pending ? 'Salvando carrinho…' : stale ? 'Cotação desatualizada. Atualizando valores…' : live.received ? 'Preço ou disponibilidade alterados. Cotação atualizada.' : change.isSuccess ? 'Carrinho atualizado.' : ''}</p>
       {cart.data.notices.map((notice) => <p className="cart-feedback" role="status" key={notice}>{notice}</p>)}
