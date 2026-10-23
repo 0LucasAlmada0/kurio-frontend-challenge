@@ -45,6 +45,11 @@ test('catálogo: REST, assets locais e navegação ao detalhe', async ({ page })
   expect(await card.getByRole('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   if ((page.viewportSize()?.width ?? 1440) > 600) await expect(page.locator('.catalog-layout > .catalog-sidebar').getByLabel('Kurio Apes', { exact: true })).toBeVisible()
+  for (const image of await page.locator('.home-sections img').all()) {
+    await image.scrollIntoViewIfNeeded()
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+  }
+  await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); window.scrollTo({ top: 0, behavior: 'instant' }) })
   await expect(page).toHaveScreenshot('catalog.png', { fullPage: true })
   await card.getByRole('link').click()
   await expect(page).toHaveURL(/\/nfts\/emerald-ape-042/)

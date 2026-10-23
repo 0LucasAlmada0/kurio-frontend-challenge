@@ -39,6 +39,7 @@ Em **Cenários de demonstração → Restaurar cenário**, retorne às fixtures 
 
 ### Evidências entregues
 
+- [Revisão estrutural 05 · Home: divergências, capturas completas e validação](evidence/visual-05-home/README.md) e [comparação visual desktop/mobile](evidence/visual-05-home/index.html). Banners, prévias editoriais, informações/newsletter e rodapé exclusivos da Home; serviços futuros explicitamente indisponíveis. Regressão desta revisão: **276 testes aprovados**.
 - [Índice navegável no GitHub](evidence/etapa8/README.md) e [índice HTML local](evidence/etapa8/index.html).
 - [12 medições finais Lighthouse: HTML/JSON](evidence/etapa8/README.md#as-12-medicoes-finais), [medianas](evidence/etapa8/lighthouse/summary.json) e [configurações efetivas/MSW/Socket.IO](evidence/etapa8/lighthouse/runs.json).
 - [Playwright definitivo: 249 testes aprovados](evidence/etapa8/playwright/index.html), com todos os anexos necessários em `data/`, sem traces de falhas anteriores.

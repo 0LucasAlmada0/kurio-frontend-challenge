@@ -155,10 +155,11 @@ test('cadastro: composição mobile, campos acessíveis, rolagem e retorno', asy
   }
 })
 
-test('Roboto Mono é local e compartilhada por login e cadastro sem fonte global', async ({ page, context }) => {
+test('Roboto Mono é local e compartilhada por login e cadastro sem fonte global', async ({ context }) => {
+  const page = await context.newPage()
   const fonts: { url: string, status: number }[] = []
   page.on('response', (response) => { if (new URL(response.url()).pathname.endsWith('.woff2')) fonts.push({ url: response.url(), status: response.status() }) })
-  await page.goto('/')
+  await page.goto('/nfts/emerald-ape-042')
   await expect(page.getByTestId('socket-status')).toHaveText('● Ao vivo')
   await page.evaluate(() => document.fonts.ready)
   expect(fonts).toEqual([])

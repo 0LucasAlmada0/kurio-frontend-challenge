@@ -1,0 +1,47 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "fullHeight": 2367,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs"
+    ],
+    "font": "loaded"
+  },
+  {
+    "name": "mobile-414",
+    "width": 414,
+    "height": 896,
+    "fullHeight": 2255,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs"
+    ],
+    "font": "loaded"
+  },
+  {
+    "name": "mobile-390",
+    "width": 390,
+    "height": 844,
+    "fullHeight": 2207,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs"
+    ],
+    "font": "loaded"
+  }
+]

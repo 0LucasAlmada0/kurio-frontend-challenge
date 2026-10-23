@@ -1,0 +1,83 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "fullHeight": 3902,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs",
+      "Lançamentos gênesis de edição limitada",
+      "Arte digital selecionada e muito mais",
+      "Diário da Cunhagem",
+      "Segurança da carteira",
+      "Criadores em destaque",
+      "Alertas de lançamentos",
+      "Antecipe-se ao próximo lançamento",
+      "Meu perfil",
+      "Central de ajuda",
+      "Coleções",
+      "Redes sociais",
+      "Carteiras compatíveis"
+    ],
+    "font": "loaded"
+  },
+  {
+    "name": "mobile-414",
+    "width": 414,
+    "height": 896,
+    "fullHeight": 4975,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs",
+      "Lançamentos gênesis de edição limitada",
+      "Arte digital selecionada e muito mais",
+      "Diário da Cunhagem",
+      "Segurança da carteira",
+      "Criadores em destaque",
+      "Alertas de lançamentos",
+      "Antecipe-se ao próximo lançamento",
+      "Meu perfil",
+      "Central de ajuda",
+      "Coleções",
+      "Redes sociais",
+      "Carteiras compatíveis"
+    ],
+    "font": "loaded"
+  },
+  {
+    "name": "mobile-390",
+    "width": 390,
+    "height": 844,
+    "fullHeight": 5087,
+    "overflow": false,
+    "imagesLoaded": true,
+    "sections": [
+      "Filtros",
+      "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+      "Filtros",
+      "Todos os NFTs",
+      "Lançamentos gênesis de edição limitada",
+      "Arte digital selecionada e muito mais",
+      "Diário da Cunhagem",
+      "Segurança da carteira",
+      "Criadores em destaque",
+      "Alertas de lançamentos",
+      "Antecipe-se ao próximo lançamento",
+      "Meu perfil",
+      "Central de ajuda",
+      "Coleções",
+      "Redes sociais",
+      "Carteiras compatíveis"
+    ],
+    "font": "loaded"
+  }
+]

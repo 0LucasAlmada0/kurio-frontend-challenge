@@ -1,0 +1,73 @@
+{
+  "mobile-414": {
+    "viewportUnchanged": true
+  },
+  "mobile-390": {
+    "viewportUnchanged": true
+  },
+  "changedBaselines": [
+    "tests/e2e/foundation.spec.ts-snapshots/catalog-desktop-win32.png",
+    "tests/e2e/foundation.spec.ts-snapshots/catalog-mobile-win32.png",
+    "tests/e2e/foundation.spec.ts-snapshots/catalog-tablet-win32.png"
+  ],
+  "unchangedBaselines": 21,
+  "newOrRemovedBaselines": 0,
+  "playwright": {
+    "targetedInitial": {
+      "total": 63,
+      "expected": 62,
+      "unexpected": 1,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": false
+    },
+    "homeCorrected": {
+      "total": 3,
+      "expected": 3,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "baselineComparison": {
+      "total": 3,
+      "expected": 3,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "fullInitial": {
+      "total": 276,
+      "expected": 13,
+      "unexpected": 1,
+      "flaky": 0,
+      "skipped": 262,
+      "ok": false
+    },
+    "fontsInitial": {
+      "total": 6,
+      "expected": 4,
+      "unexpected": 2,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": false
+    },
+    "fontsCorrected": {
+      "total": 6,
+      "expected": 6,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "fullRegression": {
+      "total": 276,
+      "expected": 276,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    }
+  }
+}
