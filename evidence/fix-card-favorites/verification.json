@@ -1,0 +1,114 @@
+{
+  "desktop": {
+    "cards": 8,
+    "cardGeometryUnchanged": true,
+    "imageGeometryUnchanged": true,
+    "buttonGeometryUnchanged": true,
+    "svgWidthsBefore": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "svgWidthsAfter": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ]
+  },
+  "tablet": {
+    "cards": 8,
+    "cardGeometryUnchanged": true,
+    "imageGeometryUnchanged": true,
+    "buttonGeometryUnchanged": true,
+    "svgWidthsBefore": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "svgWidthsAfter": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ]
+  },
+  "mobile": {
+    "cards": 8,
+    "cardGeometryUnchanged": true,
+    "imageGeometryUnchanged": true,
+    "buttonGeometryUnchanged": true,
+    "svgWidthsBefore": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ],
+    "svgWidthsAfter": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ],
+    "pixelsUnchanged": true
+  },
+  "baselinesThisFix": {
+    "changed": [
+      "tests/e2e/foundation.spec.ts-snapshots/catalog-desktop-win32.png",
+      "tests/e2e/foundation.spec.ts-snapshots/catalog-tablet-win32.png"
+    ],
+    "unchanged": 22
+  },
+  "playwright": {
+    "card-favorites-new": {
+      "total": 3,
+      "expected": 3,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "card-favorites-baselines": {
+      "total": 2,
+      "expected": 2,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "card-favorites-final": {
+      "total": 36,
+      "expected": 36,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    }
+  }
+}

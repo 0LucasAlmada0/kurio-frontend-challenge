@@ -1,0 +1,402 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "overflow": false,
+    "font": "loaded",
+    "imagesLoaded": true,
+    "boxes": {
+      ".gallery-toolbar .favorite-button": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".gallery-toolbar .favorite-button svg": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".detail-art > img": {
+        "x": 264,
+        "y": 151,
+        "width": 420,
+        "height": 420,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-copy h1": {
+        "x": 736,
+        "y": 131,
+        "width": 584,
+        "height": 36.390625,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-meta": {
+        "x": 736,
+        "y": 445.375,
+        "width": 584,
+        "height": 145,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".edition-options": {
+        "x": 736,
+        "y": 308.375,
+        "width": 584,
+        "height": 59,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-purchase": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-price": {
+        "x": 736,
+        "y": 175.390625,
+        "width": 261.5625,
+        "height": 29.890625,
+        "color": "rgb(240, 160, 87)"
+      },
+      ".quantity-control": {
+        "x": 736,
+        "y": 383.375,
+        "width": 261.5625,
+        "height": 42,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".purchase-buttons": {
+        "x": 1013.5625,
+        "y": 375.375,
+        "width": 306.4375,
+        "height": 58,
+        "color": "rgb(242, 236, 227)"
+      }
+    }
+  },
+  {
+    "name": "tablet",
+    "width": 768,
+    "height": 1024,
+    "overflow": false,
+    "font": "loaded",
+    "imagesLoaded": true,
+    "boxes": {
+      ".gallery-toolbar .favorite-button": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".gallery-toolbar .favorite-button svg": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".detail-art > img": {
+        "x": 44,
+        "y": 143,
+        "width": 316,
+        "height": 316,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-copy h1": {
+        "x": 396,
+        "y": 131,
+        "width": 340,
+        "height": 29.890625,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-meta": {
+        "x": 396,
+        "y": 508.078125,
+        "width": 340,
+        "height": 137.5,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".edition-options": {
+        "x": 396,
+        "y": 323.078125,
+        "width": 340,
+        "height": 59,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-purchase": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-price": {
+        "x": 396,
+        "y": 168.890625,
+        "width": 254.625,
+        "height": 27.296875,
+        "color": "rgb(240, 160, 87)"
+      },
+      ".quantity-control": {
+        "x": 396,
+        "y": 398.078125,
+        "width": 254.625,
+        "height": 42,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".purchase-buttons": {
+        "x": 396,
+        "y": 456.078125,
+        "width": 340,
+        "height": 40,
+        "color": "rgb(242, 236, 227)"
+      }
+    }
+  },
+  {
+    "name": "mobile-414",
+    "width": 414,
+    "height": 896,
+    "overflow": false,
+    "font": "loaded",
+    "imagesLoaded": true,
+    "boxes": {
+      ".gallery-toolbar .favorite-button": {
+        "x": 354,
+        "y": 22,
+        "width": 34,
+        "height": 34,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".gallery-toolbar .favorite-button svg": {
+        "x": 361,
+        "y": 29,
+        "width": 20,
+        "height": 20,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".detail-art > img": {
+        "x": 26,
+        "y": 64,
+        "width": 362,
+        "height": 362,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-copy h1": {
+        "x": 22,
+        "y": 424,
+        "width": 370,
+        "height": 28,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-meta": {
+        "x": 22,
+        "y": 621.890625,
+        "width": 370,
+        "height": 96,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".edition-options": {
+        "x": 22,
+        "y": 543.390625,
+        "width": 370,
+        "height": 68.5,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-purchase": {
+        "x": 0,
+        "y": 735.890625,
+        "width": 414,
+        "height": 203.1875,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-price": {
+        "x": 203.609375,
+        "y": 764.484375,
+        "width": 188.390625,
+        "height": 30.796875,
+        "color": "rgb(240, 160, 87)"
+      },
+      ".quantity-control": {
+        "x": 22,
+        "y": 757.890625,
+        "width": 165.609375,
+        "height": 44,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".purchase-buttons": {
+        "x": 22,
+        "y": 817.890625,
+        "width": 370,
+        "height": 60,
+        "color": "rgb(242, 236, 227)"
+      }
+    }
+  },
+  {
+    "name": "mobile-390",
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "font": "loaded",
+    "imagesLoaded": true,
+    "boxes": {
+      ".gallery-toolbar .favorite-button": {
+        "x": 330,
+        "y": 22,
+        "width": 34,
+        "height": 34,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".gallery-toolbar .favorite-button svg": {
+        "x": 337,
+        "y": 29,
+        "width": 20,
+        "height": 20,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".detail-art > img": {
+        "x": 26,
+        "y": 64,
+        "width": 338,
+        "height": 338,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-copy h1": {
+        "x": 22,
+        "y": 400,
+        "width": 346,
+        "height": 28,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-meta": {
+        "x": 22,
+        "y": 597.890625,
+        "width": 346,
+        "height": 96,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".edition-options": {
+        "x": 22,
+        "y": 519.390625,
+        "width": 346,
+        "height": 68.5,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-purchase": {
+        "x": 0,
+        "y": 711.890625,
+        "width": 390,
+        "height": 203.1875,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-price": {
+        "x": 203.609375,
+        "y": 740.484375,
+        "width": 164.390625,
+        "height": 30.796875,
+        "color": "rgb(240, 160, 87)"
+      },
+      ".quantity-control": {
+        "x": 22,
+        "y": 733.890625,
+        "width": 165.609375,
+        "height": 44,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".purchase-buttons": {
+        "x": 22,
+        "y": 793.890625,
+        "width": 346,
+        "height": 60,
+        "color": "rgb(242, 236, 227)"
+      }
+    }
+  },
+  {
+    "name": "mobile-short",
+    "width": 390,
+    "height": 500,
+    "overflow": false,
+    "font": "loaded",
+    "imagesLoaded": true,
+    "boxes": {
+      ".gallery-toolbar .favorite-button": {
+        "x": 330,
+        "y": 22,
+        "width": 34,
+        "height": 34,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".gallery-toolbar .favorite-button svg": {
+        "x": 337,
+        "y": 29,
+        "width": 20,
+        "height": 20,
+        "color": "rgb(214, 141, 73)"
+      },
+      ".detail-art > img": {
+        "x": 26,
+        "y": 64,
+        "width": 338,
+        "height": 338,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-copy h1": {
+        "x": 22,
+        "y": 400,
+        "width": 346,
+        "height": 28,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-meta": {
+        "x": 22,
+        "y": 597.890625,
+        "width": 346,
+        "height": 96,
+        "color": "rgb(193, 167, 131)"
+      },
+      ".edition-options": {
+        "x": 22,
+        "y": 519.390625,
+        "width": 346,
+        "height": 68.5,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-purchase": {
+        "x": 0,
+        "y": 711.890625,
+        "width": 390,
+        "height": 203.1875,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".detail-price": {
+        "x": 203.609375,
+        "y": 740.484375,
+        "width": 164.390625,
+        "height": 30.796875,
+        "color": "rgb(240, 160, 87)"
+      },
+      ".quantity-control": {
+        "x": 22,
+        "y": 733.890625,
+        "width": 165.609375,
+        "height": 44,
+        "color": "rgb(242, 236, 227)"
+      },
+      ".purchase-buttons": {
+        "x": 22,
+        "y": 793.890625,
+        "width": 346,
+        "height": 60,
+        "color": "rgb(242, 236, 227)"
+      }
+    }
+  }
+]

@@ -183,7 +183,8 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
 .card-meta > span { display: block; font-size: 11px; color: var(--muted-foreground); margin-top: 4px; }
 .rarity { position: absolute; top: 14px; left: 0; padding: 5px 14px; background: var(--primary); color: var(--primary-foreground); font-size: 12px; }
 .card-favorite, .card-view { position: absolute; align-items: center; justify-content: center; width: 34px; height: 34px; background: var(--card); color: var(--primary); }
-.card-favorite { top: 22px; right: 14px; display: flex; opacity: .5; border-radius: 50%; }
+.card-favorite { top: 22px; right: 14px; display: flex; padding: 0; opacity: 1; border-radius: 50%; }
+.card-favorite svg { width: 20px; height: 20px; flex-shrink: 0; }
 .card-view { bottom: 10px; right: 10px; display: none; border-radius: var(--radius); }
 .nft-card:hover .card-view, .nft-card:focus-within .card-view { display: flex; }
 .pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 36px; font-size: 12px; }
@@ -848,4 +849,33 @@ select { background: var(--secondary); color: var(--foreground); border: 1px sol
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 600px) {
+  .is-detail:not(.is-auth) .gallery-toolbar .icon-button { position: relative; padding: 0; }
+  .is-detail:not(.is-auth) .gallery-toolbar .icon-button::before { content: ''; position: absolute; inset: -5px; border-radius: 50%; }
+  .is-detail:not(.is-auth) .gallery-toolbar .favorite-button { color: var(--primary); }
+  .is-detail:not(.is-auth) .gallery-toolbar svg { flex-shrink: 0; }
+  .is-detail:not(.is-auth) .detail-copy { font-family: "Roboto Mono", var(--font-kurio); gap: 10px; }
+  .is-detail:not(.is-auth) .detail-about p { line-height: 1.7; }
+  .is-detail:not(.is-auth) .detail-copy .edition-options { min-width: 0; }
+  .is-detail:not(.is-auth) .detail-copy .edition-options button { position: relative; min-width: 52px; min-height: 32px; padding: 3px 12px; margin: 0 12px 6px 0; border-radius: 999px; border-color: var(--input); }
+  .is-detail:not(.is-auth) .detail-copy .edition-options button::before { content: ''; position: absolute; inset: -6px; border-radius: inherit; }
+  .is-detail:not(.is-auth) .detail-copy .edition-options button[aria-pressed="true"] { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .is-detail:not(.is-auth) .detail-meta { display: grid; gap: 6px; margin: 0; }
+  .is-detail:not(.is-auth) .detail-meta div { margin: 0; font-size: 13px; line-height: 1.5; }
+  .is-detail:not(.is-auth) .detail-meta dt { color: var(--foreground); }
+  .is-detail:not(.is-auth) .detail-purchase { grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding-block: 22px 26px; }
+  .is-detail:not(.is-auth) .detail-purchase .quantity-control { gap: 8px; }
+  .is-detail:not(.is-auth) .detail-purchase .quantity-control button { position: relative; flex: 0 0 32px; width: 32px; height: 44px; border-radius: 999px; }
+  .is-detail:not(.is-auth) .detail-purchase .quantity-control button::before { content: ''; position: absolute; inset: 0 -6px; }
+  .is-detail:not(.is-auth) .detail-purchase .quantity-control input { width: 44px; height: 44px; font-size: 16px; }
+  .is-detail:not(.is-auth) .detail-purchase .quantity-control button:disabled { opacity: .5; cursor: not-allowed; }
+  .is-detail:not(.is-auth) .detail-price { font-size: 22px; line-height: 1.4; }
+  .is-detail:not(.is-auth) .detail-purchase .purchase-buttons { min-width: 0; }
+  .is-detail:not(.is-auth) .detail-purchase .purchase-buttons > button:first-child { min-width: 0; height: 60px; padding: 10px 16px; font-size: 16px; font-weight: 700; line-height: 1.4; white-space: normal; }
+  .is-detail:not(.is-auth) .detail-purchase .mobile-cart { flex: 0 0 60px; width: 60px; height: 60px; }
+  .is-detail:not(.is-auth) .detail-purchase .mobile-cart svg { width: 24px; height: 24px; }
+  .is-detail:not(.is-auth) .detail-note, .is-detail:not(.is-auth) .detail-purchase .purchase-error { font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+  .is-detail:not(.is-auth) .detail-note a { color: var(--primary); text-decoration: underline; }
 }

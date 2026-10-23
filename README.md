@@ -39,6 +39,8 @@ Em **Cenários de demonstração → Restaurar cenário**, retorne às fixtures 
 
 ### Evidências entregues
 
+- [Correção dos favoritos do catálogo desktop/tablet: causa, comparação e testes](evidence/fix-card-favorites/README.md).
+- [Revisão visual 06 · Detalhe mobile: comparação Figma/Antes/Depois, favorito e validação](evidence/visual-06-detalhe/README.md). Geometria da galeria preservada, desktop/tablet idênticos e **54 testes direcionados aprovados**.
 - [Revisão estrutural 05 · Home: divergências, capturas completas e validação](evidence/visual-05-home/README.md) e [comparação visual desktop/mobile](evidence/visual-05-home/index.html). Banners, prévias editoriais, informações/newsletter e rodapé exclusivos da Home; serviços futuros explicitamente indisponíveis. Regressão desta revisão: **276 testes aprovados**.
 - [Índice navegável no GitHub](evidence/etapa8/README.md) e [índice HTML local](evidence/etapa8/index.html).
 - [12 medições finais Lighthouse: HTML/JSON](evidence/etapa8/README.md#as-12-medicoes-finais), [medianas](evidence/etapa8/lighthouse/summary.json) e [configurações efetivas/MSW/Socket.IO](evidence/etapa8/lighthouse/runs.json).

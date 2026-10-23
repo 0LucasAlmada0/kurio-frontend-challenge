@@ -1,0 +1,809 @@
+[
+  {
+    "name": "desktop",
+    "cards": [
+      {
+        "card": {
+          "x": 448,
+          "y": 681.765625,
+          "width": 270.65625,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 456,
+          "y": 697.765625,
+          "width": 254.65625,
+          "height": 254.65625
+        },
+        "button": {
+          "x": 670.65625,
+          "y": 703.765625,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 677.65625,
+          "y": 710.765625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 748.65625,
+          "y": 681.765625,
+          "width": 270.671875,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 756.65625,
+          "y": 697.765625,
+          "width": 254.671875,
+          "height": 254.671875
+        },
+        "button": {
+          "x": 971.328125,
+          "y": 703.765625,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 978.328125,
+          "y": 710.765625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 1049.328125,
+          "y": 681.765625,
+          "width": 270.65625,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 1057.328125,
+          "y": 697.765625,
+          "width": 254.65625,
+          "height": 254.65625
+        },
+        "button": {
+          "x": 1271.984375,
+          "y": 703.765625,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 1278.984375,
+          "y": 710.765625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 448,
+          "y": 1130.71875,
+          "width": 270.65625,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 456,
+          "y": 1146.71875,
+          "width": 254.65625,
+          "height": 254.65625
+        },
+        "button": {
+          "x": 670.65625,
+          "y": 1152.71875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 677.65625,
+          "y": 1159.71875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 748.65625,
+          "y": 1130.71875,
+          "width": 270.671875,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 756.65625,
+          "y": 1146.71875,
+          "width": 254.671875,
+          "height": 254.671875
+        },
+        "button": {
+          "x": 971.328125,
+          "y": 1152.71875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 978.328125,
+          "y": 1159.71875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 1049.328125,
+          "y": 1130.71875,
+          "width": 270.65625,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 1057.328125,
+          "y": 1146.71875,
+          "width": 254.65625,
+          "height": 254.65625
+        },
+        "button": {
+          "x": 1271.984375,
+          "y": 1152.71875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 1278.984375,
+          "y": 1159.71875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 448,
+          "y": 1579.671875,
+          "width": 270.65625,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 456,
+          "y": 1595.671875,
+          "width": 254.65625,
+          "height": 254.65625
+        },
+        "button": {
+          "x": 670.65625,
+          "y": 1601.671875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 677.65625,
+          "y": 1608.671875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 748.65625,
+          "y": 1579.671875,
+          "width": 270.671875,
+          "height": 388.953125
+        },
+        "image": {
+          "x": 756.65625,
+          "y": 1595.671875,
+          "width": 254.671875,
+          "height": 254.671875
+        },
+        "button": {
+          "x": 971.328125,
+          "y": 1601.671875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 978.328125,
+          "y": 1608.671875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      }
+    ]
+  },
+  {
+    "name": "tablet",
+    "cards": [
+      {
+        "card": {
+          "x": 236,
+          "y": 540,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 244,
+          "y": 556,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 428,
+          "y": 562,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 435,
+          "y": 569,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 496,
+          "y": 540,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 504,
+          "y": 556,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 688,
+          "y": 562,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 695,
+          "y": 569,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 236,
+          "y": 931.484375,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 244,
+          "y": 947.484375,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 428,
+          "y": 953.484375,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 435,
+          "y": 960.484375,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 496,
+          "y": 931.484375,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 504,
+          "y": 947.484375,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 688,
+          "y": 953.484375,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 695,
+          "y": 960.484375,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 236,
+          "y": 1322.96875,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 244,
+          "y": 1338.96875,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 428,
+          "y": 1344.96875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 435,
+          "y": 1351.96875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 496,
+          "y": 1322.96875,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 504,
+          "y": 1338.96875,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 688,
+          "y": 1344.96875,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 695,
+          "y": 1351.96875,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 236,
+          "y": 1714.453125,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 244,
+          "y": 1730.453125,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 428,
+          "y": 1736.453125,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 435,
+          "y": 1743.453125,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 496,
+          "y": 1714.453125,
+          "width": 240,
+          "height": 355.484375
+        },
+        "image": {
+          "x": 504,
+          "y": 1730.453125,
+          "width": 224,
+          "height": 224
+        },
+        "button": {
+          "x": 688,
+          "y": 1736.453125,
+          "width": 34,
+          "height": 34
+        },
+        "svg": {
+          "x": 695,
+          "y": 1743.453125,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "cards": [
+      {
+        "card": {
+          "x": 22,
+          "y": 399.0625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 26,
+          "y": 410.0625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 158,
+          "y": 411.0625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 164,
+          "y": 417.0625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 214,
+          "y": 399.0625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 218,
+          "y": 410.0625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 350,
+          "y": 411.0625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 356,
+          "y": 417.0625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 22,
+          "y": 739.34375,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 26,
+          "y": 750.34375,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 158,
+          "y": 751.34375,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 164,
+          "y": 757.34375,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 214,
+          "y": 739.34375,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 218,
+          "y": 750.34375,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 350,
+          "y": 751.34375,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 356,
+          "y": 757.34375,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 22,
+          "y": 1079.625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 26,
+          "y": 1090.625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 158,
+          "y": 1091.625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 164,
+          "y": 1097.625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 214,
+          "y": 1079.625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 218,
+          "y": 1090.625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 350,
+          "y": 1091.625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 356,
+          "y": 1097.625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 22,
+          "y": 1419.90625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 26,
+          "y": 1430.90625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 158,
+          "y": 1431.90625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 164,
+          "y": 1437.90625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      },
+      {
+        "card": {
+          "x": 214,
+          "y": 1419.90625,
+          "width": 178,
+          "height": 314.28125
+        },
+        "image": {
+          "x": 218,
+          "y": 1430.90625,
+          "width": 170,
+          "height": 170
+        },
+        "button": {
+          "x": 350,
+          "y": 1431.90625,
+          "width": 32,
+          "height": 32
+        },
+        "svg": {
+          "x": 356,
+          "y": 1437.90625,
+          "width": 20,
+          "height": 20
+        },
+        "padding": "0px",
+        "opacity": "1",
+        "color": "rgb(214, 141, 73)",
+        "background": "rgb(42, 25, 18)",
+        "stroke": "rgb(214, 141, 73)",
+        "fill": "none",
+        "flexShrink": "0"
+      }
+    ]
+  }
+]

@@ -43,6 +43,11 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('cards alinhados, imagens proporcionais e favoritos visíveis', async ({ page }, testInfo) => {
+  for (const card of await page.getByRole('article').all()) {
+    const icon = (await card.locator('.card-favorite svg').boundingBox())!
+    expect(icon.width).toBeGreaterThanOrEqual(20)
+    expect(icon.height).toBeGreaterThanOrEqual(20)
+  }
   if (mobile(page)) {
     const cards = page.getByRole('article')
     for (let index = 0; index < 8; index += 2) {
@@ -54,7 +59,6 @@ test('cards alinhados, imagens proporcionais e favoritos visíveis', async ({ pa
       }
       const image = (await first.getByRole('img').boundingBox())!
       expect(Math.abs(image.width - image.height)).toBeLessThan(1)
-      expect((await first.locator('.card-favorite svg').boundingBox())!.width).toBeGreaterThanOrEqual(20)
     }
     await cards.first().locator('summary').click()
     await expect(cards.first().getByRole('button', { name: 'Adicionar ao carrinho', exact: true })).toBeVisible()

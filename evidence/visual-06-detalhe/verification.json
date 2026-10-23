@@ -1,0 +1,82 @@
+{
+  "desktop": {
+    "imageGeometryUnchanged": true,
+    "titleGeometryUnchanged": true,
+    "overflowBefore": false,
+    "overflowAfter": false,
+    "fullPagePixelsUnchanged": true
+  },
+  "tablet": {
+    "imageGeometryUnchanged": true,
+    "titleGeometryUnchanged": true,
+    "overflowBefore": false,
+    "overflowAfter": false,
+    "fullPagePixelsUnchanged": true
+  },
+  "mobile-414": {
+    "imageGeometryUnchanged": true,
+    "titleGeometryUnchanged": true,
+    "overflowBefore": false,
+    "overflowAfter": false
+  },
+  "mobile-390": {
+    "imageGeometryUnchanged": true,
+    "titleGeometryUnchanged": true,
+    "overflowBefore": false,
+    "overflowAfter": false
+  },
+  "mobile-short": {
+    "imageGeometryUnchanged": true,
+    "titleGeometryUnchanged": true,
+    "overflowBefore": false,
+    "overflowAfter": false
+  },
+  "baselines": {
+    "changed": [
+      "tests/e2e/foundation.spec.ts-snapshots/detail-mobile-win32.png"
+    ],
+    "unchanged": 23
+  },
+  "playwright": {
+    "visual-06-new": {
+      "total": 9,
+      "expected": 1,
+      "unexpected": 1,
+      "flaky": 0,
+      "skipped": 7,
+      "ok": false
+    },
+    "visual-06-new-corrected": {
+      "total": 9,
+      "expected": 9,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "visual-06-baseline": {
+      "total": 1,
+      "expected": 1,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "visual-06-final": {
+      "total": 51,
+      "expected": 39,
+      "unexpected": 1,
+      "flaky": 0,
+      "skipped": 11,
+      "ok": false
+    },
+    "visual-06-final-corrected": {
+      "total": 54,
+      "expected": 54,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    }
+  }
+}
