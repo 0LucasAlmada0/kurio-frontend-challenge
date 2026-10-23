@@ -1,0 +1,1258 @@
+{
+  "environment": {
+    "node": "v24.14.1",
+    "lighthouse": "12.6.1",
+    "lhci": "0.15.1",
+    "playwright": "1.64.1",
+    "os": "Windows_NT 10.0.26200 x64",
+    "cpu": "Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz",
+    "cores": 12,
+    "totalMemoryGiB": 16,
+    "chromePath": "C:\\Users\\Lucas\\AppData\\Local\\ms-playwright\\chromium-1248\\chrome-win64\\chrome.exe",
+    "profiles": [
+      "desktop",
+      "mobile"
+    ],
+    "diagnostic": false,
+    "runsPerCombination": 3,
+    "conditions": "Fresh Chromium profile per run; cold cache/storage; localhost HTTP Vite production preview; Lighthouse simulate throttling; normal MSW scenario; Socket.IO enabled. Post-run verification is outside the measurement."
+  },
+  "rows": [
+    {
+      "name": "home-desktop-1",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "desktop",
+      "run": 1,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 795.8956000000001,
+        "cumulative-layout-shift": 0.009311553616191572,
+        "total-blocking-time": 20.5
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1894,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "home-desktop-2",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "desktop",
+      "run": 2,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 790.9248,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 22
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1871,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "home-desktop-3",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "desktop",
+      "run": 3,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 786.4669,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 21
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1929,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-desktop-1",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "desktop",
+      "run": 1,
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 662.2964,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 13
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1870,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-desktop-2",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "desktop",
+      "run": 2,
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 677.7466,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 17.5
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1888.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-desktop-3",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "desktop",
+      "run": 3,
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 717.73225,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 13
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0,
+          "cpuSlowdownMultiplier": 1
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1982,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "home-mobile-1",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "mobile",
+      "run": 1,
+      "scores": {
+        "performance": 80,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 3117.0438000000004,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 443
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1100,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "home-mobile-2",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "mobile",
+      "run": 2,
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2901.6492,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 274
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1890,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "home-mobile-3",
+      "url": "http://127.0.0.1:4174/",
+      "profile": "mobile",
+      "run": 3,
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2938.5462,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 259.9999999999999
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Kurio — Cultura digital",
+        "h1": "SEJA DONO DO FUTURODA ARTE DIGITALSEJA DONO DACULTURA DIGITAL",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1688,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-mobile-1",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "mobile",
+      "run": 1,
+      "scores": {
+        "performance": 91,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2852.1407499999996,
+        "cumulative-layout-shift": 0.0006885970938002093,
+        "total-blocking-time": 209
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1643,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-mobile-2",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "mobile",
+      "run": 2,
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2992.05675,
+        "cumulative-layout-shift": 0.0006885970938002093,
+        "total-blocking-time": 211
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1795.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    },
+    {
+      "name": "detail-mobile-3",
+      "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+      "profile": "mobile",
+      "run": 3,
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2986.296,
+        "cumulative-layout-shift": 0.0007224897255620869,
+        "total-blocking-time": 205.5
+      },
+      "evidence": {
+        "serviceWorker": true,
+        "title": "Emerald Ape #042 | Kurio",
+        "h1": "Emerald Ape #042",
+        "font": "Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "fontsReady": "loaded",
+        "visibleImages": [
+          {
+            "src": "/assets/nfts/emerald-ape.png",
+            "loaded": true
+          }
+        ],
+        "socket": "● Ao vivo",
+        "restFromServiceWorker": true,
+        "fixtureVersion": 1,
+        "publicSocketEventVerified": true
+      },
+      "settings": {
+        "output": [
+          "html",
+          "json"
+        ],
+        "maxWaitForFcp": 30000,
+        "maxWaitForLoad": 45000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": false,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo"
+        ],
+        "skipAudits": null
+      },
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 1919.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "chromium": "156.0.8078.4",
+      "warnings": []
+    }
+  ]
+}

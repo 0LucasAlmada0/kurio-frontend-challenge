@@ -1,0 +1,458 @@
+{
+  "matrix": {
+    "ATENDIDO": 51,
+    "PARCIAL": 6,
+    "NÃO ATENDIDO": 1,
+    "NÃO VERIFICADO": 2
+  },
+  "strictCompliancePercent": 85,
+  "playwright": {
+    "durationMs": 770145.377,
+    "stats": {
+      "total": 300,
+      "expected": 297,
+      "unexpected": 3,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": false
+    },
+    "groups": [
+      {
+        "project": "desktop",
+        "total": 100,
+        "passed": 98,
+        "failed": 2,
+        "skipped": 0,
+        "retries": 0
+      },
+      {
+        "project": "tablet",
+        "total": 100,
+        "passed": 99,
+        "failed": 1,
+        "skipped": 0,
+        "retries": 0
+      },
+      {
+        "project": "mobile",
+        "total": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "public": {
+    "stats": {
+      "total": 26,
+      "expected": 26,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "durationMs": 69732.572
+  },
+  "race": {
+    "stats": {
+      "total": 3,
+      "expected": 3,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "durationMs": 10835.351999999999
+  },
+  "lighthouse": {
+    "environment": {
+      "node": "v24.14.1",
+      "lighthouse": "12.6.1",
+      "lhci": "0.15.1",
+      "playwright": "1.64.1",
+      "os": "Windows_NT 10.0.26200 x64",
+      "cpu": "Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz",
+      "cores": 12,
+      "totalMemoryGiB": 16,
+      "chromePath": "C:\\Users\\Lucas\\AppData\\Local\\ms-playwright\\chromium-1248\\chrome-win64\\chrome.exe",
+      "profiles": [
+        "desktop",
+        "mobile"
+      ],
+      "runsPerCombination": 3,
+      "conditions": "Fresh Chromium profile per run; cold cache/storage; localhost HTTP Vite production preview; Lighthouse simulate throttling; normal MSW scenario; Socket.IO enabled. Post-run verification is outside the measurement."
+    },
+    "medians": [
+      {
+        "profile": "desktop",
+        "url": "http://127.0.0.1:4174/",
+        "scores": {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 778.586,
+          "cumulative-layout-shift": 0.01074807817027664,
+          "total-blocking-time": 24
+        },
+        "targets": {
+          "performance": true,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "desktop",
+        "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 740.3172500000001,
+          "cumulative-layout-shift": 0,
+          "total-blocking-time": 16
+        },
+        "targets": {
+          "performance": true,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "mobile",
+        "url": "http://127.0.0.1:4174/",
+        "scores": {
+          "performance": 89,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 2894.475,
+          "cumulative-layout-shift": 0.0004149212984463087,
+          "total-blocking-time": 248
+        },
+        "targets": {
+          "performance": false,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "mobile",
+        "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+        "scores": {
+          "performance": 88,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 3059.1995,
+          "cumulative-layout-shift": 0.0006885970938002093,
+          "total-blocking-time": 257.4999999999999
+        },
+        "targets": {
+          "performance": false,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      }
+    ]
+  },
+  "allLighthouseTargets": false,
+  "lighthouseRuns": [
+    {
+      "name": "home-desktop-1",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 815.1432499999999,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 33
+      },
+      "verified": true
+    },
+    {
+      "name": "home-desktop-2",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 778.586,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 24
+      },
+      "verified": true
+    },
+    {
+      "name": "home-desktop-3",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 755.5237999999999,
+        "cumulative-layout-shift": 0.01074807817027664,
+        "total-blocking-time": 21.5
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-desktop-1",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 651.0318000000001,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 20.5
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-desktop-2",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 747.9465,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 16
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-desktop-3",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 740.3172500000001,
+        "cumulative-layout-shift": 0,
+        "total-blocking-time": 14
+      },
+      "verified": true
+    },
+    {
+      "name": "home-mobile-1",
+      "scores": {
+        "performance": 89,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2894.475,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 248
+      },
+      "verified": true
+    },
+    {
+      "name": "home-mobile-2",
+      "scores": {
+        "performance": 89,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 2882.6731999999997,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 242.9999999999999
+      },
+      "verified": true
+    },
+    {
+      "name": "home-mobile-3",
+      "scores": {
+        "performance": 78,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 3118.5858000000003,
+        "cumulative-layout-shift": 0.0004149212984463087,
+        "total-blocking-time": 494.39644999999996
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-mobile-1",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 3059.1995,
+        "cumulative-layout-shift": 0.0006885970938002093,
+        "total-blocking-time": 241
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-mobile-2",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 3030.5327500000003,
+        "cumulative-layout-shift": 0.0006885970938002093,
+        "total-blocking-time": 257.5
+      },
+      "verified": true
+    },
+    {
+      "name": "detail-mobile-3",
+      "scores": {
+        "performance": 87,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": 3092.1717499999995,
+        "cumulative-layout-shift": 0.0006885970938002093,
+        "total-blocking-time": 257.4999999999999
+      },
+      "verified": true
+    }
+  ],
+  "repository": {
+    "checkedAt": "2026-10-23T14:55:04.3709885Z",
+    "private": false,
+    "url": "https://github.com/0LucasAlmada0/kurio-frontend-challenge",
+    "defaultBranch": "main",
+    "remoteHead": "958e747006f67266928691e66aa0697645f537b8",
+    "readmeStatus": 200,
+    "readmeMatchesLocal": true
+  },
+  "publicLinks": {
+    "checkedAt": "2026-10-23T14:56:35.855Z",
+    "anonymous": true,
+    "treeTruncated": false,
+    "links": 47,
+    "missingInPublicTree": [],
+    "http": [
+      {
+        "target": "README.md",
+        "status": 200
+      },
+      {
+        "target": "ARCHITECTURE.md",
+        "status": 200
+      },
+      {
+        "target": "CONTRACTS.md",
+        "status": 200
+      },
+      {
+        "target": "evidence/etapa8/README.md",
+        "status": 200
+      },
+      {
+        "target": "evidence/etapa8/lighthouse/home-mobile-1.html",
+        "status": 200
+      },
+      {
+        "target": "evidence/etapa8/lighthouse/home-mobile-1.json",
+        "status": 200
+      },
+      {
+        "target": "evidence/etapa8/lighthouse/summary.json",
+        "status": 200
+      },
+      {
+        "target": "evidence/etapa8/playwright/index.html",
+        "status": 200
+      },
+      {
+        "target": "tests/e2e/foundation.spec.ts-snapshots/catalog-mobile-win32.png",
+        "status": 200
+      }
+    ]
+  },
+  "deploy": {
+    "url": "https://kurio-frontend-challenge.vercel.app",
+    "files": 34,
+    "bytes": 3498030,
+    "mismatches": []
+  },
+  "history": {
+    "commits": 15,
+    "scope": "Branches/references locally reachable; common provider keys and private-key headers; source/config/scripts. This is a pattern scan, not proof that every possible secret is absent.",
+    "matches": [],
+    "privateEnvPaths": []
+  },
+  "static": {
+    "head": "958e747006f67266928691e66aa0697645f537b8",
+    "linksChecked": 47,
+    "missingLinks": [],
+    "untrackedTargets": [],
+    "trackedEnv": [
+      ".env.demo",
+      ".env.example"
+    ],
+    "candidateSecrets": [],
+    "baselineCount": 24,
+    "trackedWebp": [
+      "public/assets/nfts/emerald-ape.webp",
+      "public/assets/nfts/golden-beat.webp",
+      "public/assets/nfts/ivory-baron.webp",
+      "public/assets/nfts/violet-nomad.webp"
+    ],
+    "stage8": {
+      "files": 61,
+      "bytes": 21473700,
+      "lighthouseHtml": 12,
+      "lighthouseJson": 12
+    },
+    "fontLicense": [
+      "src/features/auth/assets/fonts/LICENSE"
+    ]
+  },
+  "artifactBytes": {
+    "playwright": 26843116,
+    "lighthouse": 20053039,
+    "historicalStage8": 21473700
+  },
+  "auditedCommit": "958e747006f67266928691e66aa0697645f537b8",
+  "verdict": "NÃO PRONTO",
+  "applicationChanged": false,
+  "baselinesChanged": 0
+}

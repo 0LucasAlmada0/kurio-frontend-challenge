@@ -228,13 +228,21 @@ test('parâmetros inválidos são normalizados e página vazia permite recuperar
 
 test('latência variável cancela consulta antiga sem sobrescrever resultado recente', async ({ page }) => {
   await control(page, 'scenario', { scenario: 'variable' })
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
   const sent = page.waitForRequest((request) => new URL(request.url()).pathname === '/api/nfts' && new URL(request.url()).searchParams.get('q') === 'ape')
-  await search(page, 'ape')
-  await sent
   const canceled = page.waitForEvent('requestfailed', { predicate: (request) => new URL(request.url()).pathname === '/api/nfts' && new URL(request.url()).searchParams.get('q') === 'ape' })
+  let previousFinished = false
+  page.on('requestfinished', (request) => { if (new URL(request.url()).pathname === '/api/nfts' && new URL(request.url()).searchParams.get('q') === 'ape') previousFinished = true })
+  await search(page, 'ape')
+  const previous = await sent
+  expect(previousFinished).toBe(false)
+  expect(new URL(page.url()).searchParams.get('q')).toBe('ape')
   await search(page, 'golden')
-  expect((await canceled).failure()).toBeTruthy()
+  expect(await canceled).toBe(previous)
+  expect(previous.failure()).toBeTruthy()
+  await page.clock.resume()
   await count(page, 3)
+  expect(new URL(page.url()).searchParams.get('q')).toBe('golden')
   const expected = await ids(page)
   await page.clock.runFor(1500)
   expect(await ids(page)).toEqual(expected)

@@ -12,7 +12,7 @@ export function NFTCard({ nft, index }: { nft: Nft; index: number }) {
     <article data-testid={`nft-${nft.id}`} className="nft-card">
       <Link to="/nfts/$nftId" params={{ nftId: nft.id }} aria-label={`Ver ${nft.rarity === 'lendário' ? 'LENDÁRIO ' : ''}${nft.name}`}>
         <div className="nft-art">
-          <img src={nft.image} srcSet={nftImageSrcSet(nft.image)} alt={`Arte digital de ${nft.name}`} width="400" height="400" loading={index < 4 ? 'eager' : 'lazy'} />
+          <img src={nft.image} srcSet={nftImageSrcSet(nft.image)} alt={`Arte digital de ${nft.name}`} width="400" height="400" loading={index < 4 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" />
           {nft.rarity === 'lendário' && <span className="rarity">LENDÁRIO</span>}
           <span className="card-view" aria-hidden="true"><Icon name="search" /></span>
         </div>

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("./");
 
 @font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("./features/auth/assets/fonts/roboto-mono-latin-400-normal.woff2") format("woff2"); }
 @font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url("./features/auth/assets/fonts/roboto-mono-latin-700-normal.woff2") format("woff2"); }

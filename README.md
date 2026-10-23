@@ -6,7 +6,7 @@ Referências: [enunciado oficial](https://github.com/junglegaming/frontend-chall
 
 ## Acesso rápido
 
-**URL pública:** [kurio-frontend-challenge.vercel.app](https://kurio-frontend-challenge.vercel.app/). A entrega local da Etapa 8 não foi publicada automaticamente.
+**URL pública:** [kurio-frontend-challenge.vercel.app](https://kurio-frontend-challenge.vercel.app/). As correções do fechamento de 23/10 foram validadas localmente; esta rodada não realizou commit, push ou deploy. A URL pública precisa receber a versão final revisada pelo responsável pela entrega.
 
 **Stack:** React 19, TypeScript, Vite, TanStack Router/Query, Axios, Tailwind, shadcn/ui, MSW e Socket.IO. APIs, autenticação, carteiras e compras são simuladas localmente; nenhum pagamento real é realizado.
 
@@ -37,18 +37,32 @@ Abra `http://127.0.0.1:4173`. Não são necessários segredos nem backend extern
 
 Em **Cenários de demonstração → Restaurar cenário**, retorne às fixtures padrão. Explore catálogo/filtros, favoritos, perfil/carteiras e carrinho → pagamento → pedido. **Alterar Emerald Ape** demonstra atualização via Socket.IO. Os cenários `empty`, `error`, `slow`, `variable`, `offline` e `timeout` exercitam estados da API; `success` recupera o fluxo. Sessão e dados persistem no navegador/origem, com isolamento entre usuários. Os contratos e demais cenários estão em [CONTRACTS.md](CONTRACTS.md).
 
-### Evidências entregues
+### Validação atual · 23/10/2026
 
+**300/300 testes Playwright aprovados**, sem falhas, retries ou skips, no build de demonstração final. Typecheck, lint e builds de produção/demo aprovados. As 12 medições Lighthouse oficiais resultaram nas medianas abaixo; Accessibility, Best Practices e SEO ficaram em **100** em todos os perfis.
+
+| Página | Performance desktop | Performance mobile |
+| --- | --- | --- |
+| Home | 99 | **88 — abaixo da meta 90** |
+| Detalhe do NFT | 100 | 90 |
+
+O detalhe mobile passou de 88 para 90; a Home passou de 89 para 88, sem ganho confirmado nessa página. Essa pendência permanece explícita, sem excluir a execução de nota 80 nem iniciar outra refatoração. Os relatórios abaixo contêm todas as execuções, métricas e limitações. Login social, recuperação de senha, newsletter e links editoriais sem serviço continuam indisponíveis de forma explícita e acessível; carteiras e compras são simuladas. A seção histórica da Etapa 8 não representa as notas atuais.
+
+### Evidências preparadas para publicação
+
+- [Fechamento da auditoria de 23/10: correções, resultados atuais, limites e reprodução](evidence/final-recovery-2026-10-23/README.md), [Playwright da versão corrigida](evidence/final-recovery-2026-10-23/playwright/index.html) e [medianas Lighthouse atuais](evidence/final-recovery-2026-10-23/lighthouse/summary.json). Este é o conjunto atual de entrega; as evidências abaixo registram etapas anteriores.
 - [Correção dos favoritos do catálogo desktop/tablet: causa, comparação e testes](evidence/fix-card-favorites/README.md).
 - [Revisão visual 06 · Detalhe mobile: comparação Figma/Antes/Depois, favorito e validação](evidence/visual-06-detalhe/README.md). Geometria da galeria preservada, desktop/tablet idênticos e **54 testes direcionados aprovados**.
 - [Revisão estrutural 05 · Home: divergências, capturas completas e validação](evidence/visual-05-home/README.md) e [comparação visual desktop/mobile](evidence/visual-05-home/index.html). Banners, prévias editoriais, informações/newsletter e rodapé exclusivos da Home; serviços futuros explicitamente indisponíveis. Regressão desta revisão: **276 testes aprovados**.
 - [Índice navegável no GitHub](evidence/etapa8/README.md) e [índice HTML local](evidence/etapa8/index.html).
 - [12 medições finais Lighthouse: HTML/JSON](evidence/etapa8/README.md#as-12-medicoes-finais), [medianas](evidence/etapa8/lighthouse/summary.json) e [configurações efetivas/MSW/Socket.IO](evidence/etapa8/lighthouse/runs.json).
-- [Playwright definitivo: 249 testes aprovados](evidence/etapa8/playwright/index.html), com todos os anexos necessários em `data/`, sem traces de falhas anteriores.
+- [Playwright histórico da Etapa 8: 249 testes aprovados](evidence/etapa8/playwright/index.html), com todos os anexos necessários em `data/`, sem traces de falhas daquela execução.
 
-O GitHub exibe o código dos HTML; clone/baixe o repositório para abri-los. Lighthouse é independente por arquivo. Para navegar no relatório Playwright: `npx playwright show-report evidence/etapa8/playwright`. A pasta `evidence/etapa8/` é versionável; os diretórios de trabalho `.lighthouseci/`, `playwright-report/` e `test-results/` continuam ignorados. Relatórios/capturas históricos citados abaixo como caminhos em código são registros locais, não arquivos publicados no GitHub. Apenas a rodada final e dois pequenos registros complementares foram preparados para entrega.
+O GitHub exibe o código dos HTML; clone/baixe o repositório para abri-los. Lighthouse é independente por arquivo. Para o relatório atual: `npx playwright show-report evidence/final-recovery-2026-10-23/playwright`. As evidências atuais foram preparadas fora dos diretórios de trabalho `.lighthouseci/`, `playwright-report/` e `test-results/`, que continuam ignorados. `evidence/etapa8/` preserva a entrega histórica. Rodadas intermediárias e traces antigos permanecem nos diretórios locais; não são necessários no pacote final sem falhas.
 
 ## Lighthouse e otimização · Etapa 8
+
+**Registro histórico da Etapa 8.** Consulte o [fechamento de 23/10](evidence/final-recovery-2026-10-23/README.md) para os resultados atuais, incluindo qualquer meta ainda pendente. As notas abaixo não foram substituídas pelas novas medições.
 
 Auditoria realizada no **build de demonstração**, com MSW, REST, Socket.IO, imagens e fontes do projeto ativos. Comparação usa 12 medições iniciais e 12 finais: três execuções independentes por página/perfil, sempre em um novo perfil Chromium. Também foram preservadas duas rodadas intermediárias de 12, sem escolher as melhores execuções para compor as medianas. Todas as metas foram atingidas na rodada definitiva.
 
@@ -454,11 +468,13 @@ npm run audit
 
 O comando executa as 12 medições (início/detalhe × desktop/mobile × três), agrega medianas e salva HTML/JSON em `.lighthouseci/final/`, com índice em `.lighthouseci/index.html`. `LH_PROFILE=desktop|mobile` limita um perfil; variável ausente mede ambos. Requer Chromium do Playwright ou `CHROME_PATH`. Metodologia, comparativo real, versões e limitações estão na seção Etapa 8 acima.
 
+Para preservar uma rodada anterior, use outro nome: `npm run audit -- recovery-final`. Apenas para comparação diagnóstica curta: `$env:LH_PROFILE='mobile'; npm run audit -- diagnostico --diagnostic` no PowerShell. Esse modo registra uma execução por página e é marcado como diagnóstico, sem substituir as 12 medições oficiais. Antes da rodada oficial, remova a variável com `Remove-Item Env:LH_PROFILE -ErrorAction SilentlyContinue` e omita `--diagnostic`. Não execute Lighthouse simultaneamente à suíte E2E.
+
 ## Publicação e limites
 
 Vercel tem configuração de demonstração e roteiro na seção da Etapa 5A; Netlify/Cloudflare Pages podem usar `public/_redirects` com prioridade dos arquivos existentes. O host deve servir assets e service worker como arquivos, e rotas da aplicação como `index.html`. A demo exige `npm run build:demo`, diretório `dist` e HTTPS. As rotas `/api/*` devem chegar à API quando mocks estiverem desativados; não há backend real configurado nesta entrega. Existe uma demonstração pública confirmada pelo usuário; alterações locais não chegam a ela sem um novo deploy. A coleta Lighthouse da Etapa 8 e sua regressão correspondem ao preview local de produção. Nenhuma publicação foi feita neste fechamento.
 
-Tokens são aproximações das capturas. A família real ainda não foi identificada: `--font-kurio` usa Consolas/Liberation Mono/Courier New/monospace. O conector Figma negou leitura por falta de acesso de edição na Etapa 1; as capturas locais foram usadas conforme o kit. Não há alegação de fidelidade final.
+Tokens preservam os ajustes aprovados das referências. A família identificada no Figma é **Roboto Mono**, disponível localmente em Latin 400/700, com licença e origem em [fonts/README.md](src/features/auth/assets/fonts/README.md). Ela é aplicada aos escopos já revisados; `--font-kurio` mantém o fallback global monoespaçado. A limitação inicial do conector Figma e as aproximações das primeiras etapas são registros históricos, não o estado atual dessas revisões.
 
 Veja [ARCHITECTURE.md](./ARCHITECTURE.md) para cache, transporte, limites e próximos passos. As funcionalidades futuras ainda exigem os fluxos, cenários e testes completos do desafio oficial.
 

@@ -1,5 +1,9 @@
 # Arquitetura · Etapas 1 a 8
 
+Fechamento de 23/10: os resultados atuais e o escopo das correções estão em [evidence/final-recovery-2026-10-23](evidence/final-recovery-2026-10-23/README.md). Descrições identificadas por etapa preservam o histórico; ações de autenticação, favoritos, carrinho, pagamento e conta estão implementadas. Roboto Mono local é usada somente nos escopos revisados, conforme [origem/licença e aplicação](src/features/auth/assets/fonts/README.md).
+
+Na preparação final, a detecção de classes do Tailwind foi limitada a `src/`, evitando gerar utilitários a partir dos relatórios HTML versionados. As imagens preservam arquivos e dimensões; o primeiro card recebe prioridade alta e as imagens principais usam decodificação assíncrona. Não houve mudança em DTOs, regras de negócio, cache, sessão ou transporte. A candidata de carregamento lazy das seções da Home foi revertida por piorar o diagnóstico da Home; as seções continuam presentes na mesma composição.
+
 ## Estrutura
 
 ```text

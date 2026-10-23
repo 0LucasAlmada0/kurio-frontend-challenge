@@ -39,7 +39,7 @@ export function CatalogPage({ backgroundSearch }: { backgroundSearch?: CatalogSe
     <FilterDrawer open={filtersOpen} close={() => setFiltersOpen(false)}>{filters}</FilterDrawer>
     <section className="hero" aria-labelledby="hero-heading">
       <div className="hero-copy"><p>Bem-vindo à Kurio</p><h1 id="hero-heading"><span className="desktop-hero-title">SEJA DONO DO FUTURO<br />DA ARTE DIGITAL</span><span className="mobile-hero-title">SEJA DONO DA<br />CULTURA DIGITAL</span></h1><p className="hero-description">Descubra NFTs selecionados de criadores do mundo todo.</p><a href="#catalog" className="hero-cta">EXPLORAR <Icon name="arrow" /></a></div>
-      <div className="hero-art" aria-hidden="true"><img src="/assets/nfts/emerald-ape.png" srcSet={nftImageSrcSet("/assets/nfts/emerald-ape.png")} fetchPriority="high" width="400" height="400" alt="" /><img src="/assets/nfts/violet-nomad.png" srcSet={nftImageSrcSet("/assets/nfts/violet-nomad.png")} loading="lazy" width="160" height="160" alt="" /></div>
+      <div className="hero-art" aria-hidden="true"><img src="/assets/nfts/emerald-ape.png" srcSet={nftImageSrcSet("/assets/nfts/emerald-ape.png")} fetchPriority="high" decoding="async" width="400" height="400" alt="" /><img src="/assets/nfts/violet-nomad.png" srcSet={nftImageSrcSet("/assets/nfts/violet-nomad.png")} loading="lazy" decoding="async" width="160" height="160" alt="" /></div>
       <div className="hero-dots" aria-hidden="true"><span /><span /><span /></div>
     </section>
     <section id="catalog" aria-labelledby="catalog-heading" className="catalog-layout">

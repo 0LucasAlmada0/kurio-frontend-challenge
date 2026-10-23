@@ -1,0 +1,930 @@
+{
+  "createdAt": "2026-10-23T16:07:18.527Z",
+  "baseCommit": "958e747006f67266928691e66aa0697645f537b8",
+  "uncommitted": true,
+  "allLighthouseTargets": false,
+  "phaseA": {
+    "stats": {
+      "total": 300,
+      "expected": 300,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "durationMs": 691492.013
+  },
+  "directed": {
+    "stats": {
+      "total": 6,
+      "expected": 6,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    }
+  },
+  "visual": {
+    "stats": {
+      "total": 12,
+      "expected": 12,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    }
+  },
+  "final": {
+    "stats": {
+      "total": 300,
+      "expected": 300,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "durationMs": 704380.723,
+    "retries": 0,
+    "attachments": 58,
+    "missingAttachments": 0,
+    "traces": 0
+  },
+  "changedBaselines": [
+    "login-autofill-desktop-win32.png",
+    "login-autofill-tablet-win32.png"
+  ],
+  "originalReportsPreserved": 48,
+  "originalTraces": [
+    {
+      "path": "test-results/final-audit-2026-10-23/regression/cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-desktop/trace.zip",
+      "sha256": "21d34e86e86270a6e6ff97658cb275a7fd12d4ee705fdfceb8caa51d15000345"
+    },
+    {
+      "path": "test-results/final-audit-2026-10-23/regression/cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-tablet/trace.zip",
+      "sha256": "ac80c622f5ebafdf9b82a146a67207ffdd36ff3efc96ea5ce2315f508a012fa2"
+    },
+    {
+      "path": "test-results/final-audit-2026-10-23/regression/catalog-latência-variável--a7826-rescrever-resultado-recente-desktop/trace.zip",
+      "sha256": "b543848cc33facc747d11bd11aa669ea3dfab5d2101a523c8e3f995563558093"
+    }
+  ],
+  "modifiedSources": [
+    {
+      "file": "ARCHITECTURE.md",
+      "sha256": "386e31fc9532622f73c58fb5247d13a9aa17e134367f72bd44fe7db4fd38e073"
+    },
+    {
+      "file": "README.md",
+      "sha256": "69ed1e5a37dd903d5f883a0934664a93d043a53f894247a088ef2e3228f6505d"
+    },
+    {
+      "file": "scripts/lighthouse.mjs",
+      "sha256": "60f4bac888a64302ac8283bc8c7aaf8e8bf909bf00cd0ac5ce7697d2dbcfab0b"
+    },
+    {
+      "file": "src/components/nft-card.tsx",
+      "sha256": "7dc231fcfbf6dc476bc7ab3d3bb35e7ddd3ae0805e3ad4b342471ded5d6a3a8d"
+    },
+    {
+      "file": "src/components/nft-gallery.tsx",
+      "sha256": "a7a02caf093fab5b9b4a96189dd6260d4316c541c7862046c6045e969e29fe47"
+    },
+    {
+      "file": "src/features/catalog/page.tsx",
+      "sha256": "bd3631be31067c3c7b989b58926359c889463abef1b5d552d2f00940d8b055af"
+    },
+    {
+      "file": "src/styles.css",
+      "sha256": "5008400a9a41ebb07bb16f7ac671137d1d8a2e236e0fe954e1f2c444b86e6432"
+    },
+    {
+      "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png",
+      "sha256": "4cba39dbf04a76296cec3594b614e01701321d6092a0ba58213bc1f2b77f6ba4"
+    },
+    {
+      "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png",
+      "sha256": "7fe4cab01b303ea085cd2a10c94cf729edf17429a92348aa992245be8563877f"
+    },
+    {
+      "file": "tests/e2e/catalog.spec.ts",
+      "sha256": "eae0bdaa4ee6789f8c4f05c32173028f55aa9343f25d2985ff2216f510bf6423"
+    }
+  ],
+  "build": [
+    {
+      "file": "assets/attempt-C24LEFl5.js",
+      "bytes": 2096,
+      "sha256": "9af5b98466a4fdfa019a1e235fd41b213ed8af8431237b9f628b0a7294a4f795"
+    },
+    {
+      "file": "assets/bootstrap-CALmZIoy.css",
+      "bytes": 6067,
+      "sha256": "5fca8dd8bf0196681745fa85f4bb06ed5e816a03c8f743c72031251bfbd0d035"
+    },
+    {
+      "file": "assets/bootstrap-wc9ElLYn.js",
+      "bytes": 504266,
+      "sha256": "d065c392ff633d95d2e0d4e1cff76ae90b412c1563d7b32ac817c899268296bb"
+    },
+    {
+      "file": "assets/browser-BYL5nAPP.js",
+      "bytes": 99600,
+      "sha256": "5cebfabadd577c99b9c369609396d4e25dba3b134ccf0d2a5ccc53fcc9ad8b17"
+    },
+    {
+      "file": "assets/cart-handlers-zLv2xokl.js",
+      "bytes": 235628,
+      "sha256": "efa9200cf8838a44dbf8c81c17d567aab992377177d972c11a0dbce99bec1223"
+    },
+    {
+      "file": "assets/controls-KRjPMMVT.js",
+      "bytes": 3968,
+      "sha256": "dea74d88c4ef6b1fb005be23ac8b80de7e8e26d73a5dd739a45424bda5160ee8"
+    },
+    {
+      "file": "assets/index-DDr3hnEE.css",
+      "bytes": 72010,
+      "sha256": "1616f403228231d3d6a34d5b665655dbda0b8954c8f1dbcc780a58648cef0498"
+    },
+    {
+      "file": "assets/index-Dp7PbK0l.js",
+      "bytes": 2669,
+      "sha256": "cc34c4abc9f8ee2437609970703f4dd9ef3b21c6bf6075ee7c381cfbea23fdd9"
+    },
+    {
+      "file": "assets/layout-C1QGREjk.js",
+      "bytes": 1336,
+      "sha256": "1cdc576bb098fcf8822013e0071f0c8c9a85269f26efc7805017e8ab67eecdba"
+    },
+    {
+      "file": "assets/nfts/emerald-ape.png",
+      "bytes": 401408,
+      "sha256": "b814130d29ed07af43d2f6dced4f0a5b48e74ae5cf5836a50fe7f27b3a8be5c9"
+    },
+    {
+      "file": "assets/nfts/emerald-ape.webp",
+      "bytes": 214474,
+      "sha256": "42b8edc1c55a0dd11a7a46e7238e5497631c039497a237eefbf94bc19a22c946"
+    },
+    {
+      "file": "assets/nfts/golden-beat.png",
+      "bytes": 411078,
+      "sha256": "5654d7f3335cad4e8e2866aea849ddab08330334a08039c7eb427fa2b1c64162"
+    },
+    {
+      "file": "assets/nfts/golden-beat.webp",
+      "bytes": 226544,
+      "sha256": "a9be6e59ee587ad0c7aa91855c7a747f13852aaadbf1bcfb04f8c377a6441760"
+    },
+    {
+      "file": "assets/nfts/ivory-baron.png",
+      "bytes": 383422,
+      "sha256": "0b29863ec9b6fcc4e78573adfe672e744e3588c201cc47668bab06e694b8536a"
+    },
+    {
+      "file": "assets/nfts/ivory-baron.webp",
+      "bytes": 211166,
+      "sha256": "89343dc8e1a84d63566cc937270fc929a604a9804a10b29e60837b18ff07023a"
+    },
+    {
+      "file": "assets/nfts/violet-nomad.png",
+      "bytes": 386828,
+      "sha256": "5c71363912a777ec136280aaa0e770c173d928dab399b5c3c7eff13472f2b5bb"
+    },
+    {
+      "file": "assets/nfts/violet-nomad.webp",
+      "bytes": 217272,
+      "sha256": "c95b880a43744a56a9a12eb8c2c97ae678da8ca1c61bad3fa87ac69ba214cc46"
+    },
+    {
+      "file": "assets/order-page-DryqwZT2.js",
+      "bytes": 3812,
+      "sha256": "6cdaa649acf0030ff940c92b096ff81a794fdd900bab712f562aceb75378caf4"
+    },
+    {
+      "file": "assets/page-CJzTSbjm.js",
+      "bytes": 4619,
+      "sha256": "c56d4269beed6ffdc9acb1e33a7648190ada34d2a0cfac1e2f698931e352f163"
+    },
+    {
+      "file": "assets/page-CMyOMKrh.js",
+      "bytes": 7444,
+      "sha256": "dea410eaa82dbec4036234a670331fa32ba76bcef2794837ba5c76ec1db5c715"
+    },
+    {
+      "file": "assets/page-CQrd4N-w.js",
+      "bytes": 9550,
+      "sha256": "7ea12cfec4a71713b039693d0504656b302cfd9aacf42845e4b379a05adf9877"
+    },
+    {
+      "file": "assets/page-CZpj2YZ8.js",
+      "bytes": 6616,
+      "sha256": "a84dc53b61233578c5c17b6436fd509f86545f9df81c956f0fc9aa41ca37f22a"
+    },
+    {
+      "file": "assets/page-RDjHrL1n.js",
+      "bytes": 6429,
+      "sha256": "75e2255e08aaea9624c0ae705c3d000ccdba6aca3ce243a7cacfcd50eaa7d914"
+    },
+    {
+      "file": "assets/queries-q-I58TV1.js",
+      "bytes": 976,
+      "sha256": "ea9192434359d76265c0b69f83a2eb529ea98f06c32193b3ffcf356e96534ee2"
+    },
+    {
+      "file": "assets/roboto-mono-latin-400-normal-GekRknry.woff2",
+      "bytes": 12680,
+      "sha256": "e03013e0baa5690a803c188da2214d920c3245b25ad78421ecc8ae86cd842ae9"
+    },
+    {
+      "file": "assets/roboto-mono-latin-700-normal-foxDnrFi.woff2",
+      "bytes": 12696,
+      "sha256": "283fbef73f42c21722c5a3efc7a44b0c38aac1ada665602b2144c13ed58c0e99"
+    },
+    {
+      "file": "assets/search-DjnMHu_w.js",
+      "bytes": 12402,
+      "sha256": "129ad79ed49f336da2893501e50873fa6eff68fdb25a17b489e64de049e32344"
+    },
+    {
+      "file": "assets/validation-BS1tyAHE.js",
+      "bytes": 2647,
+      "sha256": "058d92157758ca95c4fb9ead570c66c815f33420ec30de7e017af4fc72d4dca4"
+    },
+    {
+      "file": "assets/validation-D6_TCXPz.js",
+      "bytes": 1982,
+      "sha256": "c913e7a8bd9251d8ad025111dba1c572077a575bf4748017ec30ac97aa3dc91d"
+    },
+    {
+      "file": "assets/wallet-panel-B_fCxxPW.js",
+      "bytes": 5562,
+      "sha256": "c829f06dde80032144ef4ec782221d0a8c5d09ca4f819486c6cc17c48fff2cfb"
+    },
+    {
+      "file": "assets/wallets-page-DuH0oTWc.js",
+      "bytes": 3158,
+      "sha256": "38cfe57bc806c15da8f1cf76741a419c1c24a70ff16b65b65d188b5bf2b01a46"
+    },
+    {
+      "file": "favicon.png",
+      "bytes": 8874,
+      "sha256": "0707a380dcd20eb2445ab4a705fd80694b945c16a6d91c7dd864c38cd313646f"
+    },
+    {
+      "file": "index.html",
+      "bytes": 692,
+      "sha256": "59b905ccd1b657badf710ed187a498562acb6ad4bbafd02b673a3b37a5593a1c"
+    },
+    {
+      "file": "mockServiceWorker.js",
+      "bytes": 9666,
+      "sha256": "26171599d94d5445297303f3a1f1cedec26835ea3d0057dcfa92ec520cb35cca"
+    },
+    {
+      "file": "robots.txt",
+      "bytes": 23,
+      "sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95"
+    },
+    {
+      "file": "_redirects",
+      "bytes": 19,
+      "sha256": "6036983e5fc00f0169c9e939b1816ed771eee00e27f2fcc517b819041460b9ef"
+    }
+  ],
+  "lighthouse": {
+    "environment": {
+      "node": "v24.14.1",
+      "lighthouse": "12.6.1",
+      "lhci": "0.15.1",
+      "playwright": "1.64.1",
+      "os": "Windows_NT 10.0.26200 x64",
+      "cpu": "Intel(R) Core(TM) i5-10400F CPU @ 2.90GHz",
+      "cores": 12,
+      "totalMemoryGiB": 16,
+      "chromePath": "C:\\Users\\Lucas\\AppData\\Local\\ms-playwright\\chromium-1248\\chrome-win64\\chrome.exe",
+      "profiles": [
+        "desktop",
+        "mobile"
+      ],
+      "diagnostic": false,
+      "runsPerCombination": 3,
+      "conditions": "Fresh Chromium profile per run; cold cache/storage; localhost HTTP Vite production preview; Lighthouse simulate throttling; normal MSW scenario; Socket.IO enabled. Post-run verification is outside the measurement."
+    },
+    "medians": [
+      {
+        "profile": "desktop",
+        "url": "http://127.0.0.1:4174/",
+        "scores": {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 790.9248,
+          "cumulative-layout-shift": 0.01074807817027664,
+          "total-blocking-time": 21
+        },
+        "targets": {
+          "performance": true,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "desktop",
+        "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 677.7466,
+          "cumulative-layout-shift": 0,
+          "total-blocking-time": 13
+        },
+        "targets": {
+          "performance": true,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "mobile",
+        "url": "http://127.0.0.1:4174/",
+        "scores": {
+          "performance": 88,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 2938.5462,
+          "cumulative-layout-shift": 0.0004149212984463087,
+          "total-blocking-time": 274
+        },
+        "targets": {
+          "performance": false,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      },
+      {
+        "profile": "mobile",
+        "url": "http://127.0.0.1:4174/nfts/emerald-ape-042",
+        "scores": {
+          "performance": 90,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "metrics": {
+          "largest-contentful-paint": 2986.296,
+          "cumulative-layout-shift": 0.0006885970938002093,
+          "total-blocking-time": 209
+        },
+        "targets": {
+          "performance": true,
+          "accessibility": true,
+          "best-practices": true,
+          "seo": true
+        }
+      }
+    ]
+  },
+  "copiedOriginals": [
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-1.html",
+      "file": "lighthouse/detail-desktop-1.html",
+      "bytes": 702386,
+      "sha256": "f8dc93fc2e7cdda5fc6354660367c908c63380fc876cc3886ce04669d7bb1255"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-1.json",
+      "file": "lighthouse/detail-desktop-1.json",
+      "bytes": 605326,
+      "sha256": "ac3a915a7d77d034b9b5b4ea8b95ce711befec3a861d6e28862a56a0b61fe7c8"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-2.html",
+      "file": "lighthouse/detail-desktop-2.html",
+      "bytes": 703574,
+      "sha256": "1fc2973d87a7123c7b7508b294508b03be81cf2cf0b485e6d433604394278931"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-2.json",
+      "file": "lighthouse/detail-desktop-2.json",
+      "bytes": 607242,
+      "sha256": "047bbb37d0abc28d9f532cc53693053d5ca6e000268b0abbef528bee5ac96dd1"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-3.html",
+      "file": "lighthouse/detail-desktop-3.html",
+      "bytes": 695814,
+      "sha256": "79e96327a3ea1115e7c71e0b418894d20769239d6ddb82d49f6af98fe16ddc44"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-desktop-3.json",
+      "file": "lighthouse/detail-desktop-3.json",
+      "bytes": 599632,
+      "sha256": "8f80a70f7c12397b0c883d0849637cd3174e85e6aefc5a3720c49c0848add815"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-1.html",
+      "file": "lighthouse/detail-mobile-1.html",
+      "bytes": 662590,
+      "sha256": "9cad0e08a24433201fbc609118da7ae2705e7d19d28488a0cf6aa5d9fededc18"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-1.json",
+      "file": "lighthouse/detail-mobile-1.json",
+      "bytes": 570650,
+      "sha256": "10f0ac3e2d29e904565aef7b0bb8eeb7c5d900874b5d686e6b6c81882827a5cc"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-2.html",
+      "file": "lighthouse/detail-mobile-2.html",
+      "bytes": 663778,
+      "sha256": "1e3408c38134546890539eda21ea5043c18c354933296f95ff3655957c8add2c"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-2.json",
+      "file": "lighthouse/detail-mobile-2.json",
+      "bytes": 571988,
+      "sha256": "b9a14dd47a85589014284d168da7c5bb566bf402b637674b162aab70f69f90a3"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-3.html",
+      "file": "lighthouse/detail-mobile-3.html",
+      "bytes": 664391,
+      "sha256": "b0eeb95a22ce0babbe76b542ad59d99c7479da74e14a7f4127e1698502e09433"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/detail-mobile-3.json",
+      "file": "lighthouse/detail-mobile-3.json",
+      "bytes": 572559,
+      "sha256": "f417595d6fd86dfd13d13f678183cb02db968d15d1371d56ebfb9df933ae6d58"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-1.html",
+      "file": "lighthouse/home-desktop-1.html",
+      "bytes": 882580,
+      "sha256": "bd361902ee60cf1156eb2659c0d1b0d56fe296fb488b7ca49ff32bdf4342cade"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-1.json",
+      "file": "lighthouse/home-desktop-1.json",
+      "bytes": 797738,
+      "sha256": "49c1e1dc9885f229c81e52bd2e3bad2d75c9f8725f810500dba6f3c7a95521f0"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-2.html",
+      "file": "lighthouse/home-desktop-2.html",
+      "bytes": 881616,
+      "sha256": "26f61d79d2fc341dd5bce3093c8fb79f3b062855b9b6d9a005e30961df3033d1"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-2.json",
+      "file": "lighthouse/home-desktop-2.json",
+      "bytes": 795998,
+      "sha256": "b11468279276271d0c895fd5ed0691f4fca3fdc14b80fbea18ad5299b7ccc3ad"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-3.html",
+      "file": "lighthouse/home-desktop-3.html",
+      "bytes": 881469,
+      "sha256": "f3a3721ef993bcc84466c9ead93f7654188f0fc2d42932bec518afbabed6a0d0"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-desktop-3.json",
+      "file": "lighthouse/home-desktop-3.json",
+      "bytes": 795751,
+      "sha256": "056ae8810ad82572c822589c249f65b526c1cebb329d58f2dc257748dea252dd"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-1.html",
+      "file": "lighthouse/home-mobile-1.html",
+      "bytes": 745857,
+      "sha256": "b9840dc7ca9affb4504d93a57f22bb62e3f2d218c02deafde1d808640fb6dc23"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-1.json",
+      "file": "lighthouse/home-mobile-1.json",
+      "bytes": 664881,
+      "sha256": "c3bdfc5c43395745cc0a1000302828af3c24927449a0ec6768644eddc28202fa"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-2.html",
+      "file": "lighthouse/home-mobile-2.html",
+      "bytes": 773248,
+      "sha256": "40b8bb2de4bbe333a96406ef4372bca95c28739c372ca85241549d4b70ea11bd"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-2.json",
+      "file": "lighthouse/home-mobile-2.json",
+      "bytes": 691750,
+      "sha256": "9c9accb24ff6ecb19ffb6481658c775460137d143151749ec6cedcd78fe6dce2"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-3.html",
+      "file": "lighthouse/home-mobile-3.html",
+      "bytes": 774284,
+      "sha256": "c2cab34259f40b0be1f8450bd35b6a95e3d719beaca80b83d195e71fdc4934a4"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/home-mobile-3.json",
+      "file": "lighthouse/home-mobile-3.json",
+      "bytes": 693058,
+      "sha256": "916a9ae51e0766d014cc17455fc64db9e7c394554e2239d0a2cf7174c2b57c2a"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/runs.json",
+      "file": "lighthouse/runs.json",
+      "bytes": 40311,
+      "sha256": "68cc679202fbebc3da8c1181225f56ade9c44ec60696c170ac8e7c7ad2d1826f"
+    },
+    {
+      "source": ".lighthouseci/recovery-final/summary.json",
+      "file": "lighthouse/summary.json",
+      "bytes": 2837,
+      "sha256": "986fa3731a1dd611d4b7f833196fdb897de8d0dba6d8c10604951a370bb1564a"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/02dcafc50257ceb331490a173ec825495a9439f8.png",
+      "file": "playwright/data/02dcafc50257ceb331490a173ec825495a9439f8.png",
+      "bytes": 92238,
+      "sha256": "cab9789f7febc5b719a2b2dea3c5b6b9e4981660126fb17904ef03bddb1a07f7"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/034d79952fd9ba1776c1ea4a3ebc78c8d9defe27.png",
+      "file": "playwright/data/034d79952fd9ba1776c1ea4a3ebc78c8d9defe27.png",
+      "bytes": 1678757,
+      "sha256": "9d954174ea15f6568c85e77fc4c17f4e3a059fd42a663081664619119ccbfcdd"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/07f8bfb5dc86b2fec65fec1ba26373380ec568ee.png",
+      "file": "playwright/data/07f8bfb5dc86b2fec65fec1ba26373380ec568ee.png",
+      "bytes": 88059,
+      "sha256": "2b5f5e002c28a893261618fb35c497e8c856b74ac7fbcd1c1ac73fafb55dfc95"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/08fe463f053f9809e0c4bfb1c183749fc1ea3912.png",
+      "file": "playwright/data/08fe463f053f9809e0c4bfb1c183749fc1ea3912.png",
+      "bytes": 26513,
+      "sha256": "a77ae576c2c31fc6bf62dbcdcb95c95849a0f7e683d63f97cbc62b61a360ca17"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/1456865491964881e549410c845ac12dc31e6f92.png",
+      "file": "playwright/data/1456865491964881e549410c845ac12dc31e6f92.png",
+      "bytes": 136748,
+      "sha256": "cd1b1323d2bb919cc914861d4b436149c3150377dd5d0531fdcfacae3e11ca07"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/1d900570257f4776ae0312302d9b56bcc4121e9e.png",
+      "file": "playwright/data/1d900570257f4776ae0312302d9b56bcc4121e9e.png",
+      "bytes": 23240,
+      "sha256": "68e31930edce940ca46bd2f894086e117fc2121fc298ae5a6fdc78ad2ae5fce6"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png",
+      "file": "playwright/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png",
+      "bytes": 85355,
+      "sha256": "f7dd890467dc480d42b4a956ff543696aa7edf34296bfef2552e76f985fd3871"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/3131c6a99fb64b12ccf38b03d31fe4bace67163a.png",
+      "file": "playwright/data/3131c6a99fb64b12ccf38b03d31fe4bace67163a.png",
+      "bytes": 1312615,
+      "sha256": "1f318d81211315b7fbd9d6db3f1dbd0cd2e1f8f86e9636003db043cd91bc8c40"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/315f90b1cf00671068fd31f58d911b35a8537caa.png",
+      "file": "playwright/data/315f90b1cf00671068fd31f58d911b35a8537caa.png",
+      "bytes": 19507,
+      "sha256": "bb2dd31e8d069528e3fdb9f38a541b50df5258f76f1328b3f858051975dde168"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png",
+      "file": "playwright/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png",
+      "bytes": 67754,
+      "sha256": "7191a832339b00d1ebc0e80056e0269c713f601a2413014a399a52af3d513442"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/3b4b23a3d3e7bd70e2e795d66a593866f2d5fbf5.png",
+      "file": "playwright/data/3b4b23a3d3e7bd70e2e795d66a593866f2d5fbf5.png",
+      "bytes": 46514,
+      "sha256": "0c78e10a5fd146a60d9d7d72287cf44a0ae65530b4160ac757ca030e0ed4cb17"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/4cd87c948f25fc79ba7fe0b24df3211c72f43d18.png",
+      "file": "playwright/data/4cd87c948f25fc79ba7fe0b24df3211c72f43d18.png",
+      "bytes": 59517,
+      "sha256": "c18bc1b9453ea821193bbc15de9ff3fddc264e969a49153caf2254cb80d7ac71"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/592f4dfd15b803dfb4883146979267a1c819fefa.png",
+      "file": "playwright/data/592f4dfd15b803dfb4883146979267a1c819fefa.png",
+      "bytes": 141828,
+      "sha256": "fa0307292f6bb88a3dce948cd2388b4c669e218d30b5c6cbed3ad2f8597b4a94"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/5f19c66a0a32c2eb19846ecc4cc7aa86ec3b9253.png",
+      "file": "playwright/data/5f19c66a0a32c2eb19846ecc4cc7aa86ec3b9253.png",
+      "bytes": 27592,
+      "sha256": "4738c15633488cd7ca9198a457fd4abb1837667a57b98ad3f8dd9091a2004b5d"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/6970f5f6b1e337c0287e938a945327f836bfc8ff.png",
+      "file": "playwright/data/6970f5f6b1e337c0287e938a945327f836bfc8ff.png",
+      "bytes": 27316,
+      "sha256": "f0cfd8e9ca7e0e670ee08d2a34e1a06868551109c95b2992a3ce75cebce7f7c8"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/6af5184ef30960437f797978a866ae9d0cc42660.png",
+      "file": "playwright/data/6af5184ef30960437f797978a866ae9d0cc42660.png",
+      "bytes": 1289992,
+      "sha256": "82a7b238b954b84ba9f29a896b404d2b6f40fd8adaaf26bb812e266d4eaf8731"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/70dc63e5db304ac06b0262ddf1b6dbcb1425bbeb.png",
+      "file": "playwright/data/70dc63e5db304ac06b0262ddf1b6dbcb1425bbeb.png",
+      "bytes": 9894,
+      "sha256": "46b091619f32872796b7fad52fc8bb1383f415dbbfc1ce868692466d18bb0a34"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/735d71edf124dfcad594a65bcc23c7f00be12ee4.png",
+      "file": "playwright/data/735d71edf124dfcad594a65bcc23c7f00be12ee4.png",
+      "bytes": 584316,
+      "sha256": "c5a88289ab8e652ec8ba3ef5bac04dc9cdc8fc10fbacecd6acf79939efba9d51"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/7456e00a603396a0c1a52e61f6681d14a8adc027.png",
+      "file": "playwright/data/7456e00a603396a0c1a52e61f6681d14a8adc027.png",
+      "bytes": 22970,
+      "sha256": "c57fe286eeca1cb44d2b0430045df7ce817ef37e7c5b12067f6517cd17cf03b2"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png",
+      "file": "playwright/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png",
+      "bytes": 19888,
+      "sha256": "b485fdd675cbdc018da05362c25c9c7f832bce3453a2e57609d8f318dff32ed9"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/786086919e6ad61c4d6c3381476af70ef37998da.png",
+      "file": "playwright/data/786086919e6ad61c4d6c3381476af70ef37998da.png",
+      "bytes": 56527,
+      "sha256": "b3b80802c8eb5b58f179b72965df2b647ce2a4fa29224c8f9a3719fd8d7fc8a2"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/7a2826fa8cd35419a107dc41a23b005eb3f37dea.png",
+      "file": "playwright/data/7a2826fa8cd35419a107dc41a23b005eb3f37dea.png",
+      "bytes": 89635,
+      "sha256": "fe72fa04c9ca44cea967783f17b7bb7a4cafb228136938d30e650f18265c218d"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/81daf8c62ea470c666c88f117253f4607204a708.png",
+      "file": "playwright/data/81daf8c62ea470c666c88f117253f4607204a708.png",
+      "bytes": 44350,
+      "sha256": "dcdc6d195b6e8cff1d1980feed6ee5fecbd6454e76f7d9e4a7e6564b4bca57f5"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png",
+      "file": "playwright/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png",
+      "bytes": 58030,
+      "sha256": "1ef18f2e74763e76c8c59f62a6a919da3e92f5f970dd093a766b63d685bbd635"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png",
+      "file": "playwright/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png",
+      "bytes": 25683,
+      "sha256": "07e10a0738cd884824e4d9dfa43813e74169b025174c553651a7aaf48eeef73c"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/9166ba5505f9a77d31d4e812d60810fe005ab3f3.png",
+      "file": "playwright/data/9166ba5505f9a77d31d4e812d60810fe005ab3f3.png",
+      "bytes": 81123,
+      "sha256": "164e5eac0be51e1d7732583d32316eeba9b8df24c228bbaea95c96e0af0f8ef8"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/a5e1a28e33bf083ad02890bbe02a90d98dc30fdc.png",
+      "file": "playwright/data/a5e1a28e33bf083ad02890bbe02a90d98dc30fdc.png",
+      "bytes": 77277,
+      "sha256": "1a1ce8cb96aa9a6719dc8307d53769ae9b00047a72fcde935493f0122282f745"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/a8169be4a89bc8423df1d31fc88b136da00ae64f.png",
+      "file": "playwright/data/a8169be4a89bc8423df1d31fc88b136da00ae64f.png",
+      "bytes": 48433,
+      "sha256": "f0623ca10d1924d26021858ddac1317fb494d791993dec5af0635f8c066621cd"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/ae6a3f1cc5cf22c334cd7bf17f33e73f91563fe9.png",
+      "file": "playwright/data/ae6a3f1cc5cf22c334cd7bf17f33e73f91563fe9.png",
+      "bytes": 29413,
+      "sha256": "e99f76766b388b0c7bbedd5f1da6143009747b3860986283f811581266b29f46"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png",
+      "file": "playwright/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png",
+      "bytes": 47327,
+      "sha256": "7d46ef352fb53e42d8af3bf9412230f25683b45afd03fb7c213207a0735cbbf2"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png",
+      "file": "playwright/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png",
+      "bytes": 68541,
+      "sha256": "0f32a3c09015457f486699e5255f6f9dd408cfaa066134a49f1ff35c04c1dce6"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/b6d2eb12e8e5adfc74c7671db3abaf5e0e82bd0a.png",
+      "file": "playwright/data/b6d2eb12e8e5adfc74c7671db3abaf5e0e82bd0a.png",
+      "bytes": 21354,
+      "sha256": "b8a2348c0ced05a042a5869cacfa0b62464e3870df96ab320463935cd1021e6a"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/b97b99dae3616abcfdc0d1ed1ac78a619443d26d.png",
+      "file": "playwright/data/b97b99dae3616abcfdc0d1ed1ac78a619443d26d.png",
+      "bytes": 689164,
+      "sha256": "3efc74348cd94caabbb220d57b94b02dcf5326ee43ebd6c0be96ad7efda97d51"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/ba8a21e69dab8c2baa3dd0437686e0ef59b2936b.png",
+      "file": "playwright/data/ba8a21e69dab8c2baa3dd0437686e0ef59b2936b.png",
+      "bytes": 13422,
+      "sha256": "3391130841f71c534ae00282d1ab9d27d742d3297afacf0824f14fdaf5f5003f"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/bae11e50b744c42a73ad3f4375c6925dc9879a78.png",
+      "file": "playwright/data/bae11e50b744c42a73ad3f4375c6925dc9879a78.png",
+      "bytes": 28289,
+      "sha256": "4da7bcec7e74fece2f60e7c48e098db16ebffdc8303e2d696121786997489b30"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/c46a9991688985c4d170409d432a682d63b36198.png",
+      "file": "playwright/data/c46a9991688985c4d170409d432a682d63b36198.png",
+      "bytes": 140641,
+      "sha256": "a0e1a80a4fc0e91bba5c80547698df6fba4df11840519f460a69eccf42979513"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/c8f809d3d4f5e467677e668db7f89c7357f0da72.png",
+      "file": "playwright/data/c8f809d3d4f5e467677e668db7f89c7357f0da72.png",
+      "bytes": 148956,
+      "sha256": "5c60f9a02a150d4200fc94b70f8ca6eec7e9d9e6b8d8d7c63f3a556e2ce38ed0"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/d1b53bdbc5f817187cfdabc66bd14712e6b55b56.png",
+      "file": "playwright/data/d1b53bdbc5f817187cfdabc66bd14712e6b55b56.png",
+      "bytes": 26482,
+      "sha256": "cefc4c059c47fd8ce14823a78e8c1929dd90d2eae7a8f95a9f0673eff1378868"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/d8267529318713d970179ed13401acfdb07b1ae3.png",
+      "file": "playwright/data/d8267529318713d970179ed13401acfdb07b1ae3.png",
+      "bytes": 96930,
+      "sha256": "df981b81845fa145eb79fd27ed34ce2f11e80f1401cbcd7fe396849b0c673d6d"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/dc77573986ddcd1b973ae436ffb13b34ab634703.png",
+      "file": "playwright/data/dc77573986ddcd1b973ae436ffb13b34ab634703.png",
+      "bytes": 266852,
+      "sha256": "1356f4e8b1704074e13bc3718058c7f8cafb761c6bcf38007699c9720f84f4d4"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/e173a84d5209b350fac54a9a845c8ce0a6157348.png",
+      "file": "playwright/data/e173a84d5209b350fac54a9a845c8ce0a6157348.png",
+      "bytes": 52815,
+      "sha256": "244814732602c06ce0945b519aa8ac7fc92c07dd71d88806c7f1b71a9c5f9e0f"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/e46ece2d44f5d379d875bf591ee1fbc4f5f24db9.png",
+      "file": "playwright/data/e46ece2d44f5d379d875bf591ee1fbc4f5f24db9.png",
+      "bytes": 31011,
+      "sha256": "3c4ea04eca0d37d702c2dcd22ed00f90f53e70fcff05a8c4ebedd6a0dc53d2e0"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/e53f2124f9d3ce99779694aef75bc4ed3847a187.png",
+      "file": "playwright/data/e53f2124f9d3ce99779694aef75bc4ed3847a187.png",
+      "bytes": 489546,
+      "sha256": "41c4be80ee01bf368c2baf9a94de6dcbd1679992645908fc260030e261dfc2d6"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/e71ee7449ef97c8914af76e9fb61287010dc94ce.png",
+      "file": "playwright/data/e71ee7449ef97c8914af76e9fb61287010dc94ce.png",
+      "bytes": 56190,
+      "sha256": "497c75c30ea5b4914d66756760dcafaa0f4c7bbd2fd976cc5ad6e0e95f6013ba"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png",
+      "file": "playwright/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png",
+      "bytes": 54342,
+      "sha256": "cc87f9074704a9ff2d132338a5a9488bf96d7165f924c8999d0fe8c2eced20f4"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/edaa52310ef0377d1919da1ca3cc1357c9c8bfd5.png",
+      "file": "playwright/data/edaa52310ef0377d1919da1ca3cc1357c9c8bfd5.png",
+      "bytes": 44390,
+      "sha256": "43d98b0034426693d156e43e5f6bd28419ff1d3cd55af09a17fb48fbcaf2384d"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/f17bffca1480f16ee762830c5895c4fd2faa3b46.png",
+      "file": "playwright/data/f17bffca1480f16ee762830c5895c4fd2faa3b46.png",
+      "bytes": 139211,
+      "sha256": "8b603e33e388bcd0a078af95eb0017ebe43266d47306cd69a6504aabaf46cb28"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/f4bdaf92f2fcf4273b0cdf46a92b51c5407deca4.png",
+      "file": "playwright/data/f4bdaf92f2fcf4273b0cdf46a92b51c5407deca4.png",
+      "bytes": 1074807,
+      "sha256": "f2533eb6102a364ed0ab64afc4c43eae17d04d6138df2136f61960ffcb7f0497"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/data/fddd097f16797d88fdca7143a362d2f391edae72.png",
+      "file": "playwright/data/fddd097f16797d88fdca7143a362d2f391edae72.png",
+      "bytes": 28219,
+      "sha256": "dade7de99f567a4eebbcd1a69e6bb7d4994b6934b8690da650f751c7e8ba1855"
+    },
+    {
+      "source": "playwright-report/final-recovery-2026-10-23-final/index.html",
+      "file": "playwright/index.html",
+      "bytes": 1120824,
+      "sha256": "e142c2848ad5b85af347eb3ec20af1402c6171e643cf3d5b64e9b1b6e58aa281"
+    },
+    {
+      "source": ".lighthouseci/final-audit-2026-10-23/summary.json",
+      "file": "before-summary.json",
+      "bytes": 2835,
+      "sha256": "58c9406deacb1101cd5ef3aa6169692ea2e5311558c7bc68f93c18f216eb8f82"
+    },
+    {
+      "source": ".lighthouseci/recovery-before/summary.json",
+      "file": "diagnostics/recovery-before.json",
+      "bytes": 1808,
+      "sha256": "4d872d705e38397be0e970e4e63fb38f4bd82907230ec3fc6754bbdfda47b201"
+    },
+    {
+      "source": ".lighthouseci/recovery-lazy-home/summary.json",
+      "file": "diagnostics/recovery-lazy-home.json",
+      "bytes": 1820,
+      "sha256": "0e3bf8f90ebf6d2978dba680653742a18512c97123573fab4c36c949e977f355"
+    },
+    {
+      "source": ".lighthouseci/recovery-css-source/summary.json",
+      "file": "diagnostics/recovery-css-source.json",
+      "bytes": 1809,
+      "sha256": "f9c9dbd0664ed62f6aaf04d03bf21c39708c1fb6e67759556f36a34d482e1b35"
+    },
+    {
+      "source": ".lighthouseci/recovery-image-hints/summary.json",
+      "file": "diagnostics/recovery-image-hints.json",
+      "bytes": 1821,
+      "sha256": "1902c4083fc0b36762d6016f3decc82781a551b120ed6e7dc9292dd66cab590d"
+    }
+  ],
+  "deliveryChecks": {
+    "checkedAt": "2026-10-23T16:09:52.752Z",
+    "branch": "main",
+    "localLinks": 90,
+    "missingOrIgnoredLinks": 0,
+    "evidenceFiles": 85,
+    "ignoredEvidenceFiles": 0,
+    "unchangedCopiedOriginals": 81,
+    "unchangedLighthouseConfiguration": true,
+    "buildIdenticalAfterPackaging": true,
+    "trackedEnv": [
+      ".env.demo",
+      ".env.example"
+    ],
+    "trackedNftWebp": [
+      "public/assets/nfts/emerald-ape.webp",
+      "public/assets/nfts/golden-beat.webp",
+      "public/assets/nfts/ivory-baron.webp",
+      "public/assets/nfts/violet-nomad.webp"
+    ],
+    "secretPatternMatches": 0,
+    "publicChecks": [
+      {
+        "url": "https://api.github.com/repos/0LucasAlmada0/kurio-frontend-challenge",
+        "status": 200
+      },
+      {
+        "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/README.md",
+        "status": 200
+      },
+      {
+        "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/evidence/final-recovery-2026-10-23/README.md",
+        "status": 404
+      },
+      {
+        "url": "https://kurio-frontend-challenge.vercel.app/",
+        "status": 200
+      }
+    ],
+    "gitDiffCheck": "passed"
+  }
+}
