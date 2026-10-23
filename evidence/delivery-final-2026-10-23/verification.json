@@ -1,0 +1,651 @@
+{
+  "createdAt": "2026-10-23T18:08:01.651Z",
+  "baseCommit": "c946d99cfeaab1d2f6f4a2907f343324391dd604",
+  "initialDirected": {
+    "total": 36,
+    "expected": 32,
+    "unexpected": 4,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": false
+  },
+  "directed": {
+    "total": 36,
+    "expected": 36,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "firstFullRegression": {
+    "total": 300,
+    "expected": 299,
+    "unexpected": 1,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": false
+  },
+  "final": {
+    "total": 300,
+    "expected": 300,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "finalWorkers": 2,
+  "durationMinutes": 15.6891096,
+  "retries": 0,
+  "traces": 0,
+  "missingAttachments": 0,
+  "baselineChanges": [
+    {
+      "file": "tests/e2e/auth.spec.ts-snapshots/login-desktop-win32.png",
+      "source": "test-results\\delivery-final-2026-10-23\\directed\\auth-cadastro-validado-con-34486-com-retorno-à-rota-original-desktop\\login-actual.png",
+      "before": "d683f80283029772700b586c7c3eec2f9dcd2df4e9dede74ea5475c10a2aa941",
+      "after": "50a8a45313b52b6ac48936fec3a501451e5d82021ae69ddbd90597ceba840330",
+      "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+    },
+    {
+      "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png",
+      "source": "test-results\\delivery-final-2026-10-23\\directed\\cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-desktop\\login-autofill-actual.png",
+      "before": "4cba39dbf04a76296cec3594b614e01701321d6092a0ba58213bc1f2b77f6ba4",
+      "after": "e49a97668d5c6ce08ea8db1279d70b2dd83103c56e9446592d2cfc6153de38e3",
+      "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+    },
+    {
+      "file": "tests/e2e/auth.spec.ts-snapshots/login-tablet-win32.png",
+      "source": "test-results\\delivery-final-2026-10-23\\directed\\auth-cadastro-validado-con-34486-com-retorno-à-rota-original-tablet\\login-actual.png",
+      "before": "e1be3f95de5b1c552155f30f2c9ddef83207f4f44e78f2fc12971b8bb620a0e2",
+      "after": "d655cc080f1b8c3febfadf58d2fc9b0508f5d960b6b63b9c1f4f5e77ea02dbca",
+      "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+    },
+    {
+      "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png",
+      "source": "test-results\\delivery-final-2026-10-23\\directed\\cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-tablet\\login-autofill-actual.png",
+      "before": "7fe4cab01b303ea085cd2a10c94cf729edf17429a92348aa992245be8563877f",
+      "after": "cc46a5311aeca2fb0097703e920ec371c0bf386d952d8c716b6896b3e22f0525",
+      "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+    }
+  ],
+  "unchangedBaselines": 20,
+  "mobileCapturesIdentical": true,
+  "buttonRectanglesUnchanged": true,
+  "cleanInstall": {
+    "passed": true,
+    "commands": [
+      "npm.cmd ci --offline --no-audit --no-fund",
+      "npm.cmd run build:demo"
+    ],
+    "node": "v24.14.1",
+    "packages": 587,
+    "emptyNodeModulesBefore": true,
+    "reusedPackageCache": true,
+    "rootLockfileUnchanged": true,
+    "identicalBuild": true,
+    "files": 36,
+    "differences": [],
+    "installationExitCode": 0,
+    "buildExitCode": 0
+  },
+  "originalCopies": [
+    {
+      "file": "playwright/data/02dcafc50257ceb331490a173ec825495a9439f8.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\02dcafc50257ceb331490a173ec825495a9439f8.png",
+      "bytes": 92238,
+      "sha256": "cab9789f7febc5b719a2b2dea3c5b6b9e4981660126fb17904ef03bddb1a07f7"
+    },
+    {
+      "file": "playwright/data/034d79952fd9ba1776c1ea4a3ebc78c8d9defe27.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\034d79952fd9ba1776c1ea4a3ebc78c8d9defe27.png",
+      "bytes": 1678757,
+      "sha256": "9d954174ea15f6568c85e77fc4c17f4e3a059fd42a663081664619119ccbfcdd"
+    },
+    {
+      "file": "playwright/data/07f8bfb5dc86b2fec65fec1ba26373380ec568ee.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\07f8bfb5dc86b2fec65fec1ba26373380ec568ee.png",
+      "bytes": 88059,
+      "sha256": "2b5f5e002c28a893261618fb35c497e8c856b74ac7fbcd1c1ac73fafb55dfc95"
+    },
+    {
+      "file": "playwright/data/08258ea4f61d9551d9bc4b5fb8f31d510772c485.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\08258ea4f61d9551d9bc4b5fb8f31d510772c485.png",
+      "bytes": 150425,
+      "sha256": "cf3748e0f1a985bb585127e714e1c2400d03d837c836bc3b1360b3798d705c86"
+    },
+    {
+      "file": "playwright/data/08fe463f053f9809e0c4bfb1c183749fc1ea3912.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\08fe463f053f9809e0c4bfb1c183749fc1ea3912.png",
+      "bytes": 26513,
+      "sha256": "a77ae576c2c31fc6bf62dbcdcb95c95849a0f7e683d63f97cbc62b61a360ca17"
+    },
+    {
+      "file": "playwright/data/1456865491964881e549410c845ac12dc31e6f92.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\1456865491964881e549410c845ac12dc31e6f92.png",
+      "bytes": 136748,
+      "sha256": "cd1b1323d2bb919cc914861d4b436149c3150377dd5d0531fdcfacae3e11ca07"
+    },
+    {
+      "file": "playwright/data/17349decd82b5d8fadc30ce858103ecbabb52bef.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\17349decd82b5d8fadc30ce858103ecbabb52bef.png",
+      "bytes": 45086,
+      "sha256": "fe6258c644bd4eb1fb9fa734ec7e4713116d17f94725b20313b249e2ba45ec16"
+    },
+    {
+      "file": "playwright/data/1b8ce22ac92cca89b78aa0418d7e6afb8998880e.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\1b8ce22ac92cca89b78aa0418d7e6afb8998880e.png",
+      "bytes": 59516,
+      "sha256": "7994b0ad16cf8b581c7015b8c371e01ac67fa7045132a1dd8938373fe9edae34"
+    },
+    {
+      "file": "playwright/data/1d900570257f4776ae0312302d9b56bcc4121e9e.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\1d900570257f4776ae0312302d9b56bcc4121e9e.png",
+      "bytes": 23240,
+      "sha256": "68e31930edce940ca46bd2f894086e117fc2121fc298ae5a6fdc78ad2ae5fce6"
+    },
+    {
+      "file": "playwright/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\2061d42ad1d157c89aace3d7a63fb96b553403ec.png",
+      "bytes": 85355,
+      "sha256": "f7dd890467dc480d42b4a956ff543696aa7edf34296bfef2552e76f985fd3871"
+    },
+    {
+      "file": "playwright/data/21a0538493f4dcb6d3bd089bf378a01c14c57f13.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\21a0538493f4dcb6d3bd089bf378a01c14c57f13.png",
+      "bytes": 139217,
+      "sha256": "5990fb3aa97e93e62d809a95ca00231ae79a095ff66d26384a76c1d8b69d08ce"
+    },
+    {
+      "file": "playwright/data/24675954344f3a810780bd03ca3deec93e947386.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\24675954344f3a810780bd03ca3deec93e947386.png",
+      "bytes": 26491,
+      "sha256": "8d14924a49f442b3e9f8fe3461c317b9938a21ed348d35a77fd981851a772cca"
+    },
+    {
+      "file": "playwright/data/25ce05dde35faf8e1d3581a4f3023e844c484a9e.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\25ce05dde35faf8e1d3581a4f3023e844c484a9e.png",
+      "bytes": 28292,
+      "sha256": "e7d1b961692f198b004b28ed1b9e02f68b35d78d4402b5f6babafb8726827c9b"
+    },
+    {
+      "file": "playwright/data/3131c6a99fb64b12ccf38b03d31fe4bace67163a.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\3131c6a99fb64b12ccf38b03d31fe4bace67163a.png",
+      "bytes": 1312615,
+      "sha256": "1f318d81211315b7fbd9d6db3f1dbd0cd2e1f8f86e9636003db043cd91bc8c40"
+    },
+    {
+      "file": "playwright/data/315f90b1cf00671068fd31f58d911b35a8537caa.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\315f90b1cf00671068fd31f58d911b35a8537caa.png",
+      "bytes": 19507,
+      "sha256": "bb2dd31e8d069528e3fdb9f38a541b50df5258f76f1328b3f858051975dde168"
+    },
+    {
+      "file": "playwright/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\367535b5c24ab37ceb8198d591aff1159a50d4ab.png",
+      "bytes": 67754,
+      "sha256": "7191a832339b00d1ebc0e80056e0269c713f601a2413014a399a52af3d513442"
+    },
+    {
+      "file": "playwright/data/5a733470b7a9cab9cc75623c13ef9b35a887b0c1.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\5a733470b7a9cab9cc75623c13ef9b35a887b0c1.png",
+      "bytes": 44222,
+      "sha256": "c3d7775c34683a21ce70ca495058024765c124c8b9e13945d014cf3a7d685095"
+    },
+    {
+      "file": "playwright/data/5f19c66a0a32c2eb19846ecc4cc7aa86ec3b9253.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\5f19c66a0a32c2eb19846ecc4cc7aa86ec3b9253.png",
+      "bytes": 27592,
+      "sha256": "4738c15633488cd7ca9198a457fd4abb1837667a57b98ad3f8dd9091a2004b5d"
+    },
+    {
+      "file": "playwright/data/6af5184ef30960437f797978a866ae9d0cc42660.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\6af5184ef30960437f797978a866ae9d0cc42660.png",
+      "bytes": 1289992,
+      "sha256": "82a7b238b954b84ba9f29a896b404d2b6f40fd8adaaf26bb812e266d4eaf8731"
+    },
+    {
+      "file": "playwright/data/6be6dd11fe33d273e56e7bb8d75ccbc692ad43ec.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\6be6dd11fe33d273e56e7bb8d75ccbc692ad43ec.png",
+      "bytes": 53004,
+      "sha256": "b523cd69f41a7a49f125a8f350e258e12f83a82e8660b3f98e0b311a27b486ee"
+    },
+    {
+      "file": "playwright/data/70dc63e5db304ac06b0262ddf1b6dbcb1425bbeb.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\70dc63e5db304ac06b0262ddf1b6dbcb1425bbeb.png",
+      "bytes": 9894,
+      "sha256": "46b091619f32872796b7fad52fc8bb1383f415dbbfc1ce868692466d18bb0a34"
+    },
+    {
+      "file": "playwright/data/735d71edf124dfcad594a65bcc23c7f00be12ee4.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\735d71edf124dfcad594a65bcc23c7f00be12ee4.png",
+      "bytes": 584316,
+      "sha256": "c5a88289ab8e652ec8ba3ef5bac04dc9cdc8fc10fbacecd6acf79939efba9d51"
+    },
+    {
+      "file": "playwright/data/7456e00a603396a0c1a52e61f6681d14a8adc027.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\7456e00a603396a0c1a52e61f6681d14a8adc027.png",
+      "bytes": 22970,
+      "sha256": "c57fe286eeca1cb44d2b0430045df7ce817ef37e7c5b12067f6517cd17cf03b2"
+    },
+    {
+      "file": "playwright/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\74dfd8af373c48954959d1f5f30a249e93e9d3fa.png",
+      "bytes": 19888,
+      "sha256": "b485fdd675cbdc018da05362c25c9c7f832bce3453a2e57609d8f318dff32ed9"
+    },
+    {
+      "file": "playwright/data/786086919e6ad61c4d6c3381476af70ef37998da.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\786086919e6ad61c4d6c3381476af70ef37998da.png",
+      "bytes": 56527,
+      "sha256": "b3b80802c8eb5b58f179b72965df2b647ce2a4fa29224c8f9a3719fd8d7fc8a2"
+    },
+    {
+      "file": "playwright/data/7a2826fa8cd35419a107dc41a23b005eb3f37dea.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\7a2826fa8cd35419a107dc41a23b005eb3f37dea.png",
+      "bytes": 89635,
+      "sha256": "fe72fa04c9ca44cea967783f17b7bb7a4cafb228136938d30e650f18265c218d"
+    },
+    {
+      "file": "playwright/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\8571b879b2ac4719846eb807b2a4cfaed5a8be92.png",
+      "bytes": 58030,
+      "sha256": "1ef18f2e74763e76c8c59f62a6a919da3e92f5f970dd093a766b63d685bbd635"
+    },
+    {
+      "file": "playwright/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\87cc3317666c73b5710963af30d2f94bf0a57d6f.png",
+      "bytes": 25683,
+      "sha256": "07e10a0738cd884824e4d9dfa43813e74169b025174c553651a7aaf48eeef73c"
+    },
+    {
+      "file": "playwright/data/9166ba5505f9a77d31d4e812d60810fe005ab3f3.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\9166ba5505f9a77d31d4e812d60810fe005ab3f3.png",
+      "bytes": 81123,
+      "sha256": "164e5eac0be51e1d7732583d32316eeba9b8df24c228bbaea95c96e0af0f8ef8"
+    },
+    {
+      "file": "playwright/data/958cde64750ad2d6b0f44905c327954057d8d541.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\958cde64750ad2d6b0f44905c327954057d8d541.png",
+      "bytes": 141836,
+      "sha256": "4a79150d4311f72aaf1279baadfa592a406698a8301a43b8a20bf6e8538357e0"
+    },
+    {
+      "file": "playwright/data/961953a305cf2ff3f21aea0051c4d621e4821f1c.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\961953a305cf2ff3f21aea0051c4d621e4821f1c.png",
+      "bytes": 46610,
+      "sha256": "d0241c58d0e990f6ee542f319160b3669cda94d06cab47e1397651080865b568"
+    },
+    {
+      "file": "playwright/data/a5e1a28e33bf083ad02890bbe02a90d98dc30fdc.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\a5e1a28e33bf083ad02890bbe02a90d98dc30fdc.png",
+      "bytes": 77277,
+      "sha256": "1a1ce8cb96aa9a6719dc8307d53769ae9b00047a72fcde935493f0122282f745"
+    },
+    {
+      "file": "playwright/data/a8169be4a89bc8423df1d31fc88b136da00ae64f.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\a8169be4a89bc8423df1d31fc88b136da00ae64f.png",
+      "bytes": 48433,
+      "sha256": "f0623ca10d1924d26021858ddac1317fb494d791993dec5af0635f8c066621cd"
+    },
+    {
+      "file": "playwright/data/ae6a3f1cc5cf22c334cd7bf17f33e73f91563fe9.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\ae6a3f1cc5cf22c334cd7bf17f33e73f91563fe9.png",
+      "bytes": 29413,
+      "sha256": "e99f76766b388b0c7bbedd5f1da6143009747b3860986283f811581266b29f46"
+    },
+    {
+      "file": "playwright/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\b09cdc82463a6e4258135ac33d95936115bc6ec1.png",
+      "bytes": 47327,
+      "sha256": "7d46ef352fb53e42d8af3bf9412230f25683b45afd03fb7c213207a0735cbbf2"
+    },
+    {
+      "file": "playwright/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png",
+      "bytes": 68541,
+      "sha256": "0f32a3c09015457f486699e5255f6f9dd408cfaa066134a49f1ff35c04c1dce6"
+    },
+    {
+      "file": "playwright/data/b6d2eb12e8e5adfc74c7671db3abaf5e0e82bd0a.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\b6d2eb12e8e5adfc74c7671db3abaf5e0e82bd0a.png",
+      "bytes": 21354,
+      "sha256": "b8a2348c0ced05a042a5869cacfa0b62464e3870df96ab320463935cd1021e6a"
+    },
+    {
+      "file": "playwright/data/b97b99dae3616abcfdc0d1ed1ac78a619443d26d.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\b97b99dae3616abcfdc0d1ed1ac78a619443d26d.png",
+      "bytes": 689164,
+      "sha256": "3efc74348cd94caabbb220d57b94b02dcf5326ee43ebd6c0be96ad7efda97d51"
+    },
+    {
+      "file": "playwright/data/ba8a21e69dab8c2baa3dd0437686e0ef59b2936b.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\ba8a21e69dab8c2baa3dd0437686e0ef59b2936b.png",
+      "bytes": 13422,
+      "sha256": "3391130841f71c534ae00282d1ab9d27d742d3297afacf0824f14fdaf5f5003f"
+    },
+    {
+      "file": "playwright/data/c2ed3a03b9fb56c1f2816219e25938f8fe11deb3.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\c2ed3a03b9fb56c1f2816219e25938f8fe11deb3.png",
+      "bytes": 27341,
+      "sha256": "cef1daa3e23f7ea57efd746331052d469c076b72448fdbbc12f917a6a6ac5cff"
+    },
+    {
+      "file": "playwright/data/d8267529318713d970179ed13401acfdb07b1ae3.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\d8267529318713d970179ed13401acfdb07b1ae3.png",
+      "bytes": 96930,
+      "sha256": "df981b81845fa145eb79fd27ed34ce2f11e80f1401cbcd7fe396849b0c673d6d"
+    },
+    {
+      "file": "playwright/data/dc77573986ddcd1b973ae436ffb13b34ab634703.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\dc77573986ddcd1b973ae436ffb13b34ab634703.png",
+      "bytes": 266852,
+      "sha256": "1356f4e8b1704074e13bc3718058c7f8cafb761c6bcf38007699c9720f84f4d4"
+    },
+    {
+      "file": "playwright/data/e46ece2d44f5d379d875bf591ee1fbc4f5f24db9.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\e46ece2d44f5d379d875bf591ee1fbc4f5f24db9.png",
+      "bytes": 31011,
+      "sha256": "3c4ea04eca0d37d702c2dcd22ed00f90f53e70fcff05a8c4ebedd6a0dc53d2e0"
+    },
+    {
+      "file": "playwright/data/e53f2124f9d3ce99779694aef75bc4ed3847a187.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\e53f2124f9d3ce99779694aef75bc4ed3847a187.png",
+      "bytes": 489546,
+      "sha256": "41c4be80ee01bf368c2baf9a94de6dcbd1679992645908fc260030e261dfc2d6"
+    },
+    {
+      "file": "playwright/data/e71ee7449ef97c8914af76e9fb61287010dc94ce.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\e71ee7449ef97c8914af76e9fb61287010dc94ce.png",
+      "bytes": 56190,
+      "sha256": "497c75c30ea5b4914d66756760dcafaa0f4c7bbd2fd976cc5ad6e0e95f6013ba"
+    },
+    {
+      "file": "playwright/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png",
+      "bytes": 54342,
+      "sha256": "cc87f9074704a9ff2d132338a5a9488bf96d7165f924c8999d0fe8c2eced20f4"
+    },
+    {
+      "file": "playwright/data/f4b0ac979cad120aed6f1e11e5fd0a2f0854865d.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\f4b0ac979cad120aed6f1e11e5fd0a2f0854865d.png",
+      "bytes": 138842,
+      "sha256": "916ed2f510554c5607d9bf1449933df81d0a094f22476f06ac052a5136c9c343"
+    },
+    {
+      "file": "playwright/data/f4bdaf92f2fcf4273b0cdf46a92b51c5407deca4.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\f4bdaf92f2fcf4273b0cdf46a92b51c5407deca4.png",
+      "bytes": 1074807,
+      "sha256": "f2533eb6102a364ed0ab64afc4c43eae17d04d6138df2136f61960ffcb7f0497"
+    },
+    {
+      "file": "playwright/data/fddd097f16797d88fdca7143a362d2f391edae72.png",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\data\\fddd097f16797d88fdca7143a362d2f391edae72.png",
+      "bytes": 28219,
+      "sha256": "dade7de99f567a4eebbcd1a69e6bb7d4994b6934b8690da650f751c7e8ba1855"
+    },
+    {
+      "file": "playwright/index.html",
+      "source": "playwright-report\\delivery-final-2026-10-23-final-2workers\\index.html",
+      "bytes": 1120968,
+      "sha256": "30d521c41d20464d9acb2c92b138e30abbd899bfa9d64859e53192a9b5bc42e7"
+    },
+    {
+      "file": "captures/before-390.png",
+      "source": "test-results/delivery-final-2026-10-23/before/login-390-empty.png",
+      "bytes": 25334,
+      "sha256": "3115975054ac6c3eab40e64a4409dc68808ad5fc35324131b76fca7c677627cc"
+    },
+    {
+      "file": "captures/after-390.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-390-empty.png",
+      "bytes": 25334,
+      "sha256": "3115975054ac6c3eab40e64a4409dc68808ad5fc35324131b76fca7c677627cc"
+    },
+    {
+      "file": "captures/error-390.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-390-error.png",
+      "bytes": 28465,
+      "sha256": "a65d25ba675efad77d27a5eeddf65e59c71ff8ea3f949da2ca4d361794dd7d1f"
+    },
+    {
+      "file": "captures/before-768.png",
+      "source": "test-results/delivery-final-2026-10-23/before/login-768-empty.png",
+      "bytes": 176054,
+      "sha256": "22e6924c86f472b0539dc14787e60e3164f7a223ed5969f370cdf577f113500c"
+    },
+    {
+      "file": "captures/after-768.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-768-empty.png",
+      "bytes": 176902,
+      "sha256": "e3a13c8284bed743cca9ee49659a6c2be239e80a556bcf5ecc884655c5ece8b1"
+    },
+    {
+      "file": "captures/error-768.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-768-error.png",
+      "bytes": 169712,
+      "sha256": "325355eddea23aff1a6b4eac5148b5dc8be7982290a16e1ce3714763cc7b3e75"
+    },
+    {
+      "file": "captures/before-1440.png",
+      "source": "test-results/delivery-final-2026-10-23/before/login-1440-empty.png",
+      "bytes": 456847,
+      "sha256": "b9d03aa587997c4a6a1e1275ea63e964dde316a38fe8f0a393236d8fd686076a"
+    },
+    {
+      "file": "captures/after-1440.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-1440-empty.png",
+      "bytes": 457827,
+      "sha256": "80592f3c2cd9c84d536dbe4a3ce9d1c8088c000b62433e3020584513c96bdaf0"
+    },
+    {
+      "file": "captures/error-1440.png",
+      "source": "test-results/delivery-final-2026-10-23/after/login-1440-error.png",
+      "bytes": 454672,
+      "sha256": "7ff3df778b751eef4bb0ca3470326089a3ae31d1f2026cdce669f59f7da47ca8"
+    },
+    {
+      "file": "before-inspection.json",
+      "source": "test-results/delivery-final-2026-10-23/before/inspection.json",
+      "bytes": 18146,
+      "sha256": "37346c2f526898763899addcaba93cbee42aa901cb30fe214c0befaafd1d1390"
+    },
+    {
+      "file": "after-inspection.json",
+      "source": "test-results/delivery-final-2026-10-23/after/inspection.json",
+      "bytes": 17882,
+      "sha256": "bfc1a704d5ca51aa38546791fa1c15bba07feb0719f62c7b59124266a91b0027"
+    },
+    {
+      "file": "baseline-changes.json",
+      "source": "test-results/delivery-final-2026-10-23/baseline-changes.json",
+      "bytes": 2102,
+      "sha256": "585be5372f63699e259008d28344a10d0fb8a4b43ec312adad81c40c7145adaf"
+    },
+    {
+      "file": "environment-failure/diagnostics.json",
+      "source": "test-results/delivery-final-2026-10-23/environment-diagnostics.json",
+      "bytes": 563,
+      "sha256": "b44e13ab0366948938eb012444b32082e9ef95cbb0ecd24548b8c4c21d79f4f2"
+    },
+    {
+      "file": "environment-failure/trace.zip",
+      "source": "test-results/delivery-final-2026-10-23/final/account-Ana-e-Bruno-isolam-ef752-zação-de-perfil-e-carteiras-desktop/trace.zip",
+      "bytes": 15247,
+      "sha256": "0dacc3c860130890f86d3d0749301b1817c36fa842017a9817fdfd2e6cb5e33a"
+    },
+    {
+      "file": "environment-failure/error-context.zip",
+      "source": "test-results/delivery-final-2026-10-23/error-context.zip",
+      "bytes": 3609,
+      "sha256": "55263b48905cb80fdb8584eb254067d1e16421f43f0bd756338ba224151409b7"
+    },
+    {
+      "file": "reflow-inspection.json",
+      "source": "test-results/delivery-final-2026-10-23/reflow/inspection.json",
+      "bytes": 12492,
+      "sha256": "1297bedc2674d47868ddb6c69d2325965f8ce900ecd9b2cca857cfd8f8e818bc"
+    },
+    {
+      "file": "clean-install.txt",
+      "source": "test-results/delivery-final-2026-10-23/clean-install.log",
+      "bytes": 2828,
+      "sha256": "e966170f51b9a358176c1f54ca9a2828c98a4251905ffcd7c62fea750f3c7320"
+    },
+    {
+      "file": "clean-build.txt",
+      "source": "test-results/delivery-final-2026-10-23/clean-build.log",
+      "bytes": 5928,
+      "sha256": "e5fecf95c697aad4ff0633f3f70eea94d0e20d91fe5213a95ac98d32e670df64"
+    }
+  ],
+  "deliveryChecks": {
+    "checkedAt": "2026-10-23T18:09:35.119Z",
+    "docs": {
+      "checkedAt": "2026-10-23T18:08:05.572Z",
+      "links": 95,
+      "anchors": 10,
+      "invalidLinks": [],
+      "publicReports": [
+        {
+          "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/evidence/final-recovery-2026-10-23/README.md",
+          "status": 200
+        },
+        {
+          "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/evidence/final-recovery-2026-10-23/playwright/index.html",
+          "status": 200
+        },
+        {
+          "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/evidence/final-recovery-2026-10-23/lighthouse/summary.json",
+          "status": 200
+        },
+        {
+          "url": "https://raw.githubusercontent.com/0LucasAlmada0/kurio-frontend-challenge/main/evidence/final-recovery-2026-10-23/lighthouse/home-mobile-1.html",
+          "status": 200
+        }
+      ]
+    },
+    "gitDiffCheck": "passed",
+    "ignoredPreparedFiles": 0,
+    "secretPatternMatches": 0,
+    "trackedEnv": [
+      ".env.demo",
+      ".env.example"
+    ],
+    "stagedFiles": 0,
+    "sourceAndBaselineFiles": [
+      {
+        "file": "README.md",
+        "sha256": "ad8fbdfdbeedb22c94bc9e95b97ec0fc88afafa92637862ea13c96e6d23a5b8a"
+      },
+      {
+        "file": "docs/HISTORY.md",
+        "sha256": "8d7d086c44a638af999a16987b5a2ea07bc205782fc73f08bdeecc552f07ad10"
+      },
+      {
+        "file": "src/styles.css",
+        "sha256": "4b36c92d9b2576744e467140f239d30258ae17fe4d70acb9201200be2810acaf"
+      },
+      {
+        "file": "tests/e2e/auth.spec.ts",
+        "sha256": "f9058e3969dcfbb3694af6b810b73d15c47092172135be2fd87f7974b3d69638"
+      },
+      {
+        "file": "tests/e2e/auth.spec.ts-snapshots/login-desktop-win32.png",
+        "sha256": "50a8a45313b52b6ac48936fec3a501451e5d82021ae69ddbd90597ceba840330"
+      },
+      {
+        "file": "tests/e2e/auth.spec.ts-snapshots/login-tablet-win32.png",
+        "sha256": "d655cc080f1b8c3febfadf58d2fc9b0508f5d960b6b63b9c1f4f5e77ea02dbca"
+      },
+      {
+        "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png",
+        "sha256": "e49a97668d5c6ce08ea8db1279d70b2dd83103c56e9446592d2cfc6153de38e3"
+      },
+      {
+        "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png",
+        "sha256": "cc46a5311aeca2fb0097703e920ec371c0bf386d952d8c716b6896b3e22f0525"
+      }
+    ],
+    "evidenceFiles": 70,
+    "exactCommitFileList": [
+      "README.md",
+      "src/styles.css",
+      "tests/e2e/auth.spec.ts",
+      "tests/e2e/auth.spec.ts-snapshots/login-desktop-win32.png",
+      "tests/e2e/auth.spec.ts-snapshots/login-tablet-win32.png",
+      "tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png",
+      "tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png",
+      "docs/HISTORY.md",
+      "evidence/delivery-final-2026-10-23/README.md",
+      "evidence/delivery-final-2026-10-23/after-inspection.json",
+      "evidence/delivery-final-2026-10-23/baseline-changes.json",
+      "evidence/delivery-final-2026-10-23/before-inspection.json",
+      "evidence/delivery-final-2026-10-23/captures/after-1440.png",
+      "evidence/delivery-final-2026-10-23/captures/after-390.png",
+      "evidence/delivery-final-2026-10-23/captures/after-768.png",
+      "evidence/delivery-final-2026-10-23/captures/before-1440.png",
+      "evidence/delivery-final-2026-10-23/captures/before-390.png",
+      "evidence/delivery-final-2026-10-23/captures/before-768.png",
+      "evidence/delivery-final-2026-10-23/captures/error-1440.png",
+      "evidence/delivery-final-2026-10-23/captures/error-390.png",
+      "evidence/delivery-final-2026-10-23/captures/error-768.png",
+      "evidence/delivery-final-2026-10-23/clean-build.txt",
+      "evidence/delivery-final-2026-10-23/clean-install.txt",
+      "evidence/delivery-final-2026-10-23/environment-failure/diagnostics.json",
+      "evidence/delivery-final-2026-10-23/environment-failure/error-context.zip",
+      "evidence/delivery-final-2026-10-23/environment-failure/trace.zip",
+      "evidence/delivery-final-2026-10-23/playwright/data/02dcafc50257ceb331490a173ec825495a9439f8.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/034d79952fd9ba1776c1ea4a3ebc78c8d9defe27.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/07f8bfb5dc86b2fec65fec1ba26373380ec568ee.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/08258ea4f61d9551d9bc4b5fb8f31d510772c485.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/08fe463f053f9809e0c4bfb1c183749fc1ea3912.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/1456865491964881e549410c845ac12dc31e6f92.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/17349decd82b5d8fadc30ce858103ecbabb52bef.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/1b8ce22ac92cca89b78aa0418d7e6afb8998880e.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/1d900570257f4776ae0312302d9b56bcc4121e9e.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/2061d42ad1d157c89aace3d7a63fb96b553403ec.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/21a0538493f4dcb6d3bd089bf378a01c14c57f13.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/24675954344f3a810780bd03ca3deec93e947386.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/25ce05dde35faf8e1d3581a4f3023e844c484a9e.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/3131c6a99fb64b12ccf38b03d31fe4bace67163a.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/315f90b1cf00671068fd31f58d911b35a8537caa.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/367535b5c24ab37ceb8198d591aff1159a50d4ab.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/5a733470b7a9cab9cc75623c13ef9b35a887b0c1.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/5f19c66a0a32c2eb19846ecc4cc7aa86ec3b9253.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/6af5184ef30960437f797978a866ae9d0cc42660.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/6be6dd11fe33d273e56e7bb8d75ccbc692ad43ec.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/70dc63e5db304ac06b0262ddf1b6dbcb1425bbeb.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/735d71edf124dfcad594a65bcc23c7f00be12ee4.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/7456e00a603396a0c1a52e61f6681d14a8adc027.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/74dfd8af373c48954959d1f5f30a249e93e9d3fa.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/786086919e6ad61c4d6c3381476af70ef37998da.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/7a2826fa8cd35419a107dc41a23b005eb3f37dea.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/8571b879b2ac4719846eb807b2a4cfaed5a8be92.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/87cc3317666c73b5710963af30d2f94bf0a57d6f.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/9166ba5505f9a77d31d4e812d60810fe005ab3f3.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/958cde64750ad2d6b0f44905c327954057d8d541.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/961953a305cf2ff3f21aea0051c4d621e4821f1c.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/a5e1a28e33bf083ad02890bbe02a90d98dc30fdc.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/a8169be4a89bc8423df1d31fc88b136da00ae64f.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/ae6a3f1cc5cf22c334cd7bf17f33e73f91563fe9.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/b09cdc82463a6e4258135ac33d95936115bc6ec1.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/b65d44a8aea20cb3707a1780d53af1f1ce46ca9d.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/b6d2eb12e8e5adfc74c7671db3abaf5e0e82bd0a.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/b97b99dae3616abcfdc0d1ed1ac78a619443d26d.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/ba8a21e69dab8c2baa3dd0437686e0ef59b2936b.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/c2ed3a03b9fb56c1f2816219e25938f8fe11deb3.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/d8267529318713d970179ed13401acfdb07b1ae3.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/dc77573986ddcd1b973ae436ffb13b34ab634703.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/e46ece2d44f5d379d875bf591ee1fbc4f5f24db9.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/e53f2124f9d3ce99779694aef75bc4ed3847a187.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/e71ee7449ef97c8914af76e9fb61287010dc94ce.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/e81dbd40a5d7b8d77cca5e385ae72ca2945c038a.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/f4b0ac979cad120aed6f1e11e5fd0a2f0854865d.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/f4bdaf92f2fcf4273b0cdf46a92b51c5407deca4.png",
+      "evidence/delivery-final-2026-10-23/playwright/data/fddd097f16797d88fdca7143a362d2f391edae72.png",
+      "evidence/delivery-final-2026-10-23/playwright/index.html",
+      "evidence/delivery-final-2026-10-23/reflow-inspection.json",
+      "evidence/delivery-final-2026-10-23/verification.json"
+    ]
+  }
+}

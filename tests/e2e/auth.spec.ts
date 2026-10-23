@@ -228,8 +228,13 @@ test('login: composição mobile, indisponibilidade acessível e retorno', async
     await expect(recovery).toHaveAccessibleDescription('Recuperação de senha indisponível nesta demonstração.')
     for (const provider of ['Google', 'Facebook']) {
       const social = dialog.getByRole('button', { name: `Continuar com ${provider}` })
+      await expect(social).toBeVisible()
       await expect(social).toBeDisabled()
       await expect(social).toHaveAccessibleDescription('Login social indisponível nesta demonstração.')
+      await expect(social).toHaveCSS('opacity', '1')
+      const icon = social.locator('img')
+      await expect(icon).toBeVisible()
+      expect(await icon.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0 && image.getBoundingClientRect().width > 0 && image.getBoundingClientRect().height > 0)).toBe(true)
     }
     expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
     if (mobile) {

@@ -1,0 +1,16 @@
+{
+  "error": "net::ERR_NO_BUFFER_SPACE",
+  "stage": "beforeEach: page.goto http://127.0.0.1:4173/, antes da aplicação",
+  "freePhysicalMemoryKiB": 771972,
+  "automationBrowserRoots": 3,
+  "orphanAutomationRoots": 0,
+  "tcpStates": {
+    "Bound": 95,
+    "Established": 74,
+    "Listen": 43,
+    "TimeWait": 282,
+    "CloseWait": 20
+  },
+  "scope": "Medições somente leitura durante a primeira regressão e após a falha; não provam a causa exata.",
+  "action": "Preservar trace e repetir integralmente com 2 workers, sem alterar teste, timeout ou retries."
+}

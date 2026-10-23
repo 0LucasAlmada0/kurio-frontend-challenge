@@ -105,6 +105,10 @@ img { display: block; max-width: 100%; }
 .social-actions p { color: var(--muted-foreground); font-size: 11px; text-align: center; margin-top: 6px; }
 .auth-mobile-brand, .auth-mobile-switch { display: none; }
 .register-social-icon, .login-social-icon, .register-confirm-toggle { display: none; }
+@media (min-width: 601px) {
+  .login-dialog .social-actions button { color: var(--muted-foreground); border-color: var(--border); opacity: 1; }
+  .login-dialog .login-social-icon { display: block; flex-shrink: 0; }
+}
 .skip-link { position: fixed; top: -100px; z-index: 10; background: var(--primary); color: var(--primary-foreground); padding: 12px; }
 .skip-link:focus { top: 0; }
 .hero { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 480px; padding: 16px 0 16px 48px; }

@@ -1,0 +1,30 @@
+[
+  {
+    "file": "tests/e2e/auth.spec.ts-snapshots/login-desktop-win32.png",
+    "source": "test-results\\delivery-final-2026-10-23\\directed\\auth-cadastro-validado-con-34486-com-retorno-à-rota-original-desktop\\login-actual.png",
+    "before": "d683f80283029772700b586c7c3eec2f9dcd2df4e9dede74ea5475c10a2aa941",
+    "after": "50a8a45313b52b6ac48936fec3a501451e5d82021ae69ddbd90597ceba840330",
+    "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+  },
+  {
+    "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-desktop-win32.png",
+    "source": "test-results\\delivery-final-2026-10-23\\directed\\cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-desktop\\login-autofill-actual.png",
+    "before": "4cba39dbf04a76296cec3594b614e01701321d6092a0ba58213bc1f2b77f6ba4",
+    "after": "e49a97668d5c6ce08ea8db1279d70b2dd83103c56e9446592d2cfc6153de38e3",
+    "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+  },
+  {
+    "file": "tests/e2e/auth.spec.ts-snapshots/login-tablet-win32.png",
+    "source": "test-results\\delivery-final-2026-10-23\\directed\\auth-cadastro-validado-con-34486-com-retorno-à-rota-original-tablet\\login-actual.png",
+    "before": "e1be3f95de5b1c552155f30f2c9ddef83207f4f44e78f2fc12971b8bb620a0e2",
+    "after": "d655cc080f1b8c3febfadf58d2fc9b0508f5d960b6b63b9c1f4f5e77ea02dbca",
+    "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+  },
+  {
+    "file": "tests/e2e/cart.spec.ts-snapshots/login-autofill-tablet-win32.png",
+    "source": "test-results\\delivery-final-2026-10-23\\directed\\cart-autofill-mantém-fundo-37778-os-tokens-no-modal-e-mobile-tablet\\login-autofill-actual.png",
+    "before": "7fe4cab01b303ea085cd2a10c94cf729edf17429a92348aa992245be8563877f",
+    "after": "cc46a5311aeca2fb0097703e920ec371c0bf386d952d8c716b6896b3e22f0525",
+    "reason": "Somente ícones, contraste e texto dos dois botões sociais de Login; diff inspecionado visualmente."
+  }
+]

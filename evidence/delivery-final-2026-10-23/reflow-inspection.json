@@ -1,0 +1,410 @@
+[
+  {
+    "width": 320,
+    "height": 720,
+    "scale": 1,
+    "states": [
+      {
+        "state": "empty",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 264,
+          "clientWidth": 264
+        },
+        "dialog": {
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "scrollHeight": 824,
+          "clientHeight": 720
+        },
+        "overflow": false
+      },
+      {
+        "state": "filled",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 264,
+          "clientWidth": 264
+        },
+        "dialog": {
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "scrollHeight": 824,
+          "clientHeight": 720
+        },
+        "overflow": false
+      },
+      {
+        "state": "error",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 678.390625,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 734.390625,
+                "width": 264,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 264,
+          "clientWidth": 264
+        },
+        "dialog": {
+          "scrollWidth": 320,
+          "clientWidth": 320,
+          "scrollHeight": 882,
+          "clientHeight": 720
+        },
+        "overflow": false
+      }
+    ],
+    "keyboard": [
+      {
+        "label": "",
+        "visible": true
+      },
+      {
+        "label": "",
+        "visible": true
+      },
+      {
+        "label": "Entrar",
+        "visible": true
+      },
+      {
+        "label": "Crie uma conta",
+        "visible": true
+      },
+      {
+        "label": "Fechar autenticação",
+        "visible": true
+      }
+    ],
+    "accessibility": "- dialog \"Entrar\":\n  - button \"Fechar autenticação\": ×\n  - heading \"Entrar\" [level=1]\n  - text: E-mail\n  - textbox \"E-mail\" [invalid]: invalido\n  - paragraph: Informe um e-mail válido.\n  - text: Senha\n  - textbox \"Senha\" [invalid]\n  - paragraph: Informe sua senha (até 128 caracteres).\n  - button \"Mostrar senha\"\n  - button \"Esqueceu a senha?\" [disabled]\n  - text: Recuperação de senha indisponível nesta demonstração.\n  - alert: Revise os campos indicados.\n  - button \"Entrar\"\n  - text: Ou continue com\n  - button \"Continuar com Google\" [disabled]\n  - button \"Continuar com Facebook\" [disabled]\n  - paragraph: Login social indisponível nesta demonstração.\n  - paragraph:\n    - text: Novo na Kurio?\n    - link \"Crie uma conta\":\n      - /url: /cadastro?redirect=%2F&reason="
+  },
+  {
+    "width": 390,
+    "height": 500,
+    "scale": 1,
+    "states": [
+      {
+        "state": "empty",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 800,
+          "clientHeight": 500
+        },
+        "overflow": false
+      },
+      {
+        "state": "filled",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 800,
+          "clientHeight": 500
+        },
+        "overflow": false
+      },
+      {
+        "state": "error",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 593.59375,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 649.59375,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 842,
+          "clientHeight": 500
+        },
+        "overflow": false
+      }
+    ],
+    "keyboard": [
+      {
+        "label": "",
+        "visible": true
+      },
+      {
+        "label": "",
+        "visible": true
+      },
+      {
+        "label": "Entrar",
+        "visible": true
+      },
+      {
+        "label": "Crie uma conta",
+        "visible": true
+      },
+      {
+        "label": "Fechar autenticação",
+        "visible": true
+      }
+    ],
+    "accessibility": "- dialog \"Entrar\":\n  - button \"Fechar autenticação\": ×\n  - heading \"Entrar\" [level=1]\n  - text: E-mail\n  - textbox \"E-mail\" [invalid]: invalido\n  - paragraph: Informe um e-mail válido.\n  - text: Senha\n  - textbox \"Senha\" [invalid]\n  - paragraph: Informe sua senha (até 128 caracteres).\n  - button \"Mostrar senha\"\n  - button \"Esqueceu a senha?\" [disabled]\n  - text: Recuperação de senha indisponível nesta demonstração.\n  - alert: Revise os campos indicados.\n  - button \"Entrar\"\n  - text: Ou continue com\n  - button \"Continuar com Google\" [disabled]\n  - button \"Continuar com Facebook\" [disabled]\n  - paragraph: Login social indisponível nesta demonstração.\n  - paragraph:\n    - text: Novo na Kurio?\n    - link \"Crie uma conta\":\n      - /url: /cadastro?redirect=%2F&reason="
+  }
+]

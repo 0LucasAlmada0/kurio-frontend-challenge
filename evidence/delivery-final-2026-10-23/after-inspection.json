@@ -1,0 +1,548 @@
+[
+  {
+    "width": 390,
+    "height": 844,
+    "scale": 1,
+    "states": [
+      {
+        "state": "empty",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 844,
+          "clientHeight": 844
+        },
+        "overflow": false
+      },
+      {
+        "state": "filled",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 620,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 676,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 844,
+          "clientHeight": 844
+        },
+        "overflow": false
+      },
+      {
+        "state": "error",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 661.59375,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(207, 178, 140)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(63, 35, 25)",
+              "rect": {
+                "x": 28,
+                "y": 717.59375,
+                "width": 334,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 334,
+          "clientWidth": 334
+        },
+        "dialog": {
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "scrollHeight": 844,
+          "clientHeight": 844
+        },
+        "overflow": false
+      }
+    ],
+    "accessibility": "- dialog \"Entrar\":\n  - button \"Fechar autenticação\": ×\n  - heading \"Entrar\" [level=1]\n  - text: E-mail\n  - textbox \"E-mail\" [invalid]: invalido\n  - paragraph: Informe um e-mail válido.\n  - text: Senha\n  - textbox \"Senha\" [invalid]\n  - paragraph: Informe sua senha (até 128 caracteres).\n  - button \"Mostrar senha\"\n  - button \"Esqueceu a senha?\" [disabled]\n  - text: Recuperação de senha indisponível nesta demonstração.\n  - alert: Revise os campos indicados.\n  - button \"Entrar\"\n  - text: Ou continue com\n  - button \"Continuar com Google\" [disabled]\n  - button \"Continuar com Facebook\" [disabled]\n  - paragraph: Login social indisponível nesta demonstração.\n  - paragraph:\n    - text: Novo na Kurio?\n    - link \"Crie uma conta\":\n      - /url: /cadastro?redirect=%2F&reason="
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "scale": 1,
+    "states": [
+      {
+        "state": "empty",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 508.578125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 560.578125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 583,
+          "clientHeight": 583
+        },
+        "overflow": false
+      },
+      {
+        "state": "filled",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 508.578125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 560.578125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 583,
+          "clientHeight": 583
+        },
+        "overflow": false
+      },
+      {
+        "state": "error",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 550.171875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 204,
+                "y": 602.171875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 624,
+          "clientHeight": 624
+        },
+        "overflow": false
+      }
+    ],
+    "accessibility": "- dialog \"Entrar\":\n  - button \"Fechar autenticação\": ×\n  - link \"Entrar\":\n    - /url: /login?redirect=%2F&reason=\n  - text: \"|\"\n  - link \"Criar conta\":\n    - /url: /cadastro?redirect=%2F&reason=\n  - heading \"Entrar\" [level=1]\n  - paragraph: Entre para gerenciar sua coleção e seus favoritos.\n  - text: E-mail\n  - textbox \"E-mail\" [invalid]: invalido\n  - paragraph: Informe um e-mail válido.\n  - text: Senha\n  - textbox \"Senha\" [invalid]\n  - paragraph: Informe sua senha (até 128 caracteres).\n  - button \"Mostrar senha\"\n  - button \"Esqueceu a senha?\" [disabled]\n  - text: Recuperação de senha indisponível nesta demonstração.\n  - alert: Revise os campos indicados.\n  - button \"Entrar\"\n  - text: Ou continue com\n  - button \"Continuar com Google\" [disabled]\n  - button \"Continuar com Facebook\" [disabled]\n  - paragraph: Login social indisponível nesta demonstração."
+  },
+  {
+    "width": 1440,
+    "height": 1000,
+    "scale": 1,
+    "states": [
+      {
+        "state": "empty",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 506.1875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 558.1875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 583,
+          "clientHeight": 583
+        },
+        "overflow": false
+      },
+      {
+        "state": "filled",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 506.1875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 558.1875,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 583,
+          "clientHeight": 583
+        },
+        "overflow": false
+      },
+      {
+        "state": "error",
+        "social": {
+          "buttons": [
+            {
+              "text": "Continuar com Google",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 547.78125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 20,
+                "height": 20,
+                "loaded": true
+              }
+            },
+            {
+              "text": "Continuar com Facebook",
+              "disabled": true,
+              "describedBy": "auth-social-unavailable",
+              "color": "rgb(193, 167, 131)",
+              "opacity": "1",
+              "background": "rgba(0, 0, 0, 0)",
+              "border": "rgb(105, 69, 38)",
+              "rect": {
+                "x": 540,
+                "y": 599.78125,
+                "width": 360,
+                "height": 40
+              },
+              "icon": {
+                "display": "block",
+                "width": 10,
+                "height": 20,
+                "loaded": true
+              }
+            }
+          ],
+          "scrollWidth": 360,
+          "clientWidth": 360
+        },
+        "dialog": {
+          "scrollWidth": 500,
+          "clientWidth": 500,
+          "scrollHeight": 624,
+          "clientHeight": 624
+        },
+        "overflow": false
+      }
+    ],
+    "accessibility": "- dialog \"Entrar\":\n  - button \"Fechar autenticação\": ×\n  - link \"Entrar\":\n    - /url: /login?redirect=%2F&reason=\n  - text: \"|\"\n  - link \"Criar conta\":\n    - /url: /cadastro?redirect=%2F&reason=\n  - heading \"Entrar\" [level=1]\n  - paragraph: Entre para gerenciar sua coleção e seus favoritos.\n  - text: E-mail\n  - textbox \"E-mail\" [invalid]: invalido\n  - paragraph: Informe um e-mail válido.\n  - text: Senha\n  - textbox \"Senha\" [invalid]\n  - paragraph: Informe sua senha (até 128 caracteres).\n  - button \"Mostrar senha\"\n  - button \"Esqueceu a senha?\" [disabled]\n  - text: Recuperação de senha indisponível nesta demonstração.\n  - alert: Revise os campos indicados.\n  - button \"Entrar\"\n  - text: Ou continue com\n  - button \"Continuar com Google\" [disabled]\n  - button \"Continuar com Facebook\" [disabled]\n  - paragraph: Login social indisponível nesta demonstração."
+  }
+]
